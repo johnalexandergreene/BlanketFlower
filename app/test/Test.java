@@ -1,9 +1,14 @@
 package org.fleen.squarzy.app.test;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
+import org.fleen.squarzy.Agent;
+import org.fleen.squarzy.Agent_Frogs;
+import org.fleen.squarzy.Agent_Random;
+import org.fleen.squarzy.Cell;
 import org.fleen.squarzy.Grid;
 import org.fleen.squarzy.Renderer;
 
@@ -16,6 +21,8 @@ public class Test{
    */
   
   Test(){
+    initGrid();
+    initAgents();
     initUI();
   }
   
@@ -44,16 +51,42 @@ public class Test{
    * GRID
    * ################################
    */
-  
+
   static final int GRIDWIDTH=100,GRIDHEIGHT=50;
   
-  Grid grid=new Grid(GRIDWIDTH,GRIDHEIGHT);
+  Grid grid;
+  
+  Agent[] agents={};
+  
+  void initGrid(){
+    grid=new Grid(GRIDWIDTH,GRIDHEIGHT);}
   
   void incrementGrid(){
-    //TODO
-    //blah blah
-    renderGrid();
-  }
+    
+    zeroCells();
+    
+    applyAgentsToGrid();
+    renderGrid();}
+  
+  private void zeroCells(){
+    int 
+    gridwidth=grid.getWidth(),
+    gridheight=grid.getHeight();
+    Cell cell;
+    for(int x=0;x<gridwidth;x++){
+      for(int y=0;y<gridheight;y++){
+          cell=grid.getCell(x,y);
+          cell.test=0;}}}
+  
+  void applyAgentsToGrid(){
+    for(Agent a:agents)
+      a.run();}
+  
+  private void initAgents(){
+    agents=new Agent[]{
+      new Agent_Random(grid),
+      new Agent_Frogs(grid)};
+    }
   
   /*
    * ################################
@@ -95,11 +128,11 @@ public class Test{
   
   public static final void main(String[] a){
     Test test=new Test();
-    for(int i=0;i<100;i++){
+    for(int i=0;i<300;i++){
       test.incrementGrid();
       test.export();
       try{
-        Thread.sleep(100,0);
+        Thread.sleep(10,0);
       }catch(Exception x){x.printStackTrace();}
     }
     

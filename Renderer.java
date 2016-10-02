@@ -2,14 +2,14 @@ package org.fleen.squarzy;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class Renderer{
   
   public Renderer(){
-    initColors();}
+    colors=createPalette(COLORCOUNT);}
   
   public BufferedImage render(Grid grid,int cellspan){
     int 
@@ -17,8 +17,8 @@ public class Renderer{
       gridheight=grid.getHeight(),
       imagewidth=grid.getWidth()*cellspan,
       imageheight=grid.getHeight()*cellspan;
-    
     BufferedImage image=new BufferedImage(imagewidth,imageheight,BufferedImage.TYPE_INT_RGB);
+    //
     Color cellcolor;
     Cell cell;
     for(int x=0;x<gridwidth;x++){
@@ -42,20 +42,17 @@ public class Renderer{
    * ################################
    */
   
-  private static final int COLORCOUNT=6;
-  
-  Random rnd=new Random();
-  
+  private static final int COLORCOUNT=16;
   Color[] colors;
   
-  void initColors(){
-    List<Color> a=new ArrayList<Color>();
-    for(int i=0;i<COLORCOUNT;i++)
-      a.add(getRandomColor());
-    colors=a.toArray(new Color[a.size()]);}
-  
-  private Color getRandomColor(){
-    Color c=new Color(64+rnd.nextInt(12)*16,64+rnd.nextInt(12)*16,64+rnd.nextInt(12)*16);
-    return c;}
+  //PALETTE MOTHER
+  Color[] createPalette(int colorcount){
+    Set<Color> a=new HashSet<Color>();
+    Color c;
+    Random rnd=new Random();
+    for(int i=0;i<colorcount;i++){
+      c=new Color(64+rnd.nextInt(12)*16,64+rnd.nextInt(12)*16,64+rnd.nextInt(12)*16);
+      a.add(c);}
+    return a.toArray(new Color[a.size()]);}
 
 }

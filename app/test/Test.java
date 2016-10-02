@@ -5,9 +5,9 @@ import java.awt.EventQueue;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-import org.fleen.squarzy.Agent;
-import org.fleen.squarzy.Agent_Frogs;
-import org.fleen.squarzy.Agent_Random;
+import org.fleen.squarzy.Jig;
+import org.fleen.squarzy.Jig_Frogs;
+import org.fleen.squarzy.Jig_Random;
 import org.fleen.squarzy.Cell;
 import org.fleen.squarzy.Grid;
 import org.fleen.squarzy.Renderer;
@@ -56,7 +56,7 @@ public class Test{
   
   Grid grid;
   
-  Agent[] agents={};
+  Jig[] agents={};
   
   void initGrid(){
     grid=new Grid(GRIDWIDTH,GRIDHEIGHT);}
@@ -79,13 +79,13 @@ public class Test{
           cell.test=0;}}}
   
   void applyAgentsToGrid(){
-    for(Agent a:agents)
+    for(Jig a:agents)
       a.run();}
   
   private void initAgents(){
-    agents=new Agent[]{
-      new Agent_Random(grid),
-      new Agent_Frogs(grid)};
+    agents=new Jig[]{
+      new Jig_Random(grid),
+      new Jig_Frogs(grid)};
     }
   
   /*

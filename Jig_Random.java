@@ -7,7 +7,7 @@ import java.util.Random;
 /*
  * add 0 to 5 to each cell's value
  */
-public class Agent_Random implements Agent{
+public class Jig_Random implements Jig{
 
   /*
    * ################################
@@ -15,7 +15,7 @@ public class Agent_Random implements Agent{
    * ################################
    */ 
   
-  public Agent_Random(Grid target){
+  public Jig_Random(Grid target){
     setTarget(target);}
   
   /*

@@ -18,7 +18,7 @@ import java.util.Set;
  * at every invocation of run, increment location of C and add values of cells at C
  * 
  */
-public class Agent_Frogs implements Agent{
+public class Jig_Frogs implements Jig{
 
   /*
    * ################################
@@ -26,7 +26,7 @@ public class Agent_Frogs implements Agent{
    * ################################
    */ 
   
-  public Agent_Frogs(Grid target){
+  public Jig_Frogs(Grid target){
     setTarget(target);}
   
   /*

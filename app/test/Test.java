@@ -8,9 +8,9 @@ import java.io.File;
 import org.fleen.squarzy.Jig;
 import org.fleen.squarzy.Jig_Frogs;
 import org.fleen.squarzy.Jig_Random;
-import org.fleen.squarzy.Cell;
-import org.fleen.squarzy.Grid;
 import org.fleen.squarzy.Renderer;
+import org.fleen.squarzy.gSquid.SCell;
+import org.fleen.squarzy.gSquid.SGrid;
 
 public class Test{
   
@@ -54,12 +54,12 @@ public class Test{
 
   static final int GRIDWIDTH=100,GRIDHEIGHT=50;
   
-  Grid grid;
+  SGrid grid;
   
   Jig[] agents={};
   
   void initGrid(){
-    grid=new Grid(GRIDWIDTH,GRIDHEIGHT);}
+    grid=new SGrid(GRIDWIDTH,GRIDHEIGHT);}
   
   void incrementGrid(){
     
@@ -72,7 +72,7 @@ public class Test{
     int 
     gridwidth=grid.getWidth(),
     gridheight=grid.getHeight();
-    Cell cell;
+    SCell cell;
     for(int x=0;x<gridwidth;x++){
       for(int y=0;y<gridheight;y++){
           cell=grid.getCell(x,y);

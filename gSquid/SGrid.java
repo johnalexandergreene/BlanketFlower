@@ -1,11 +1,11 @@
-package org.fleen.squarzy;
+package org.fleen.squarzy.gSquid;
 
-public class Grid{
+public class SGrid{
   
-  public Grid(int width,int height){
+  public SGrid(int width,int height){
     initCells(width,height);}
   
-  Cell[][] cells;
+  SCell[][] cells;
   
   public int getWidth(){
     return cells.length;}
@@ -14,15 +14,15 @@ public class Grid{
     return cells[0].length;}
   
   private void initCells(int width,int height){
-    cells=new Cell[width][height];
+    cells=new SCell[width][height];
     for(int x=0;x<width;x++){
       for(int y=0;y<height;y++){
-        cells[x][y]=new Cell(x,y);
+        cells[x][y]=new SCell(x,y);
       }
     }
   }
   
-  public Cell getCell(int x,int y){
+  public SCell getCell(int x,int y){
     if(x<0||x>=cells.length||y<0||y>=cells[0].length)
       return null;
     return cells[x][y];}

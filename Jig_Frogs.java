@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import org.fleen.squarzy.gSquid.SCell;
+import org.fleen.squarzy.gSquid.SGrid;
+
 /*
  * create a C shaped frog
  * 
@@ -26,7 +29,7 @@ public class Jig_Frogs implements Jig{
    * ################################
    */ 
   
-  public Jig_Frogs(Grid target){
+  public Jig_Frogs(SGrid target){
     setTarget(target);}
   
   /*
@@ -35,12 +38,12 @@ public class Jig_Frogs implements Jig{
    * ################################
    */
   
-  Grid target;
+  SGrid target;
   
-  public void setTarget(Grid target){
+  public void setTarget(SGrid target){
     this.target=target;}
 
-  public Grid getTarget(){
+  public SGrid getTarget(){
     return target;}
 
   /*
@@ -54,10 +57,10 @@ public class Jig_Frogs implements Jig{
   Set<Frog> frogs=new HashSet<Frog>();
   static final int FROGVAL=2;
   
-  public List<Cell> run(){
-    List<Cell>
+  public List<SCell> run(){
+    List<SCell>
       frogcells,
-      touched=new ArrayList<Cell>();
+      touched=new ArrayList<SCell>();
     //create
     if(rnd.nextDouble()<FROGCREATIONPROBABILITY)
       createFrog();
@@ -66,7 +69,7 @@ public class Jig_Frogs implements Jig{
       frog.x++;
       frogcells=getFrogCells(frog);
       touched.addAll(frogcells);
-      for(Cell c:frogcells)
+      for(SCell c:frogcells)
         c.test+=FROGVAL;}
     //cull
     Iterator<Frog> i=frogs.iterator();
@@ -79,9 +82,9 @@ public class Jig_Frogs implements Jig{
     //
     return touched;}
   
-  List<Cell> getFrogCells(Frog frog){
-    List<Cell> frogcells=new ArrayList<Cell>();
-    Cell c=target.getCell(frog.x,frog.y);
+  List<SCell> getFrogCells(Frog frog){
+    List<SCell> frogcells=new ArrayList<SCell>();
+    SCell c=target.getCell(frog.x,frog.y);
     if(c!=null)frogcells.add(c);
     c=target.getCell(frog.x+1,frog.y);
     if(c!=null)frogcells.add(c);

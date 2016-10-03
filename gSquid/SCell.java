@@ -1,8 +1,8 @@
-package org.fleen.squarzy;
+package org.fleen.squarzy.gSquid;
 
-public class Cell{
+public class SCell{
   
-  Cell(int x,int y){
+  SCell(int x,int y){
     this.x=x;
     this.y=y;
   }

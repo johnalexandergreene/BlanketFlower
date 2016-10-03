@@ -6,12 +6,15 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import org.fleen.squarzy.gSquid.SCell;
+import org.fleen.squarzy.gSquid.SGrid;
+
 public class Renderer{
   
   public Renderer(){
     colors=createPalette(COLORCOUNT);}
   
-  public BufferedImage render(Grid grid,int cellspan){
+  public BufferedImage render(SGrid grid,int cellspan){
     int 
       gridwidth=grid.getWidth(),
       gridheight=grid.getHeight(),
@@ -20,7 +23,7 @@ public class Renderer{
     BufferedImage image=new BufferedImage(imagewidth,imageheight,BufferedImage.TYPE_INT_RGB);
     //
     Color cellcolor;
-    Cell cell;
+    SCell cell;
     for(int x=0;x<gridwidth;x++){
       for(int y=0;y<gridheight;y++){
           cell=grid.getCell(x,y);

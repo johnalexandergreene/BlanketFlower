@@ -1,4 +1,9 @@
-package org.fleen.squarzy;
+package org.fleen.squarzy.gSquid;
+
+import java.io.Serializable;
+
+import org.fleen.util.tag.Tagged;
+import org.fleen.util.tree.TreeNode;
 
 /*
  * A vector shape
@@ -14,7 +19,7 @@ package org.fleen.squarzy;
  *    eg squaregrid, 2 axii, 4 directions, integer coors
  *   
  */
-public class Shape{
+public interface SShape extends TreeNode,Tagged,Serializable{
   
   
 

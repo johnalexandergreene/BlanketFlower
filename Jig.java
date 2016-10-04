@@ -1,5 +1,7 @@
 package org.fleen.squarzy;
 
+import org.fleen.squarzy.gSquid.SShape;
+
 
 /*
  * A Jig 
@@ -22,8 +24,8 @@ public interface Jig{
   
   Jig dupe();
   
-  void setTarget(Shape target);
+  void setTarget(SShape target);
   
-  Shape getTarget();
+  SShape getTarget();
   
 }

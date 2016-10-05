@@ -5,146 +5,56 @@ import java.util.List;
 
 import org.fleen.util.tree.TreeNode;
 
-public class SPolygon implements SShape{
+public class SPolygon extends SShape{
   
   private static final long serialVersionUID=1442016090376006753L;
   
-  SMetagon metagon;
-  SAnchor anchor;
   /*
    * ################################
-   * TREE
+   * CONSTRUCTOR
    * ################################
    */
   
-  public TreeNode getParent(){
+  public SPolygon(SMetagon metagon,SAnchor anchor,int chorusindex,List<String> tags){
+    super(chorusindex,tags);
+    this.metagon=metagon;
+    this.anchor=anchor;
+    initVertices();}
+  
+  /*
+   * ################################
+   * GEOMETRY
+   * ################################
+   */
+  
+  SMetagon metagon;
+  SAnchor anchor;
+  
+  /*
+   * ++++++++++++++++++++++++++++++++
+   * VERTICES
+   * ++++++++++++++++++++++++++++++++
+   */
+  
+  private List<SVertex> vertices=null;
+  
+  public List<SVertex> getVertices(){
+    return vertices;}
+  
+  private void initVertices(){
+    vertices=metagon.getVertices(anchor);}
+  
+  
+
+  @Override
+  public double getDetailSize(){
     // TODO Auto-generated method stub
-    return null;
+    return 0;
+  }
+  @Override
+  public double getDistortionLevel(){
+    // TODO Auto-generated method stub
+    return 0;
   }
   
-  public void setParent(TreeNode node){
-    // TODO Auto-generated method stub
-    
-  }
-  @Override
-  public List<? extends TreeNode> getChildren(){
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override
-  public TreeNode getChild(){
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override
-  public void setChildren(List<? extends TreeNode> nodes){
-    // TODO Auto-generated method stub
-    
-  }
-  @Override
-  public void setChild(TreeNode node){
-    // TODO Auto-generated method stub
-    
-  }
-  @Override
-  public void addChild(TreeNode node){
-    // TODO Auto-generated method stub
-    
-  }
-  @Override
-  public int getChildCount(){
-    // TODO Auto-generated method stub
-    return 0;
-  }
-  @Override
-  public boolean hasChildren(){
-    // TODO Auto-generated method stub
-    return false;
-  }
-  @Override
-  public void removeChildren(Collection<? extends TreeNode> children){
-    // TODO Auto-generated method stub
-    
-  }
-  @Override
-  public void clearChildren(){
-    // TODO Auto-generated method stub
-    
-  }
-  @Override
-  public boolean isRoot(){
-    // TODO Auto-generated method stub
-    return false;
-  }
-  @Override
-  public boolean isLeaf(){
-    // TODO Auto-generated method stub
-    return false;
-  }
-  @Override
-  public int getDepth(){
-    // TODO Auto-generated method stub
-    return 0;
-  }
-  @Override
-  public TreeNode getRoot(){
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override
-  public TreeNode getAncestor(int levels){
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override
-  public List<TreeNode> getSiblings(){
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override
-  public void setTags(String...tags){
-    // TODO Auto-generated method stub
-    
-  }
-  @Override
-  public void setTags(List<String> tags){
-    // TODO Auto-generated method stub
-    
-  }
-  @Override
-  public List<String> getTags(){
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override
-  public boolean hasTags(String...tags){
-    // TODO Auto-generated method stub
-    return false;
-  }
-  @Override
-  public boolean hasTags(List<String> tags){
-    // TODO Auto-generated method stub
-    return false;
-  }
-  @Override
-  public void addTags(String...tags){
-    // TODO Auto-generated method stub
-    
-  }
-  @Override
-  public void addTags(List<String> tags){
-    // TODO Auto-generated method stub
-    
-  }
-  @Override
-  public void removeTags(String...tags){
-    // TODO Auto-generated method stub
-    
-  }
-  @Override
-  public void removeTags(List<String> tags){
-    // TODO Auto-generated method stub
-    
-  }
-
 }

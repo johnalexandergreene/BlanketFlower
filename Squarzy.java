@@ -27,7 +27,7 @@ package org.fleen.squarzy;
  *   
  * 
  */
-public class Squarzy{
+public interface Squarzy{
   
 
 }

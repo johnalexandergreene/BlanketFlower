@@ -1,10 +1,13 @@
 package org.fleen.squarzy.gSquid;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.fleen.util.tree.TreeNode;
-
+/*
+ * an SPolygon is defined by a list of SVertices
+ * orientation and twist matter so if we want symmetry then we need to generate symmetric figures in our jigs 
+ *   
+ */
 public class SPolygon extends SShape{
   
   private static final long serialVersionUID=1442016090376006753L;
@@ -15,11 +18,9 @@ public class SPolygon extends SShape{
    * ################################
    */
   
-  public SPolygon(SMetagon metagon,SAnchor anchor,int chorusindex,List<String> tags){
+  public SPolygon(List<SVertex> vertices,int chorusindex,List<String> tags){
     super(chorusindex,tags);
-    this.metagon=metagon;
-    this.anchor=anchor;
-    initVertices();}
+    this.vertices=new ArrayList<SVertex>();}
   
   /*
    * ################################
@@ -27,34 +28,15 @@ public class SPolygon extends SShape{
    * ################################
    */
   
-  SMetagon metagon;
-  SAnchor anchor;
-  
-  /*
-   * ++++++++++++++++++++++++++++++++
-   * VERTICES
-   * ++++++++++++++++++++++++++++++++
-   */
-  
-  private List<SVertex> vertices=null;
+  private List<SVertex> vertices;
   
   public List<SVertex> getVertices(){
     return vertices;}
   
-  private void initVertices(){
-    vertices=metagon.getVertices(anchor);}
+  public void setVertices(List<SVertex> vertices){
+    this.vertices=vertices;}
   
-  
-
-  @Override
-  public double getDetailSize(){
-    // TODO Auto-generated method stub
-    return 0;
-  }
-  @Override
-  public double getDistortionLevel(){
-    // TODO Auto-generated method stub
-    return 0;
-  }
+  List<SCell> getCells(){
+    return Util.getFill(this);}
   
 }

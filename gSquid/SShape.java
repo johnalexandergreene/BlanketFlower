@@ -41,22 +41,6 @@ public abstract class SShape implements TreeNode,Serializable,Squarzy,Tagged{
   
   /*
    * ################################
-   * DETAIL SIZE
-   * ################################
-   */
-  
-  public abstract double getDetailSize();
-  
-  /*
-   * ################################
-   * DISTORTION LEVEL
-   * ################################
-   */
-  
-  public abstract double getDistortionLevel();
-  
-  /*
-   * ################################
    * TREENODE
    * ################################
    */

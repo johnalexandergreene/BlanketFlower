@@ -11,14 +11,22 @@ public class SCell{
   
   public int test=0;
   
+
   /*
    * ################################
-   * PRESENCES
-   * Each agent adds presence to a number of cells
-   * each cell has presence of a 0..n agents
-   * we mix the presences, or something like that, when deciding how to render it. 
+   * OBJECT 
    * ################################
    */
+  
+  public int hashCode(){
+    return x+37*y;}
+  
+  public boolean equals(Object a){
+    SCell b=(SCell)a;
+    return b.x==x&&b.y==y;}
+  
+  public String toString(){
+    return "["+x+","+y+"]";}
   
   
 

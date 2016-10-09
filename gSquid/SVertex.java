@@ -2,6 +2,10 @@ package org.fleen.squarzy.gSquid;
 
 public class SVertex{
   
+  public SVertex(int x,int y){
+    this.x=x;
+    this.y=y;}
+  
   public int x,y;
   
   public int getDirection(SVertex v){

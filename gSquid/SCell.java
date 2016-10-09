@@ -7,7 +7,7 @@ public class SCell{
     this.y=y;
   }
   
-  int x,y;
+  public int x,y;
   
   public int test=0;
   

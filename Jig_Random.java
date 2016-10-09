@@ -6,6 +6,7 @@ import java.util.Random;
 
 import org.fleen.squarzy.gSquid.SCell;
 import org.fleen.squarzy.gSquid.SGrid;
+import org.fleen.squarzy.gSquid.SShape;
 
 /*
  * add 0 to 5 to each cell's value
@@ -18,8 +19,21 @@ public class Jig_Random implements Jig{
    * ################################
    */ 
   
-  public Jig_Random(SGrid target){
+  public Jig_Random(SShape target){
     setTarget(target);}
+  
+  public Jig_Random(){}
+  
+  /*
+   * ################################
+   * DUPE
+   * ################################
+   */
+  
+  public Jig dupe(){
+    // TODO Auto-generated method stub
+    return null;
+  }
   
   /*
    * ################################
@@ -27,12 +41,12 @@ public class Jig_Random implements Jig{
    * ################################
    */
   
-  SGrid target;
+  SShape target;
   
-  public void setTarget(SGrid target){
+  public void setTarget(SShape target){
     this.target=target;}
 
-  public SGrid getTarget(){
+  public SShape getTarget(){
     return target;}
 
   /*
@@ -43,7 +57,10 @@ public class Jig_Random implements Jig{
   
   Random rnd=new Random();
   
-  public List<SCell> run(){
+  public void run(){
+    
+    
+    
     int 
       gridwidth=target.getWidth(),
       gridheight=target.getHeight(),

@@ -15,6 +15,11 @@ public class Util{
    * test for dupes
    * see it
    */
+  
+  //FOR TEST
+  public static List<SCell> testheadcells,testtailcells;
+  
+  
   public static final List<SCell> getFill(SPolygon polygon){
     //get twist
     boolean twist=polygon.getTwist();
@@ -39,6 +44,15 @@ public class Util{
         else if(dir==DIR_NORTH)
           tailcells.addAll(getCellsOnLeft(seg));}}
     //
+    //TEST
+    testheadcells=new ArrayList<SCell>(headcells);
+    testtailcells=new ArrayList<SCell>(tailcells);
+    List<SCell> testcells=new ArrayList<SCell>();
+    testcells.addAll(headcells);
+    testcells.addAll(tailcells);
+    
+    return testcells;
+    
     
     
   }
@@ -46,12 +60,18 @@ public class Util{
   private static final List<SCell> getCellsOnRight(SSeg seg){
     List<SCell> cells=new ArrayList<SCell>();
     int length=seg.getLength();
-    for(int i=0;i<length-1;i++){
-      cells.add(arg0)
-    }
-    
-    
-  }
+    for(int i=1;i<length;i++)
+      cells.add(new SCell(seg.v0.x,i+seg.v0.y));
+    return cells;}
+  
+  private static final List<SCell> getCellsOnLeft(SSeg seg){
+    List<SCell> cells=new ArrayList<SCell>();
+    int length=seg.getLength();
+    for(int i=1;i<length;i++)
+      cells.add(new SCell(seg.v0.x-1,i+seg.v0.y));
+    return cells;}
+  
+  
   
   
   public static final boolean TWIST_CW=true,TWIST_CCW=false;

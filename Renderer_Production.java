@@ -9,9 +9,9 @@ import java.util.Set;
 import org.fleen.squarzy.gSquid.SCell;
 import org.fleen.squarzy.gSquid.SGrid;
 
-public class Renderer{
+public class Renderer_Production{
   
-  public Renderer(){
+  public Renderer_Production(){
     colors=createPalette(COLORCOUNT);}
   
   public BufferedImage render(SGrid grid,int cellspan){

@@ -9,7 +9,7 @@ import java.util.List;
  * orientation and twist matter so if we want symmetry then we need to generate symmetric figures in our jigs 
  *   
  */
-public class SPolygon extends SShape implements Iterable<SVertex>{
+public class SPolygon extends SShape{
   
   private static final long serialVersionUID=1442016090376006753L;
   
@@ -21,7 +21,8 @@ public class SPolygon extends SShape implements Iterable<SVertex>{
   
   public SPolygon(List<SVertex> vertices,int chorusindex,List<String> tags){
     super(chorusindex,tags);
-    this.vertices=new ArrayList<SVertex>();}
+    this.vertices=new ArrayList<SVertex>(vertices);
+    System.out.println("polygon init vertex count = "+this.vertices.size());}
   
   /*
    * ################################
@@ -29,25 +30,7 @@ public class SPolygon extends SShape implements Iterable<SVertex>{
    * ################################
    */
   
-  private List<SVertex> vertices;
-  
-  public List<SVertex> getVertices(){
-    return vertices;}
-  
-  public void setVertices(List<SVertex> vertices){
-    this.vertices=vertices;}
-  
-  public Iterator<SVertex> iterator(){
-    return vertices.iterator();}
-  
-  public int size(){
-    return vertices.size();}
-  
-  public SVertex getVertex(int i){
-    return vertices.get(i);}
-  
-  List<SCell> getCells(){
-    return Util.getFill(this);}
+  public List<SVertex> vertices;
   
   List<SSeg> getSegs(){
     List<SSeg> segs=new ArrayList<SSeg>();
@@ -66,5 +49,27 @@ public class SPolygon extends SShape implements Iterable<SVertex>{
   
   public boolean getTwist(){
     return Util.getTwist(this);}
+  
+  /*
+   * ################################
+   * GET CELLS
+   * Returns the 1x1 cells enclosed by by the polygon edge
+   * When gleaning cells we consult the param grid
+   * For each cell
+   *   if the cell is contained within the grid then we return that
+   *   if it isn't then we create a new one 
+   * ################################
+   */
+  
+  List<SCell> getCells(SGrid grid){
+    List<SCell> 
+      fillcells=Util.getFill(this),
+      gridfillintersection=new ArrayList<SCell>();
+    for(SCell c:fillcells){
+      if(grid.containsCell(c))
+        gridfillintersection.add(grid.getCell(c));
+      else
+        gridfillintersection.add(c);}
+    return gridfillintersection;}
   
 }

@@ -50,6 +50,9 @@ public class SPolygon extends SShape{
   public boolean getTwist(){
     return Util.getTwist(this);}
   
+  public List<SVertex> getVertices(){
+    return vertices;}
+  
   /*
    * ################################
    * GET CELLS
@@ -61,7 +64,7 @@ public class SPolygon extends SShape{
    * ################################
    */
   
-  List<SCell> getCells(SGrid grid){
+  public List<SCell> getCells(SGrid grid){
     List<SCell> 
       fillcells=Util.getFill(this),
       gridfillintersection=new ArrayList<SCell>();

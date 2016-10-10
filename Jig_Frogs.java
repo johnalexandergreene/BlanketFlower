@@ -57,7 +57,7 @@ public class Jig_Frogs implements Jig{
   Set<Frog> frogs=new HashSet<Frog>();
   static final int FROGVAL=2;
   
-  public List<SCell> run(){
+  public List<SCell> execute(){
     List<SCell>
       frogcells,
       touched=new ArrayList<SCell>();

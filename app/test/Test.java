@@ -7,11 +7,10 @@ import java.io.File;
 
 import org.fleen.squarzy.Composition;
 import org.fleen.squarzy.Jig;
-import org.fleen.squarzy.Jig_Frogs;
-import org.fleen.squarzy.Jig_Random;
+import org.fleen.squarzy.Jigger;
+import org.fleen.squarzy.Jigger_000;
 import org.fleen.squarzy.Renderer_Test;
 import org.fleen.squarzy.gSquid.SCell;
-import org.fleen.squarzy.gSquid.SGrid;
 
 public class Test{
   
@@ -23,6 +22,7 @@ public class Test{
   
   Test(){
     initComposition();
+    initJigger();
     initUI();
   }
   
@@ -62,38 +62,18 @@ public class Test{
   
   /*
    * ################################
-   * JIG ACTION
+   * JIGGER
    * ################################
    */
   
-  Jig[] jigs={};
+  Jigger jigger;
   
-  void incrementGrid(){
-//    zeroCells();
-//    applyAgentsToGrid();
-//    renderGrid();
-    
-  }
+  void executeJigger(){
+    jigger.execute();}
   
-  private void zeroCells(){
-    int 
-    gridwidth=grid.getWidth(),
-    gridheight=grid.getHeight();
-    SCell cell;
-    for(int x=0;x<gridwidth;x++){
-      for(int y=0;y<gridheight;y++){
-          cell=grid.getCell(x,y);
-          cell.test=0;}}}
-  
-  void applyAgentsToGrid(){
-    for(Jig a:jigs)
-      a.run();}
-  
-  private void initAgents(){
-    jigs=new Jig[]{
-      new Jig_Random(),
-      new Jig_Frogs(grid)};
-    }
+  private void initJigger(){
+    jigger=new Jigger_000();
+    jigger.setComposition(composition);}
   
   /*
    * ################################
@@ -122,7 +102,7 @@ public class Test{
   
   void export(){
     System.out.println("export");
-    BufferedImage exportimage=renderer.render(grid,CELLSPAN);
+    BufferedImage exportimage=renderer.render(composition,CELLSPAN);
     File d=new File(EXPORTDIR);
     rasterexporter.setExportDir(d);
     rasterexporter.export(exportimage);}
@@ -134,16 +114,16 @@ public class Test{
    */
   
   public static final void main(String[] a){
+    System.out.println("####begin process");
     Test test=new Test();
-//    for(int i=0;i<300;i++){
-//      test.incrementGrid();
+    for(int i=0;i<222;i++){
+      test.executeJigger();
+      test.renderComposition();
 //      test.export();
-//      try{
-//        Thread.sleep(10,0);
-//      }catch(Exception x){x.printStackTrace();}
-//    }
-    test.renderComposition();
-    
-  }
+      try{
+        Thread.sleep(30,0);
+      }catch(Exception x){x.printStackTrace();}}
+    System.out.println("####end process");
+    }
 
 }

@@ -83,7 +83,7 @@ public class Util{
     int 
       delta,deltasum=0,
       i1,i2,
-      s=polygon.size(),
+      s=polygon.vertices.size(),
       d0,d1;
     SVertex v0,v1,v2;
     for(int i0=0;i0<s;i0++){
@@ -91,9 +91,9 @@ public class Util{
       if(i1==s)i1=0;
       i2=i1+1;
       if(i2==s)i2=0;
-      v0=polygon.getVertex(i0);
-      v1=polygon.getVertex(i1);
-      v2=polygon.getVertex(i2);
+      v0=polygon.vertices.get(i0);
+      v1=polygon.vertices.get(i1);
+      v2=polygon.vertices.get(i2);
       d0=getDirection(v0,v1);
       d1=getDirection(v1,v2);
       delta=getDirectionDelta(d0,d1);

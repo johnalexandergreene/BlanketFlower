@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
+import org.fleen.squarzy.Jig;
 import org.fleen.squarzy.Squarzy;
 import org.fleen.util.tag.TagManager;
 import org.fleen.util.tag.Tagged;
@@ -38,6 +39,38 @@ public abstract class SShape implements TreeNode,Serializable,Squarzy,Tagged{
   public SShape(int chorusindex,List<String> tags){
     this.chorusindex=chorusindex;
     addTags(tags);}
+  
+  /*
+   * ################################
+   * GEOMETRY
+   * ################################
+   */
+  
+  public abstract List<SVertex> getVertices();
+  
+  public int[] getBounds(){
+    int 
+      xmin=Integer.MAX_VALUE,
+      ymin=Integer.MAX_VALUE,
+      xmax=Integer.MIN_VALUE,
+      ymax=Integer.MIN_VALUE;
+    List<SVertex> vertices=getVertices();
+    for(SVertex v:vertices){
+      if(v.x<xmin)xmin=v.x;
+      if(v.y<ymin)ymin=v.y;
+      if(v.x>xmax)xmax=v.x;
+      if(v.y>ymax)ymax=v.y;}
+    return new int[]{xmin,ymin,xmax,ymax};}
+  
+  public abstract List<SCell> getCells(SGrid grid);
+  
+  /*
+   * ################################
+   * JIG
+   * ################################
+   */
+  
+  public Jig jig=null;
   
   /*
    * ################################
@@ -81,6 +114,9 @@ public abstract class SShape implements TreeNode,Serializable,Squarzy,Tagged{
   
   public void clearChildren(){
     treenodeservices.clearChildren();}
+  
+  public void removeChild(TreeNode child){
+    treenodeservices.removeChild(child);}
   
   public void removeChildren(Collection<? extends TreeNode> children){
     treenodeservices.removeChildren(children);}

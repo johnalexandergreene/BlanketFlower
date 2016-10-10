@@ -2,16 +2,24 @@ package org.fleen.squarzy.gSquid;
 
 public class SCell{
   
+  /*
+   * ################################
+   * CONSTRUCTOR 
+   * ################################
+   */
+  
   SCell(int x,int y){
     this.x=x;
-    this.y=y;
-  }
+    this.y=y;}
+  
+  /*
+   * ################################
+   * GEOMETRY 
+   * ################################
+   */
   
   public int x,y;
   
-  public int test=0;
-  
-
   /*
    * ################################
    * OBJECT 

@@ -20,10 +20,14 @@ import org.fleen.squarzy.gSquid.SShape;
  */
 public interface Jig{
 
-  void run();
+  //do the thing to the target
+  void execute();
   
+  //duplicate this jig
+  //we can't just use the same jig over and over, we are tracking unique sets of shapes
   Jig dupe();
   
+  //the target is the shape that we're editing the shapes of
   void setTarget(SShape target);
   
   SShape getTarget();

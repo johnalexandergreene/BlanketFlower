@@ -1,6 +1,8 @@
 package org.fleen.squarzy;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.fleen.squarzy.gSquid.SGrid;
 import org.fleen.squarzy.gSquid.SPolygon;
@@ -61,5 +63,24 @@ public class Composition{
   
   TreeNodeIterator getShapeIterator(){
     return new TreeNodeIterator(root);}
+  
+  public List<SShape> getShapes(){
+    TreeNodeIterator i=new TreeNodeIterator(root);
+    List<SShape> shapes=new ArrayList<SShape>();
+    SShape shape;
+    while(i.hasNext()){
+      shape=(SShape)i.next();
+      shapes.add(shape);}
+    return shapes;}
+  
+  public List<SShape> getLeafShapes(){
+    TreeNodeIterator i=new TreeNodeIterator(root);
+    List<SShape> leaves=new ArrayList<SShape>();
+    SShape shape;
+    while(i.hasNext()){
+      shape=(SShape)i.next();
+      if(shape.isLeaf())
+        leaves.add(shape);}
+    return leaves;}
   
 }

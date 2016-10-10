@@ -57,7 +57,7 @@ public class Jig_Random implements Jig{
   
   Random rnd=new Random();
   
-  public void run(){
+  public void execute(){
     
     
     

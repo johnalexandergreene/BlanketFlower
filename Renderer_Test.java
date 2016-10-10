@@ -4,11 +4,13 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -63,26 +65,50 @@ public class Renderer_Test{
       shape=(SShape)ishapes.next();
       path=getPath(shape,cellspan);
       graphics.draw(path);}
-    
-    
     //render cells
-    //
-//    Color cellcolor;
-//    SCell cell;
-//    for(int x=0;x<gridwidth;x++){
-//      for(int y=0;y<gridheight;y++){
-//          cell=grid.getCell(x,y);
-//          cellcolor=colors[cell.test%colors.length];
-//          renderCell(image,cellcolor,x,y,cellspan);}}
+    Map<SCell,Integer> cellcolorindices=getCellColorIndices(composition);
+    Integer cellcolorindex;
+    Color cellcolor;
+    icells=grid.getCellIterator();
+    while(icells.hasNext()){
+      cell=icells.next();
+      cellcolorindex=cellcolorindices.get(cell);
+      if(cellcolorindex==null)continue;
+      cellcolor=colors[cellcolorindex%colors.length];
+      renderCell(image,cellcolor,cell,cellspan);}
   return image;}
   
-  private void renderCell(BufferedImage image,Color color,int x,int y,int cellspan){
-    int px,py,xoff=x*cellspan,yoff=y*cellspan;
+  
+  
+  private void renderCell(BufferedImage image,Color color,SCell cell,int cellspan){
+    int px,py,xoff=cell.x*cellspan,yoff=cell.y*cellspan;
     for(int cx=0;cx<cellspan;cx++){
       for(int cy=0;cy<cellspan;cy++){
         px=xoff+cx;
         py=yoff+cy;
         image.setRGB(px,py,color.getRGB());}}}
+  
+  //----------------
+  //GET CELL COLOR
+  //sum shape chorus indices at cell
+  //% against color array
+  //--------------------------------
+  private Map<SCell,Integer> getCellColorIndices(Composition composition){
+    Map<SCell,Integer> colorindices=new HashMap<SCell,Integer>();
+    List<SCell> cells;
+    Integer colorindex;
+    for(SShape shape:composition.getShapes()){
+      cells=shape.getCells(composition.getGrid());
+      for(SCell cell:cells){
+        colorindex=colorindices.get(cell);
+        if(colorindex==null){
+          colorindex=new Integer(0);
+          colorindices.put(cell,colorindex);}
+        colorindex+=shape.getChorusIndex();}}
+    return colorindices;}
+  
+  
+  
   
   private Stroke createStroke(double strokewidth){
     Stroke stroke=new BasicStroke((float)strokewidth,BasicStroke.CAP_SQUARE,BasicStroke.JOIN_ROUND,0,null,0);

@@ -11,11 +11,11 @@ public class Jigger_000 implements Jigger{
 
   public void execute(){
     for(SShape shape:composition.getShapes()){
-      if(!shape.isRoot())continue;
-      if(shape.jig==null){
-        shape.jig=new Jig_MovingStripe();
-        shape.jig.setTarget(shape);}
-      shape.jig.execute();}
+      if(shape.isRoot()){//only do the root
+        if(shape.jig==null){
+          shape.jig=new Jig_MovingStripe();
+          shape.jig.setTarget(shape);}
+        shape.jig.execute();}}
     
   }
 

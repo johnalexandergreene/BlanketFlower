@@ -81,7 +81,7 @@ public class Test{
    * ################################
    */
   
-  static final int CELLSPAN=8;
+  static final int CELLSPAN=6;
   BufferedImage image;
   Renderer_Test renderer=new Renderer_Test();
   
@@ -116,12 +116,12 @@ public class Test{
   public static final void main(String[] a){
     System.out.println("####begin process");
     Test test=new Test();
-    for(int i=0;i<222;i++){
+    for(int i=0;i<333;i++){
       test.executeJigger();
       test.renderComposition();
-//      test.export();
+      test.export();
       try{
-        Thread.sleep(30,0);
+        Thread.sleep(10,0);
       }catch(Exception x){x.printStackTrace();}}
     System.out.println("####end process");
     }

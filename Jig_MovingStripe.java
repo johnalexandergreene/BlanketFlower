@@ -24,7 +24,7 @@ public class Jig_MovingStripe implements Jig{
    * ################################
    */
   
-  static final double CREATENEWSTRIPEPROBABILITY=0.06;
+  static final double CREATENEWSTRIPEPROBABILITY=0.08;
   
   Random rnd=new Random();
   
@@ -52,21 +52,24 @@ public class Jig_MovingStripe implements Jig{
   
   
   static final int 
-    STRIPEMINWIDTH=3,
-    STRIPEMAXWIDTH=10;
+    STRIPEMINWIDTH=6,
+    STRIPEMAXWIDTH=30;
   
   void createStripe(){
     int width=rnd.nextInt(STRIPEMAXWIDTH-STRIPEMINWIDTH)+STRIPEMINWIDTH;
-    int east=0,west=-width,north=0,south=target.getBounds()[3];
+    int east=0,west=-width,north=target.getBounds()[3],south=0;
     if(east-west<STRIPEMINWIDTH)return;//fail
     SVertex[] vertices={ 
+      new SVertex(west,south),
       new SVertex(west,north),
       new SVertex(east,north),
-      new SVertex(east,south),
-      new SVertex(west,south)};
+      new SVertex(east,south)};
     SPolygon p=new SPolygon(Arrays.asList(vertices),rnd.nextInt(3),null);
     target.addChild(p);
     p.setParent(target);
+    
+    System.out.println("stripe twist ="+p.getTwist());
+    
     stripes.add(p);}
   
   /*
@@ -79,10 +82,11 @@ public class Jig_MovingStripe implements Jig{
   private void removeOffStripe(){
     if(stripes.isEmpty())return;
     SPolygon p=stripes.get(0);
-    SVertex v=p.vertices.get(3);
-    if(v.x>target.getBounds()[2]){
+    SVertex vsouthwest=p.vertices.get(0);
+    if(vsouthwest.x>target.getBounds()[2]){
       target.removeChild(p);
-      p.setParent(null);}}
+      p.setParent(null);
+      stripes.remove(0);}}
   
 
   /*

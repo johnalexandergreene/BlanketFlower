@@ -34,12 +34,16 @@ public class ImagePanel extends JPanel{
    */
   
   private static final int PADDINGSPAN=30;
-  private static AffineTransform PAD=AffineTransform.getTranslateInstance(PADDINGSPAN,PADDINGSPAN);
   
   public void paint(Graphics g){
+    AffineTransform paddedcartesian=new AffineTransform();
+    paddedcartesian.scale(1,-1);
+    paddedcartesian.translate(0,-getHeight());
+    paddedcartesian.translate(PADDINGSPAN,PADDINGSPAN);
+    //
     super.paint(g);
     if(sampler==null||sampler.image==null)return;
     Graphics2D g2=(Graphics2D)g;
-    g2.drawImage(sampler.image,PAD,null);}
+    g2.drawImage(sampler.image,paddedcartesian,null);}
 
 }

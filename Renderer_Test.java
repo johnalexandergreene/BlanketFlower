@@ -63,17 +63,17 @@ public class Renderer_Test{
     graphics.setStroke(createStroke(WIDTHSHAPESTROKE));
     while(ishapes.hasNext()){
       shape=(SShape)ishapes.next();
-      path=getPath(shape,cellspan);
-      graphics.draw(path);}
+      if(!shape.isRoot()){
+        path=getPath(shape,cellspan);
+        graphics.draw(path);}}
     //render cells
-    Map<SCell,Integer> cellcolorindices=getCellColorIndices(composition);
-    Integer cellcolorindex;
+    Map<SCell,ColorIndex> cellcolorindices=getCellColorIndices(composition);
+    int cellcolorindex;
     Color cellcolor;
     icells=grid.getCellIterator();
     while(icells.hasNext()){
       cell=icells.next();
-      cellcolorindex=cellcolorindices.get(cell);
-      if(cellcolorindex==null)continue;
+      cellcolorindex=cellcolorindices.get(cell).value;
       cellcolor=colors[cellcolorindex%colors.length];
       renderCell(image,cellcolor,cell,cellspan);}
   return image;}
@@ -93,19 +93,23 @@ public class Renderer_Test{
   //sum shape chorus indices at cell
   //% against color array
   //--------------------------------
-  private Map<SCell,Integer> getCellColorIndices(Composition composition){
-    Map<SCell,Integer> colorindices=new HashMap<SCell,Integer>();
+  private Map<SCell,ColorIndex> getCellColorIndices(Composition composition){
+    Map<SCell,ColorIndex> colorindices=new HashMap<SCell,ColorIndex>();
     List<SCell> cells;
-    Integer colorindex;
+    ColorIndex colorindex;
     for(SShape shape:composition.getShapes()){
       cells=shape.getCells(composition.getGrid());
       for(SCell cell:cells){
         colorindex=colorindices.get(cell);
         if(colorindex==null){
-          colorindex=new Integer(0);
+          colorindex=new ColorIndex();
           colorindices.put(cell,colorindex);}
-        colorindex+=shape.getChorusIndex();}}
+        colorindex.value+=shape.getChorusIndex();}}
     return colorindices;}
+  
+  class ColorIndex{
+    int value=0;
+  }
   
   
   

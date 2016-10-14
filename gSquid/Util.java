@@ -1,7 +1,11 @@
 package org.fleen.squarzy.gSquid;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import org.fleen.geom_2D.GD;
 
 public class Util{
   
@@ -17,58 +21,68 @@ public class Util{
    */
   
   //FOR TEST
-  public static List<SCell> testheadcells,testtailcells;
+//  public static List<SCell> testheadcells,testtailcells;
   
   
   public static final List<SCell> getFill(SPolygon polygon){
     //get twist
     boolean twist=polygon.getTwist();
     //get headcells and tailcells
-    //it depends on twist
-    List<SCell> 
-      headcells=new ArrayList<SCell>(),
-      tailcells=new ArrayList<SCell>();
+    //that's the vertical strands of cells to the left and right of open spaces
+    Set<SCell> 
+      heads=new HashSet<SCell>(),
+      tails=new HashSet<SCell>();
     int dir;
     if(twist==TWIST_CW){
       for(SSeg seg:polygon.getSegs()){
         dir=seg.getForward();
         if(dir==DIR_NORTH)
-          headcells.addAll(getCellsOnRight(seg));
+          heads.addAll(getCellsOnRight(seg,DIR_NORTH));
         else if(dir==DIR_SOUTH)
-          tailcells.addAll(getCellsOnRight(seg));}
+          tails.addAll(getCellsOnRight(seg,DIR_SOUTH));}
     }else{//twist==TWIST_CCW
       for(SSeg seg:polygon.getSegs()){
         dir=seg.getForward();
         if(dir==DIR_SOUTH)
-          headcells.addAll(getCellsOnLeft(seg));
+          heads.addAll(getCellsOnLeft(seg,DIR_SOUTH));
         else if(dir==DIR_NORTH)
-          tailcells.addAll(getCellsOnLeft(seg));}}
-    //
-    //TEST
-    testheadcells=new ArrayList<SCell>(headcells);
-    testtailcells=new ArrayList<SCell>(tailcells);
-    List<SCell> testcells=new ArrayList<SCell>();
-    testcells.addAll(headcells);
-    testcells.addAll(tailcells);
+          tails.addAll(getCellsOnLeft(seg,DIR_NORTH));}}
+    //fill in between heads and tails
+    List<SCell> fillz=new ArrayList<SCell>();
+    for(SCell h:heads)
+      fillRow(h,tails,fillz);
+    fillz.addAll(tails);
     
-    return testcells;
+    return fillz;
     
     
     
   }
   
-  private static final List<SCell> getCellsOnRight(SSeg seg){
+  private static final void fillRow(SCell head,Set<SCell> tails,List<SCell> fillz){
+    SCell a=head;
+    while(!tails.contains(a)){
+      fillz.add(a);
+      a=a.getEast();}}
+  
+  private static final List<SCell> getCellsOnRight(SSeg seg,int heading){
     List<SCell> cells=new ArrayList<SCell>();
-    int length=seg.getLength();
-    for(int i=1;i<length;i++)
-      cells.add(new SCell(seg.v0.x,i+seg.v0.y));
+    if(heading==DIR_NORTH){
+      for(int y=seg.v0.y;y<seg.v1.y;y++)
+        cells.add(new SCell(seg.v0.x,y));  
+    }else{//heading==DIR_SOUTH
+      for(int y=seg.v0.y-1;y>seg.v1.y-1;y--)
+        cells.add(new SCell(seg.v0.x-1,y));}
     return cells;}
   
-  private static final List<SCell> getCellsOnLeft(SSeg seg){
+  private static final List<SCell> getCellsOnLeft(SSeg seg,int heading){
     List<SCell> cells=new ArrayList<SCell>();
-    int length=seg.getLength();
-    for(int i=1;i<length;i++)
-      cells.add(new SCell(seg.v0.x-1,i+seg.v0.y));
+    if(heading==DIR_NORTH){
+      for(int y=seg.v0.y;y<seg.v1.y;y++)
+        cells.add(new SCell(seg.v0.x-1,y));  
+    }else{//heading==DIR_SOUTH
+      for(int y=seg.v0.y-1;y>seg.v1.y-1;y--)
+        cells.add(new SCell(seg.v0.x,y));}
     return cells;}
   
   
@@ -76,39 +90,30 @@ public class Util{
   
   public static final boolean TWIST_CW=true,TWIST_CCW=false;
   /*
+   * convert to double[][] and use GD.getSignedArea2D
+   * 
    * clockwise is true, counterclockwise is false
    * gather direction deltas
+   * 
+   * TODO make a faster version
    */
   public static final boolean getTwist(SPolygon polygon){
-    int 
-      delta,deltasum=0,
-      i1,i2,
-      s=polygon.vertices.size(),
-      d0,d1;
-    SVertex v0,v1,v2;
-    for(int i0=0;i0<s;i0++){
-      i1=i0+1;
-      if(i1==s)i1=0;
-      i2=i1+1;
-      if(i2==s)i2=0;
-      v0=polygon.vertices.get(i0);
-      v1=polygon.vertices.get(i1);
-      v2=polygon.vertices.get(i2);
-      d0=getDirection(v0,v1);
-      d1=getDirection(v1,v2);
-      delta=getDirectionDelta(d0,d1);
-      deltasum+=delta;}
-    //
-    if(deltasum>0)
+    int s=polygon.vertices.size();
+    double[][] d=new double[polygon.vertices.size()][2];
+    SVertex v;
+    for(int i=0;i<s;i++){
+      v=polygon.vertices.get(i);
+      d[i][0]=v.x;
+      d[i][1]=v.y;}
+    double b=GD.getSignedArea2D(d);
+    if(b<0)
       return TWIST_CW;
-    else if(deltasum<0)
-      return TWIST_CCW;
     else
-      throw new IllegalArgumentException("foop");}
+      return TWIST_CCW;}
   
   public static final int
     //directions
-    DIR_INVALID=-1,//a diagonal
+    DIR_INVALID=-2,//a diagonal
     DIR_UNDEFINED=-1,//no relevant info
     DIR_NORTH=0,
     DIR_EAST=1,

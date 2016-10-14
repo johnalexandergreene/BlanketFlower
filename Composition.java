@@ -52,7 +52,7 @@ public class Composition{
   private SShape root;
   
   private void initRoot(){
-    SVertex[] v={new SVertex(0,0),new SVertex(width,0),new SVertex(width,height),new SVertex(0,height)};
+    SVertex[] v={new SVertex(0,0),new SVertex(0,height),new SVertex(width,height),new SVertex(width,0)};
     root=new SPolygon(
       Arrays.asList(v),
       0,

@@ -20,6 +20,18 @@ public class SCell{
   
   public int x,y;
   
+  public SCell getEast(){
+    return new SCell(x+1,y);}
+  
+  public SCell getWest(){
+    return new SCell(x-1,y);}
+  
+  public SCell getNorth(){
+    return new SCell(x,y+1);}
+  
+  public SCell getSouth(){
+    return new SCell(x,y-1);}
+  
   /*
    * ################################
    * OBJECT 

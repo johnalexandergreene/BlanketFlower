@@ -6,11 +6,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 import org.fleen.squarzy.Composition;
-import org.fleen.squarzy.Jig;
 import org.fleen.squarzy.Jigger;
 import org.fleen.squarzy.Jigger_000;
+import org.fleen.squarzy.Renderer_Production;
 import org.fleen.squarzy.Renderer_Test;
-import org.fleen.squarzy.gSquid.SCell;
 
 public class Test{
   
@@ -83,7 +82,7 @@ public class Test{
   
   static final int CELLSPAN=6;
   BufferedImage image;
-  Renderer_Test renderer=new Renderer_Test();
+  Renderer_Production renderer=new Renderer_Production();
   
   private void renderComposition(){
     image=renderer.render(composition,CELLSPAN);
@@ -116,7 +115,7 @@ public class Test{
   public static final void main(String[] a){
     System.out.println("####begin process");
     Test test=new Test();
-    for(int i=0;i<333;i++){
+    for(int i=0;i<555;i++){
       test.executeJigger();
       test.renderComposition();
       test.export();

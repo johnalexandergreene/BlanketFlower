@@ -2,42 +2,77 @@ package org.fleen.squarzy;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
 import org.fleen.squarzy.gSquid.SCell;
 import org.fleen.squarzy.gSquid.SGrid;
+import org.fleen.squarzy.gSquid.SShape;
 
 public class Renderer_Production{
   
   public Renderer_Production(){
     colors=createPalette(COLORCOUNT);}
   
-  public BufferedImage render(SGrid grid,int cellspan){
+  public BufferedImage render(Composition composition,int cellspan){
+    //get various relevant metrics
+    SGrid grid=composition.getGrid();
     int 
-      gridwidth=grid.getWidth(),
-      gridheight=grid.getHeight(),
       imagewidth=grid.getWidth()*cellspan,
       imageheight=grid.getHeight()*cellspan;
+    //init image
     BufferedImage image=new BufferedImage(imagewidth,imageheight,BufferedImage.TYPE_INT_RGB);
-    //
+    //render cells
+    Map<SCell,ColorIndex> cellcolorindices=getCellColorIndices(composition);
+    int cellcolorindex;
     Color cellcolor;
     SCell cell;
-    for(int x=0;x<gridwidth;x++){
-      for(int y=0;y<gridheight;y++){
-          cell=grid.getCell(x,y);
-          cellcolor=colors[cell.test%colors.length];
-          renderCell(image,cellcolor,x,y,cellspan);}}
+    Iterator<SCell> icells=grid.getCellIterator();
+    while(icells.hasNext()){
+      cell=icells.next();
+      cellcolorindex=cellcolorindices.get(cell).value;
+      cellcolor=colors[cellcolorindex%colors.length];
+      renderCell(image,cellcolor,cell,cellspan);}
   return image;}
   
-  private void renderCell(BufferedImage image,Color color,int x,int y,int cellspan){
-    int px,py,xoff=x*cellspan,yoff=y*cellspan;
+  
+  
+  private void renderCell(BufferedImage image,Color color,SCell cell,int cellspan){
+    int px,py,xoff=cell.x*cellspan,yoff=cell.y*cellspan;
     for(int cx=0;cx<cellspan;cx++){
       for(int cy=0;cy<cellspan;cy++){
         px=xoff+cx;
         py=yoff+cy;
         image.setRGB(px,py,color.getRGB());}}}
+  
+  //----------------
+  //GET CELL COLOR
+  //sum shape chorus indices at cell
+  //% against color array
+  //--------------------------------
+  private Map<SCell,ColorIndex> getCellColorIndices(Composition composition){
+    Map<SCell,ColorIndex> colorindices=new HashMap<SCell,ColorIndex>();
+    List<SCell> cells;
+    ColorIndex colorindex;
+    for(SShape shape:composition.getShapes()){
+      cells=shape.getCells(composition.getGrid());
+      for(SCell cell:cells){
+        colorindex=colorindices.get(cell);
+        if(colorindex==null){
+          colorindex=new ColorIndex();
+          colorindices.put(cell,colorindex);}
+        colorindex.value+=shape.getChorusIndex();}}
+    return colorindices;}
+  
+  //because Integer is immutable
+  class ColorIndex{
+    int value=0;
+  }
   
   /*
    * ################################

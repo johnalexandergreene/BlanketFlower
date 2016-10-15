@@ -16,7 +16,7 @@ import org.fleen.squarzy.gSquid.SVertex;
  * put a rectangle at random location inside target
  * 
  */
-public class Jig_MovingStripe implements Jig{
+public class Jig_MovingStripe_Simple implements Jig{
 
   /*
    * ################################
@@ -96,7 +96,7 @@ public class Jig_MovingStripe implements Jig{
    */
   
   public Jig dupe(){
-    return new Jig_MovingStripe();}
+    return new Jig_MovingStripe_Simple();}
   
   /*
    * ################################

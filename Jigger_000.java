@@ -13,7 +13,7 @@ public class Jigger_000 implements Jigger{
     for(SShape shape:composition.getShapes()){
       if(shape.isRoot()){//only do the root
         if(shape.jig==null){
-          shape.jig=new Jig_MovingStripe();
+          shape.jig=new Jig_MovingStripe_2DirSlowAndFast();
           shape.jig.setTarget(shape);}
         shape.jig.execute();}}
     

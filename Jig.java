@@ -1,6 +1,6 @@
-package org.fleen.squarzy;
+package org.fleen.blanketFlower;
 
-import org.fleen.squarzy.gSquid.SShape;
+import org.fleen.blanketFlower.gSquid.SShape;
 
 
 /*

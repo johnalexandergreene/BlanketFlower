@@ -1,4 +1,4 @@
-package org.fleen.squarzy;
+package org.fleen.blanketFlower;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -14,12 +14,12 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import org.fleen.squarzy.gSquid.SCell;
-import org.fleen.squarzy.gSquid.SGrid;
-import org.fleen.squarzy.gSquid.SPolygon;
-import org.fleen.squarzy.gSquid.SShape;
-import org.fleen.squarzy.gSquid.SVertex;
-import org.fleen.squarzy.gSquid.SYard;
+import org.fleen.blanketFlower.gSquid.SCell;
+import org.fleen.blanketFlower.gSquid.SGrid;
+import org.fleen.blanketFlower.gSquid.SPolygon;
+import org.fleen.blanketFlower.gSquid.SShape;
+import org.fleen.blanketFlower.gSquid.SVertex;
+import org.fleen.blanketFlower.gSquid.SYard;
 import org.fleen.util.tree.TreeNodeIterator;
 
 public class Renderer_Test{

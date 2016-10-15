@@ -1,6 +1,6 @@
-package org.fleen.squarzy;
+package org.fleen.blanketFlower;
 
-import org.fleen.squarzy.gSquid.SShape;
+import org.fleen.blanketFlower.gSquid.SShape;
 
 public class Jigger_000 implements Jigger{
 
@@ -13,7 +13,7 @@ public class Jigger_000 implements Jigger{
     for(SShape shape:composition.getShapes()){
       if(shape.isRoot()){//only do the root
         if(shape.jig==null){
-          shape.jig=new Jig_MovingStripe_2DirSlowAndFast();
+          shape.jig=new Jig_MovingStripes_4way();
           shape.jig.setTarget(shape);}
         shape.jig.execute();}}
     

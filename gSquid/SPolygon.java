@@ -1,4 +1,4 @@
-package org.fleen.squarzy.gSquid;
+package org.fleen.blanketFlower.gSquid;
 
 import java.util.ArrayList;
 import java.util.Iterator;

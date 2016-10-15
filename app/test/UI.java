@@ -1,4 +1,4 @@
-package org.fleen.squarzy.app.test;
+package org.fleen.blanketFlower.app.test;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;

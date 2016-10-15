@@ -1,4 +1,4 @@
-package org.fleen.squarzy.gSquid;
+package org.fleen.blanketFlower.gSquid;
 
 public class SSeg{
   

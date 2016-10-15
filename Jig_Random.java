@@ -1,12 +1,12 @@
-package org.fleen.squarzy;
+package org.fleen.blanketFlower;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.fleen.squarzy.gSquid.SCell;
-import org.fleen.squarzy.gSquid.SGrid;
-import org.fleen.squarzy.gSquid.SShape;
+import org.fleen.blanketFlower.gSquid.SCell;
+import org.fleen.blanketFlower.gSquid.SGrid;
+import org.fleen.blanketFlower.gSquid.SShape;
 
 /*
  * add 0 to 5 to each cell's value

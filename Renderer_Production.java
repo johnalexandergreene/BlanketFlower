@@ -1,4 +1,4 @@
-package org.fleen.squarzy;
+package org.fleen.blanketFlower;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -10,9 +10,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import org.fleen.squarzy.gSquid.SCell;
-import org.fleen.squarzy.gSquid.SGrid;
-import org.fleen.squarzy.gSquid.SShape;
+import org.fleen.blanketFlower.gSquid.SCell;
+import org.fleen.blanketFlower.gSquid.SGrid;
+import org.fleen.blanketFlower.gSquid.SShape;
 
 public class Renderer_Production{
   

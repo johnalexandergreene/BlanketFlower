@@ -1,11 +1,11 @@
-package org.fleen.squarzy.gSquid;
+package org.fleen.blanketFlower.gSquid;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-import org.fleen.squarzy.Jig;
-import org.fleen.squarzy.Squarzy;
+import org.fleen.blanketFlower.Jig;
+import org.fleen.blanketFlower.BlanketFlower;
 import org.fleen.util.tag.TagManager;
 import org.fleen.util.tag.Tagged;
 import org.fleen.util.tree.TreeNode;
@@ -26,7 +26,7 @@ import org.fleen.util.tree.TreeNodeServices;
  *    eg squaregrid, 2 axii, 4 directions, integer coors
  *   
  */
-public abstract class SShape implements TreeNode,Serializable,Squarzy,Tagged{
+public abstract class SShape implements TreeNode,Serializable,BlanketFlower,Tagged{
   
   private static final long serialVersionUID=4092254036116132280L;
 
@@ -48,6 +48,7 @@ public abstract class SShape implements TreeNode,Serializable,Squarzy,Tagged{
   
   public abstract List<SVertex> getVertices();
   
+  //TODO we should do these in NESW order
   public int[] getBounds(){
     int 
       xmin=Integer.MAX_VALUE,
@@ -60,9 +61,45 @@ public abstract class SShape implements TreeNode,Serializable,Squarzy,Tagged{
       if(v.y<ymin)ymin=v.y;
       if(v.x>xmax)xmax=v.x;
       if(v.y>ymax)ymax=v.y;}
-    return new int[]{xmin,ymin,xmax,ymax};}
+    return new int[]{xmin,ymin,xmax,ymax};}//aka westbound,southbound,eastbound,northbound
+  
+  public int getNorthBound(){
+    return getBounds()[3];}
+  
+  public int getEastBound(){
+    return getBounds()[2];}
+  
+  public int getSouthBound(){
+    return getBounds()[1];}
+  
+  public int getWestBound(){
+    return getBounds()[0];}
   
   public abstract List<SCell> getCells(SGrid grid);
+  
+  public void move(int dir,int dis){
+    //get the offset
+    int xoff,yoff;
+    if(dir==GSquid.DIR_NORTH){
+      xoff=0;
+      yoff=dis;
+    }else if(dir==GSquid.DIR_EAST){
+      xoff=dis;
+      yoff=0;
+    }else if(dir==GSquid.DIR_SOUTH){
+      xoff=0;
+      yoff=-dis;
+    }else if(dir==GSquid.DIR_WEST){
+      xoff=-dis;
+      yoff=0;
+    }else{
+      //ambiguous dir, do nothing
+      return;
+    }
+    //move vertices
+    for(SVertex v:getVertices()){
+      v.x+=xoff;
+      v.y+=yoff;}}
   
   /*
    * ################################

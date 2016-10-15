@@ -1,4 +1,4 @@
-package org.fleen.squarzy;
+package org.fleen.blanketFlower;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import org.fleen.squarzy.gSquid.SCell;
-import org.fleen.squarzy.gSquid.SGrid;
+import org.fleen.blanketFlower.gSquid.SCell;
+import org.fleen.blanketFlower.gSquid.SGrid;
 
 /*
  * create a C shaped frog

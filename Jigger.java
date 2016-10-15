@@ -1,4 +1,4 @@
-package org.fleen.squarzy;
+package org.fleen.blanketFlower;
 
 /*
  * a jigger selects and executes jigs for a composition

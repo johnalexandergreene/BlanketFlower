@@ -1,4 +1,4 @@
-package org.fleen.squarzy;
+package org.fleen.blanketFlower;
 
 /*
  * 
@@ -27,7 +27,7 @@ package org.fleen.squarzy;
  *   
  * 
  */
-public interface Squarzy{
+public interface BlanketFlower{
   
 
 }

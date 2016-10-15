@@ -1,15 +1,15 @@
-package org.fleen.squarzy.app.test;
+package org.fleen.blanketFlower.app.test;
 
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-import org.fleen.squarzy.Composition;
-import org.fleen.squarzy.Jigger;
-import org.fleen.squarzy.Jigger_000;
-import org.fleen.squarzy.Renderer_Production;
-import org.fleen.squarzy.Renderer_Test;
+import org.fleen.blanketFlower.Composition;
+import org.fleen.blanketFlower.Jigger;
+import org.fleen.blanketFlower.Jigger_000;
+import org.fleen.blanketFlower.Renderer_Production;
+import org.fleen.blanketFlower.Renderer_Test;
 
 public class Test{
   

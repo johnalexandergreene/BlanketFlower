@@ -1,13 +1,13 @@
-package org.fleen.squarzy;
+package org.fleen.blanketFlower;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.fleen.squarzy.gSquid.SGrid;
-import org.fleen.squarzy.gSquid.SPolygon;
-import org.fleen.squarzy.gSquid.SShape;
-import org.fleen.squarzy.gSquid.SVertex;
+import org.fleen.blanketFlower.gSquid.SGrid;
+import org.fleen.blanketFlower.gSquid.SPolygon;
+import org.fleen.blanketFlower.gSquid.SShape;
+import org.fleen.blanketFlower.gSquid.SVertex;
 import org.fleen.util.tree.TreeNodeIterator;
 
 public class Composition{

@@ -7,7 +7,19 @@ import java.util.Set;
 
 import org.fleen.geom_2D.GD;
 
+/*
+ * put this in geom
+ */
 public class Util{
+  
+  /*
+   * cells to polygons
+   * TODO 
+   * also, cells should hold no data. Just make em raw
+   */
+  public static final List<SPolygon> getPolygons(List<SCell> cells){
+    return null;//TODO
+  }
   
   /*
    * get cells in interior of polygon

@@ -1,4 +1,6 @@
-package org.fleen.blanketFlower;
+package org.fleen.blanketFlower.jig;
+
+import org.fleen.blanketFlower.composition.Composition;
 
 /*
  * a jigger selects and executes jigs for a composition

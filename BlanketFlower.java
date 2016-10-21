@@ -1,6 +1,10 @@
 package org.fleen.blanketFlower;
 
 /*
+ * Integer boxy composition
+ * 
+ * Low rez, so each 1x1 cell is graphically significant
+ * 
  * 
  * A grid of square cells
  * Each cell is graphically significant. Span around 1/2 or 1/4 C-interval.

@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower;
+package org.fleen.blanketFlower.renderer;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -10,9 +10,10 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import org.fleen.blanketFlower.gSquid.SCell;
-import org.fleen.blanketFlower.gSquid.SGrid;
-import org.fleen.blanketFlower.gSquid.SShape;
+import org.fleen.blanketFlower.cellSystem.Cell;
+import org.fleen.blanketFlower.cellSystem.CellSystem;
+import org.fleen.blanketFlower.composition.Composition;
+import org.fleen.blanketFlower.composition.Shape;
 
 public class Renderer_Production{
   
@@ -21,18 +22,18 @@ public class Renderer_Production{
   
   public BufferedImage render(Composition composition,int cellspan){
     //get various relevant metrics
-    SGrid grid=composition.getGrid();
+    CellSystem grid=composition.getGrid();
     int 
       imagewidth=grid.getWidth()*cellspan,
       imageheight=grid.getHeight()*cellspan;
     //init image
     BufferedImage image=new BufferedImage(imagewidth,imageheight,BufferedImage.TYPE_INT_RGB);
     //render cells
-    Map<SCell,ColorIndex> cellcolorindices=getCellColorIndices(composition);
+    Map<Cell,ColorIndex> cellcolorindices=getCellColorIndices(composition);
     int cellcolorindex;
     Color cellcolor;
-    SCell cell;
-    Iterator<SCell> icells=grid.getCellIterator();
+    Cell cell;
+    Iterator<Cell> icells=grid.getCellIterator();
     while(icells.hasNext()){
       cell=icells.next();
       cellcolorindex=cellcolorindices.get(cell).value;
@@ -42,7 +43,7 @@ public class Renderer_Production{
   
   
   
-  private void renderCell(BufferedImage image,Color color,SCell cell,int cellspan){
+  private void renderCell(BufferedImage image,Color color,Cell cell,int cellspan){
     int px,py,xoff=cell.x*cellspan,yoff=cell.y*cellspan;
     for(int cx=0;cx<cellspan;cx++){
       for(int cy=0;cy<cellspan;cy++){
@@ -55,13 +56,13 @@ public class Renderer_Production{
   //sum shape chorus indices at cell
   //% against color array
   //--------------------------------
-  private Map<SCell,ColorIndex> getCellColorIndices(Composition composition){
-    Map<SCell,ColorIndex> colorindices=new HashMap<SCell,ColorIndex>();
-    List<SCell> cells;
+  private Map<Cell,ColorIndex> getCellColorIndices(Composition composition){
+    Map<Cell,ColorIndex> colorindices=new HashMap<Cell,ColorIndex>();
+    List<Cell> cells;
     ColorIndex colorindex;
-    for(SShape shape:composition.getShapes()){
+    for(Shape shape:composition.getShapes()){
       cells=shape.getCells(composition.getGrid());
-      for(SCell cell:cells){
+      for(Cell cell:cells){
         colorindex=colorindices.get(cell);
         if(colorindex==null){
           colorindex=new ColorIndex();

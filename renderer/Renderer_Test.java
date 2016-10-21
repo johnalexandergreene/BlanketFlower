@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower;
+package org.fleen.blanketFlower.renderer;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -14,12 +14,13 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import org.fleen.blanketFlower.gSquid.SCell;
-import org.fleen.blanketFlower.gSquid.SGrid;
-import org.fleen.blanketFlower.gSquid.SPolygon;
-import org.fleen.blanketFlower.gSquid.SShape;
-import org.fleen.blanketFlower.gSquid.SVertex;
-import org.fleen.blanketFlower.gSquid.SYard;
+import org.fleen.blanketFlower.cellSystem.Cell;
+import org.fleen.blanketFlower.cellSystem.CellSystem;
+import org.fleen.blanketFlower.composition.Composition;
+import org.fleen.blanketFlower.composition.Shape;
+import org.fleen.blanketFlower.geom_Boxy.BPolygon;
+import org.fleen.blanketFlower.geom_Boxy.BVertex;
+import org.fleen.blanketFlower.geom_Boxy.BYard;
 import org.fleen.util.tree.TreeNodeIterator;
 
 public class Renderer_Test{
@@ -36,7 +37,7 @@ public class Renderer_Test{
   
   public BufferedImage render(Composition composition,int cellspan){
     //get various relevant metrics
-    SGrid grid=composition.getGrid();
+    CellSystem grid=composition.getGrid();
     int 
       gridwidth=grid.getWidth(),
       gridheight=grid.getHeight(),
@@ -50,24 +51,24 @@ public class Renderer_Test{
     graphics.fillRect(1,1,imagewidth,imageheight);
     //render untouched cells
     graphics.setPaint(CELLBASE);
-    Iterator<SCell> icells=grid.getCellIterator();
-    SCell cell;
+    Iterator<Cell> icells=grid.getCellIterator();
+    Cell cell;
     while(icells.hasNext()){
       cell=icells.next();
       graphics.fillRect(cell.x*cellspan+1,cell.y*cellspan+1,cellspan-2,cellspan-2);}
     //render shape edges
     TreeNodeIterator ishapes=composition.getShapeIterator();
-    SShape shape;
+    Shape shape;
     Path2D path;
     graphics.setPaint(COLORSHAPESTROKE);
     graphics.setStroke(createStroke(WIDTHSHAPESTROKE));
     while(ishapes.hasNext()){
-      shape=(SShape)ishapes.next();
+      shape=(Shape)ishapes.next();
       if(!shape.isRoot()){
         path=getPath(shape,cellspan);
         graphics.draw(path);}}
     //render cells
-    Map<SCell,ColorIndex> cellcolorindices=getCellColorIndices(composition);
+    Map<Cell,ColorIndex> cellcolorindices=getCellColorIndices(composition);
     int cellcolorindex;
     Color cellcolor;
     icells=grid.getCellIterator();
@@ -80,7 +81,7 @@ public class Renderer_Test{
   
   
   
-  private void renderCell(BufferedImage image,Color color,SCell cell,int cellspan){
+  private void renderCell(BufferedImage image,Color color,Cell cell,int cellspan){
     int px,py,xoff=cell.x*cellspan,yoff=cell.y*cellspan;
     for(int cx=0;cx<cellspan;cx++){
       for(int cy=0;cy<cellspan;cy++){
@@ -93,13 +94,13 @@ public class Renderer_Test{
   //sum shape chorus indices at cell
   //% against color array
   //--------------------------------
-  private Map<SCell,ColorIndex> getCellColorIndices(Composition composition){
-    Map<SCell,ColorIndex> colorindices=new HashMap<SCell,ColorIndex>();
-    List<SCell> cells;
+  private Map<Cell,ColorIndex> getCellColorIndices(Composition composition){
+    Map<Cell,ColorIndex> colorindices=new HashMap<Cell,ColorIndex>();
+    List<Cell> cells;
     ColorIndex colorindex;
-    for(SShape shape:composition.getShapes()){
+    for(Shape shape:composition.getShapes()){
       cells=shape.getCells(composition.getGrid());
-      for(SCell cell:cells){
+      for(Cell cell:cells){
         colorindex=colorindices.get(cell);
         if(colorindex==null){
           colorindex=new ColorIndex();
@@ -118,15 +119,15 @@ public class Renderer_Test{
     Stroke stroke=new BasicStroke((float)strokewidth,BasicStroke.CAP_SQUARE,BasicStroke.JOIN_ROUND,0,null,0);
     return stroke;}
   
-  Path2D getPath(SShape shape,int cellspan){
-    if(shape instanceof SPolygon)
-      return getPathForPolygon((SPolygon)shape,cellspan);
+  Path2D getPath(Shape shape,int cellspan){
+    if(shape instanceof BPolygon)
+      return getPathForPolygon((BPolygon)shape,cellspan);
     else
-      return getPathForYard((SYard)shape,cellspan);}
+      return getPathForYard((BYard)shape,cellspan);}
   
-  private Path2D getPathForPolygon(SPolygon polygon,int cellspan){
+  private Path2D getPathForPolygon(BPolygon polygon,int cellspan){
     Path2D path=new Path2D.Double();
-    SVertex v=polygon.vertices.get(0);
+    BVertex v=polygon.vertices.get(0);
     path.moveTo(v.x*cellspan,v.y*cellspan);
     for(int i=1;i<polygon.vertices.size();i++){
       v=polygon.vertices.get(i);
@@ -134,9 +135,9 @@ public class Renderer_Test{
     path.closePath();
     return path;}
   
-  private Path2D getPathForYard(SYard yard,int cellspan){
+  private Path2D getPathForYard(BYard yard,int cellspan){
     Path2D path=new Path2D.Double();
-    for(SPolygon p:yard.polygons){
+    for(BPolygon p:yard.polygons){
       path.append(getPathForPolygon(p,cellspan),false);}
     return path;}
   

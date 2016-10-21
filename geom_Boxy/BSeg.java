@@ -1,12 +1,12 @@
-package org.fleen.blanketFlower.gSquid;
+package org.fleen.blanketFlower.geom_Boxy;
 
-public class SSeg{
+public class BSeg{
   
-  public SSeg(SVertex v0,SVertex v1){
+  public BSeg(BVertex v0,BVertex v1){
     this.v0=v0;
     this.v1=v1;}
   
-  SVertex v0,v1;
+  BVertex v0,v1;
   
   /*
    * return v0 -> v1 diresction

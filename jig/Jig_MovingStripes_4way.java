@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower;
+package org.fleen.blanketFlower.jig;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,10 +6,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import org.fleen.blanketFlower.gSquid.GSquid;
-import org.fleen.blanketFlower.gSquid.SPolygon;
-import org.fleen.blanketFlower.gSquid.SShape;
-import org.fleen.blanketFlower.gSquid.SVertex;
+import org.fleen.blanketFlower.composition.Shape;
+import org.fleen.blanketFlower.geom_Boxy.GB;
+import org.fleen.blanketFlower.geom_Boxy.BPolygon;
+import org.fleen.blanketFlower.geom_Boxy.BVertex;
 
 /*
  * at execute
@@ -68,15 +68,15 @@ public class Jig_MovingStripes_4way implements Jig{
   
   private boolean isOff(Stripe stripe){
     int tb,sb;//test target bound against stripe bound
-    if(stripe.dir==GSquid.DIR_NORTH){
+    if(stripe.dir==GB.DIR_NORTH){
       tb=target.getNorthBound();
       sb=stripe.getSouthBound();
       if(sb>tb)return true;
-    }else if(stripe.dir==GSquid.DIR_EAST){
+    }else if(stripe.dir==GB.DIR_EAST){
       tb=target.getEastBound();
       sb=stripe.getWestBound();
       if(sb>tb)return true;
-    }else if(stripe.dir==GSquid.DIR_SOUTH){
+    }else if(stripe.dir==GB.DIR_SOUTH){
       tb=target.getSouthBound();
       sb=stripe.getNorthBound();
       if(sb<tb)return true;
@@ -109,11 +109,11 @@ public class Jig_MovingStripes_4way implements Jig{
       speed=rnd.nextInt(3)+1,//TODO curve this
       dir=rnd.nextInt(4);//1 of the 4 directions  
     Stripe stripe;
-    if(dir==GSquid.DIR_NORTH){
+    if(dir==GB.DIR_NORTH){
       stripe=createStripe_North(width,speed);
-    }else if(dir==GSquid.DIR_EAST){
+    }else if(dir==GB.DIR_EAST){
       stripe=createStripe_East(width,speed);
-    }else if(dir==GSquid.DIR_SOUTH){
+    }else if(dir==GB.DIR_SOUTH){
       stripe=createStripe_South(width,speed);
     }else{//dir==GSquid.DIR_WEST
       stripe=createStripe_West(width,speed);}  
@@ -125,48 +125,48 @@ public class Jig_MovingStripes_4way implements Jig{
   Stripe createStripe_North(int width,int speed){
     int[] tb=target.getBounds();//xmin,ymin,xmax,ymax
     int north=0,east=tb[2],south=-width,west=0;
-    SVertex[] vertices={ 
-      new SVertex(west,south),
-      new SVertex(west,north),
-      new SVertex(east,north),
-      new SVertex(east,south)};
-    Stripe stripe=new Stripe(Arrays.asList(vertices),rnd.nextInt(3),null,GSquid.DIR_NORTH,speed);
+    BVertex[] vertices={ 
+      new BVertex(west,south),
+      new BVertex(west,north),
+      new BVertex(east,north),
+      new BVertex(east,south)};
+    Stripe stripe=new Stripe(Arrays.asList(vertices),rnd.nextInt(3),null,GB.DIR_NORTH,speed);
     return stripe;}
   
   //create it just over the west edge of the target
   Stripe createStripe_East(int width,int speed){
     int[] tb=target.getBounds();//xmin,ymin,xmax,ymax
     int north=tb[3],east=0,south=0,west=-width;
-    SVertex[] vertices={ 
-      new SVertex(west,south),
-      new SVertex(west,north),
-      new SVertex(east,north),
-      new SVertex(east,south)};
-    Stripe stripe=new Stripe(Arrays.asList(vertices),rnd.nextInt(3),null,GSquid.DIR_EAST,speed);
+    BVertex[] vertices={ 
+      new BVertex(west,south),
+      new BVertex(west,north),
+      new BVertex(east,north),
+      new BVertex(east,south)};
+    Stripe stripe=new Stripe(Arrays.asList(vertices),rnd.nextInt(3),null,GB.DIR_EAST,speed);
     return stripe;}
   
   //create it just over the east edge of the target
   Stripe createStripe_West(int width,int speed){
     int[] tb=target.getBounds();//xmin,ymin,xmax,ymax
     int north=tb[3],east=tb[2]+width,south=0,west=tb[2];
-    SVertex[] vertices={ 
-      new SVertex(west,south),
-      new SVertex(west,north),
-      new SVertex(east,north),
-      new SVertex(east,south)};
-    Stripe stripe=new Stripe(Arrays.asList(vertices),rnd.nextInt(3),null,GSquid.DIR_WEST,speed);
+    BVertex[] vertices={ 
+      new BVertex(west,south),
+      new BVertex(west,north),
+      new BVertex(east,north),
+      new BVertex(east,south)};
+    Stripe stripe=new Stripe(Arrays.asList(vertices),rnd.nextInt(3),null,GB.DIR_WEST,speed);
     return stripe;}
   
   //create it just over the north edge of the target
   Stripe createStripe_South(int width,int speed){
     int[] tb=target.getBounds();//xmin,ymin,xmax,ymax
     int north=tb[3]+width,east=tb[2],south=tb[3],west=0;
-    SVertex[] vertices={ 
-      new SVertex(west,south),
-      new SVertex(west,north),
-      new SVertex(east,north),
-      new SVertex(east,south)};
-    Stripe stripe=new Stripe(Arrays.asList(vertices),rnd.nextInt(3),null,GSquid.DIR_SOUTH,speed);
+    BVertex[] vertices={ 
+      new BVertex(west,south),
+      new BVertex(west,north),
+      new BVertex(east,north),
+      new BVertex(east,south)};
+    Stripe stripe=new Stripe(Arrays.asList(vertices),rnd.nextInt(3),null,GB.DIR_SOUTH,speed);
     return stripe;}
   
   /*
@@ -179,9 +179,9 @@ public class Jig_MovingStripes_4way implements Jig{
    */
   
   @SuppressWarnings("serial")
-  class Stripe extends SPolygon{
+  class Stripe extends BPolygon{
 
-    public Stripe(List<SVertex> vertices,int chorusindex,List<String> tags,int dir,int speed){
+    public Stripe(List<BVertex> vertices,int chorusindex,List<String> tags,int dir,int speed){
       super(vertices,chorusindex,tags);
       this.dir=dir;
       this.speed=speed;
@@ -207,12 +207,12 @@ public class Jig_MovingStripes_4way implements Jig{
    * ################################
    */
   
-  SShape target;  
+  Shape target;  
 
-  public void setTarget(SShape target){
+  public void setTarget(Shape target){
     this.target=target;}
   
-  public SShape getTarget(){
+  public Shape getTarget(){
     return target;}
 
 }

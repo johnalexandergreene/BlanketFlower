@@ -5,11 +5,10 @@ import java.awt.EventQueue;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-import org.fleen.blanketFlower.Composition;
-import org.fleen.blanketFlower.Jigger;
-import org.fleen.blanketFlower.Jigger_000;
-import org.fleen.blanketFlower.Renderer_Production;
-import org.fleen.blanketFlower.Renderer_Test;
+import org.fleen.blanketFlower.composition.Composition;
+import org.fleen.blanketFlower.jig.Jigger;
+import org.fleen.blanketFlower.jig.Jigger_000;
+import org.fleen.blanketFlower.renderer.Renderer_Production;
 
 public class Test{
   
@@ -118,9 +117,9 @@ public class Test{
     for(int i=0;i<555;i++){
       test.executeJigger();
       test.renderComposition();
-      test.export();
+//      test.export();
       try{
-        Thread.sleep(10,0);
+        Thread.sleep(100,0);
       }catch(Exception x){x.printStackTrace();}}
     System.out.println("####end process");
     }

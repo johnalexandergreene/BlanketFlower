@@ -1,11 +1,15 @@
-package org.fleen.blanketFlower.gSquid;
+package org.fleen.blanketFlower.composition;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-import org.fleen.blanketFlower.Jig;
 import org.fleen.blanketFlower.BlanketFlower;
+import org.fleen.blanketFlower.cellSystem.Cell;
+import org.fleen.blanketFlower.cellSystem.CellSystem;
+import org.fleen.blanketFlower.geom_Boxy.GB;
+import org.fleen.blanketFlower.geom_Boxy.BVertex;
+import org.fleen.blanketFlower.jig.Jig;
 import org.fleen.util.tag.TagManager;
 import org.fleen.util.tag.Tagged;
 import org.fleen.util.tree.TreeNode;
@@ -26,7 +30,7 @@ import org.fleen.util.tree.TreeNodeServices;
  *    eg squaregrid, 2 axii, 4 directions, integer coors
  *   
  */
-public abstract class SShape implements TreeNode,Serializable,BlanketFlower,Tagged{
+public abstract class Shape implements TreeNode,Serializable,BlanketFlower,Tagged{
   
   private static final long serialVersionUID=4092254036116132280L;
 
@@ -36,7 +40,7 @@ public abstract class SShape implements TreeNode,Serializable,BlanketFlower,Tagg
    * ################################
    */
   
-  public SShape(int chorusindex,List<String> tags){
+  public Shape(int chorusindex,List<String> tags){
     this.chorusindex=chorusindex;
     addTags(tags);}
   
@@ -46,7 +50,7 @@ public abstract class SShape implements TreeNode,Serializable,BlanketFlower,Tagg
    * ################################
    */
   
-  public abstract List<SVertex> getVertices();
+  public abstract List<BVertex> getVertices();
   
   //TODO we should do these in NESW order
   public int[] getBounds(){
@@ -55,8 +59,8 @@ public abstract class SShape implements TreeNode,Serializable,BlanketFlower,Tagg
       ymin=Integer.MAX_VALUE,
       xmax=Integer.MIN_VALUE,
       ymax=Integer.MIN_VALUE;
-    List<SVertex> vertices=getVertices();
-    for(SVertex v:vertices){
+    List<BVertex> vertices=getVertices();
+    for(BVertex v:vertices){
       if(v.x<xmin)xmin=v.x;
       if(v.y<ymin)ymin=v.y;
       if(v.x>xmax)xmax=v.x;
@@ -75,21 +79,21 @@ public abstract class SShape implements TreeNode,Serializable,BlanketFlower,Tagg
   public int getWestBound(){
     return getBounds()[0];}
   
-  public abstract List<SCell> getCells(SGrid grid);
+  public abstract List<Cell> getCells(CellSystem grid);
   
   public void move(int dir,int dis){
     //get the offset
     int xoff,yoff;
-    if(dir==GSquid.DIR_NORTH){
+    if(dir==GB.DIR_NORTH){
       xoff=0;
       yoff=dis;
-    }else if(dir==GSquid.DIR_EAST){
+    }else if(dir==GB.DIR_EAST){
       xoff=dis;
       yoff=0;
-    }else if(dir==GSquid.DIR_SOUTH){
+    }else if(dir==GB.DIR_SOUTH){
       xoff=0;
       yoff=-dis;
-    }else if(dir==GSquid.DIR_WEST){
+    }else if(dir==GB.DIR_WEST){
       xoff=-dis;
       yoff=0;
     }else{
@@ -97,9 +101,21 @@ public abstract class SShape implements TreeNode,Serializable,BlanketFlower,Tagg
       return;
     }
     //move vertices
-    for(SVertex v:getVertices()){
+    for(BVertex v:getVertices()){
       v.x+=xoff;
       v.y+=yoff;}}
+  
+  /*
+   * ++++++++++++++++++++++++++++++++
+   * LOCAL GRID
+   * Each shape defines a local grid
+   * origin is v0
+   * north is dir(v0,v1)
+   * east and west are relative to this shape's parent depending on twist chirality
+   * if this shape's twist is clockwise then its east and west are the same as that of the parent, relative to local north
+   * if this shape's twist is counterclockwise then its east and west are the opposite that of the parent, relative to local north
+   * ++++++++++++++++++++++++++++++++
+   */
   
   /*
    * ################################
@@ -201,13 +217,13 @@ public abstract class SShape implements TreeNode,Serializable,BlanketFlower,Tagg
    */
   
   private int chorusindex;
-  private SShapeSignature signature=null;
+  private ShapeSignature signature=null;
   
   public int getChorusIndex(){
     return chorusindex;}
   
-  public SShapeSignature getSignature(){
-    if(signature==null)signature=new SShapeSignature(this);
+  public ShapeSignature getSignature(){
+    if(signature==null)signature=new ShapeSignature(this);
     return signature;}
   
   /*

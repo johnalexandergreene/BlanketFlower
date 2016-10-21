@@ -1,18 +1,30 @@
-package org.fleen.blanketFlower;
+package org.fleen.blanketFlower.composition;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.fleen.blanketFlower.gSquid.SGrid;
-import org.fleen.blanketFlower.gSquid.SPolygon;
-import org.fleen.blanketFlower.gSquid.SShape;
-import org.fleen.blanketFlower.gSquid.SVertex;
+import org.fleen.blanketFlower.cellSystem.CellSystem;
+import org.fleen.blanketFlower.geom_Boxy.BPolygon;
+import org.fleen.blanketFlower.geom_Boxy.BVertex;
 import org.fleen.util.tree.TreeNodeIterator;
 
-public class Composition{
+/*
+ * A tree of shapes 
+ * Init, access 
+ */
+public class CompositionOLD{
   
-  public Composition(int w,int h){
+  /*
+   * ################################
+   * CONSTRUCTOR
+   * ################################
+   */
+  
+  public CompositionOLD(Shape root){
+    this.root=root;}
+  
+  public CompositionOLD(int w,int h){
     width=w;
     height=h;
     initGrid();
@@ -32,12 +44,12 @@ public class Composition{
    * ################################
    */
   
-  private SGrid grid;
+  private CellSystem grid;
   
   private void initGrid(){
-    grid=new SGrid(width,height);}
+    grid=new CellSystem(width,height);}
   
-  public SGrid getGrid(){
+  public CellSystem getGrid(){
     return grid;}
   
   /*
@@ -49,36 +61,36 @@ public class Composition{
   private static final String[] INITROOTTAGS={};//TODO?
   
   //the root is a grid-fitting rectangle
-  private SShape root;
+  private Shape root;
   
   private void initRoot(){
-    SVertex[] v={new SVertex(0,0),new SVertex(0,height),new SVertex(width,height),new SVertex(width,0)};
-    root=new SPolygon(
+    BVertex[] v={new BVertex(0,0),new BVertex(0,height),new BVertex(width,height),new BVertex(width,0)};
+    root=new BPolygon(
       Arrays.asList(v),
       0,
       Arrays.asList(INITROOTTAGS));}
   
-  public SShape getRoot(){
+  public Shape getRoot(){
     return root;}
   
-  TreeNodeIterator getShapeIterator(){
+  public TreeNodeIterator getShapeIterator(){
     return new TreeNodeIterator(root);}
   
-  public List<SShape> getShapes(){
+  public List<Shape> getShapes(){
     TreeNodeIterator i=new TreeNodeIterator(root);
-    List<SShape> shapes=new ArrayList<SShape>();
-    SShape shape;
+    List<Shape> shapes=new ArrayList<Shape>();
+    Shape shape;
     while(i.hasNext()){
-      shape=(SShape)i.next();
+      shape=(Shape)i.next();
       shapes.add(shape);}
     return shapes;}
   
-  public List<SShape> getLeafShapes(){
+  public List<Shape> getLeafShapes(){
     TreeNodeIterator i=new TreeNodeIterator(root);
-    List<SShape> leaves=new ArrayList<SShape>();
-    SShape shape;
+    List<Shape> leaves=new ArrayList<Shape>();
+    Shape shape;
     while(i.hasNext()){
-      shape=(SShape)i.next();
+      shape=(Shape)i.next();
       if(shape.isLeaf())
         leaves.add(shape);}
     return leaves;}

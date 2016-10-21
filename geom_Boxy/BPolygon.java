@@ -1,15 +1,19 @@
-package org.fleen.blanketFlower.gSquid;
+package org.fleen.blanketFlower.geom_Boxy;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import org.fleen.blanketFlower.cellSystem.Cell;
+import org.fleen.blanketFlower.cellSystem.CellSystem;
+import org.fleen.blanketFlower.composition.Shape;
 
 /*
  * an SPolygon is defined by a list of SVertices
  * orientation and twist matter so if we want symmetry then we need to generate symmetric figures in our jigs 
  *   
  */
-public class SPolygon extends SShape{
+public class BPolygon extends Shape{
   
   private static final long serialVersionUID=1442016090376006753L;
   
@@ -19,9 +23,9 @@ public class SPolygon extends SShape{
    * ################################
    */
   
-  public SPolygon(List<SVertex> vertices,int chorusindex,List<String> tags){
+  public BPolygon(List<BVertex> vertices,int chorusindex,List<String> tags){
     super(chorusindex,tags);
-    this.vertices=new ArrayList<SVertex>(vertices);
+    this.vertices=new ArrayList<BVertex>(vertices);
     System.out.println("polygon init vertex count = "+this.vertices.size());}
   
   /*
@@ -30,27 +34,27 @@ public class SPolygon extends SShape{
    * ################################
    */
   
-  public List<SVertex> vertices;
+  public List<BVertex> vertices;
   
-  List<SSeg> getSegs(){
-    List<SSeg> segs=new ArrayList<SSeg>();
+  List<BSeg> getSegs(){
+    List<BSeg> segs=new ArrayList<BSeg>();
     int i1,
       s=vertices.size();
-    SVertex v0,v1;
-    SSeg seg;
+    BVertex v0,v1;
+    BSeg seg;
     for(int i0=0;i0<s;i0++){
       i1=i0+1;
       if(i1==s)i1=0;
       v0=vertices.get(i0);
       v1=vertices.get(i1);
-      seg=new SSeg(v0,v1);
+      seg=new BSeg(v0,v1);
       segs.add(seg);}
     return segs;}
   
   public boolean getTwist(){
     return Util.getTwist(this);}
   
-  public List<SVertex> getVertices(){
+  public List<BVertex> getVertices(){
     return vertices;}
   
   /*
@@ -64,11 +68,11 @@ public class SPolygon extends SShape{
    * ################################
    */
   
-  public List<SCell> getCells(SGrid grid){
-    List<SCell> 
+  public List<Cell> getCells(CellSystem grid){
+    List<Cell> 
       fillcells=Util.getFill(this),
-      gridfillintersection=new ArrayList<SCell>();
-    for(SCell c:fillcells){
+      gridfillintersection=new ArrayList<Cell>();
+    for(Cell c:fillcells){
       if(grid.containsCell(c))
         gridfillintersection.add(grid.getCell(c));
       else

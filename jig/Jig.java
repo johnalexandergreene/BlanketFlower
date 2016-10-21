@@ -1,6 +1,6 @@
-package org.fleen.blanketFlower;
+package org.fleen.blanketFlower.jig;
 
-import org.fleen.blanketFlower.gSquid.SShape;
+import org.fleen.blanketFlower.composition.Shape;
 
 
 /*
@@ -28,8 +28,8 @@ public interface Jig{
   Jig dupe();
   
   //the target is the shape that we're editing the shapes of
-  void setTarget(SShape target);
+  void setTarget(Shape target);
   
-  SShape getTarget();
+  Shape getTarget();
   
 }

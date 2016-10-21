@@ -1,13 +1,13 @@
-package org.fleen.blanketFlower;
+package org.fleen.blanketFlower.jig;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import org.fleen.blanketFlower.gSquid.SPolygon;
-import org.fleen.blanketFlower.gSquid.SShape;
-import org.fleen.blanketFlower.gSquid.SVertex;
+import org.fleen.blanketFlower.composition.Shape;
+import org.fleen.blanketFlower.geom_Boxy.BPolygon;
+import org.fleen.blanketFlower.geom_Boxy.BVertex;
 
 /*
  * at execute
@@ -42,13 +42,13 @@ public class Jig_MovingStripe_Simple implements Jig{
     if(rnd.nextDouble()<CREATENEWSTRIPEPROBABILITY||stripes.isEmpty())
       createStripe();
     //move stripes
-    for(SPolygon stripe:stripes)
+    for(BPolygon stripe:stripes)
       moveStripe(stripe);
     //remove any stripes that have run off the edge
     removeOffStripe();
     }
   
-  List<SPolygon> stripes=new ArrayList<SPolygon>();
+  List<BPolygon> stripes=new ArrayList<BPolygon>();
   
   
   static final int 
@@ -59,12 +59,12 @@ public class Jig_MovingStripe_Simple implements Jig{
     int width=rnd.nextInt(STRIPEMAXWIDTH-STRIPEMINWIDTH)+STRIPEMINWIDTH;
     int east=0,west=-width,north=target.getBounds()[3],south=0;
     if(east-west<STRIPEMINWIDTH)return;//fail
-    SVertex[] vertices={ 
-      new SVertex(west,south),
-      new SVertex(west,north),
-      new SVertex(east,north),
-      new SVertex(east,south)};
-    SPolygon p=new SPolygon(Arrays.asList(vertices),rnd.nextInt(3),null);
+    BVertex[] vertices={ 
+      new BVertex(west,south),
+      new BVertex(west,north),
+      new BVertex(east,north),
+      new BVertex(east,south)};
+    BPolygon p=new BPolygon(Arrays.asList(vertices),rnd.nextInt(3),null);
     target.addChild(p);
     p.setParent(target);
     
@@ -75,14 +75,14 @@ public class Jig_MovingStripe_Simple implements Jig{
   /*
    * add 1 to the coors of each vertex
    */
-  private void moveStripe(SPolygon stripe){
-    for(SVertex v:stripe.vertices)
+  private void moveStripe(BPolygon stripe){
+    for(BVertex v:stripe.vertices)
       v.x++;}
   
   private void removeOffStripe(){
     if(stripes.isEmpty())return;
-    SPolygon p=stripes.get(0);
-    SVertex vsouthwest=p.vertices.get(0);
+    BPolygon p=stripes.get(0);
+    BVertex vsouthwest=p.vertices.get(0);
     if(vsouthwest.x>target.getBounds()[2]){
       target.removeChild(p);
       p.setParent(null);
@@ -104,12 +104,12 @@ public class Jig_MovingStripe_Simple implements Jig{
    * ################################
    */
   
-  SShape target;  
+  Shape target;  
 
-  public void setTarget(SShape target){
+  public void setTarget(Shape target){
     this.target=target;}
   
-  public SShape getTarget(){
+  public Shape getTarget(){
     return target;}
 
 }

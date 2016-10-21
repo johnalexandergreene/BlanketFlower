@@ -1,6 +1,6 @@
-package org.fleen.blanketFlower.gSquid;
+package org.fleen.blanketFlower.cellSystem;
 
-public class SCell{
+public class Cell{
   
   /*
    * ################################
@@ -8,7 +8,7 @@ public class SCell{
    * ################################
    */
   
-  SCell(int x,int y){
+  public Cell(int x,int y){
     this.x=x;
     this.y=y;}
   
@@ -20,17 +20,17 @@ public class SCell{
   
   public int x,y;
   
-  public SCell getEast(){
-    return new SCell(x+1,y);}
+  public Cell getEast(){
+    return new Cell(x+1,y);}
   
-  public SCell getWest(){
-    return new SCell(x-1,y);}
+  public Cell getWest(){
+    return new Cell(x-1,y);}
   
-  public SCell getNorth(){
-    return new SCell(x,y+1);}
+  public Cell getNorth(){
+    return new Cell(x,y+1);}
   
-  public SCell getSouth(){
-    return new SCell(x,y-1);}
+  public Cell getSouth(){
+    return new Cell(x,y-1);}
   
   /*
    * ################################
@@ -42,7 +42,7 @@ public class SCell{
     return x+37*y;}
   
   public boolean equals(Object a){
-    SCell b=(SCell)a;
+    Cell b=(Cell)a;
     return b.x==x&&b.y==y;}
   
   public String toString(){

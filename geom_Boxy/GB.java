@@ -1,12 +1,9 @@
-package org.fleen.blanketFlower.gSquid;
+package org.fleen.blanketFlower.geom_Boxy;
 
 /*
- * Square Geometry
- * square cells and vertices
- * each cell is defined by 4 vertices 
- * 
+ * Boxy Geometry
  */
-public class GSquid{
+public class GB{
   
   /*
    * ################################

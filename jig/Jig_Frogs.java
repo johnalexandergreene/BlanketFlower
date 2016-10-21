@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower;
+package org.fleen.blanketFlower.jig;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import org.fleen.blanketFlower.gSquid.SCell;
-import org.fleen.blanketFlower.gSquid.SGrid;
+import org.fleen.blanketFlower.cellSystem.Cell;
+import org.fleen.blanketFlower.cellSystem.CellSystem;
 
 /*
  * create a C shaped frog
@@ -29,7 +29,7 @@ public class Jig_Frogs implements Jig{
    * ################################
    */ 
   
-  public Jig_Frogs(SGrid target){
+  public Jig_Frogs(CellSystem target){
     setTarget(target);}
   
   /*
@@ -38,12 +38,12 @@ public class Jig_Frogs implements Jig{
    * ################################
    */
   
-  SGrid target;
+  CellSystem target;
   
-  public void setTarget(SGrid target){
+  public void setTarget(CellSystem target){
     this.target=target;}
 
-  public SGrid getTarget(){
+  public CellSystem getTarget(){
     return target;}
 
   /*
@@ -57,10 +57,10 @@ public class Jig_Frogs implements Jig{
   Set<Frog> frogs=new HashSet<Frog>();
   static final int FROGVAL=2;
   
-  public List<SCell> execute(){
-    List<SCell>
+  public List<Cell> execute(){
+    List<Cell>
       frogcells,
-      touched=new ArrayList<SCell>();
+      touched=new ArrayList<Cell>();
     //create
     if(rnd.nextDouble()<FROGCREATIONPROBABILITY)
       createFrog();
@@ -69,7 +69,7 @@ public class Jig_Frogs implements Jig{
       frog.x++;
       frogcells=getFrogCells(frog);
       touched.addAll(frogcells);
-      for(SCell c:frogcells)
+      for(Cell c:frogcells)
         c.test+=FROGVAL;}
     //cull
     Iterator<Frog> i=frogs.iterator();
@@ -82,9 +82,9 @@ public class Jig_Frogs implements Jig{
     //
     return touched;}
   
-  List<SCell> getFrogCells(Frog frog){
-    List<SCell> frogcells=new ArrayList<SCell>();
-    SCell c=target.getCell(frog.x,frog.y);
+  List<Cell> getFrogCells(Frog frog){
+    List<Cell> frogcells=new ArrayList<Cell>();
+    Cell c=target.getCell(frog.x,frog.y);
     if(c!=null)frogcells.add(c);
     c=target.getCell(frog.x+1,frog.y);
     if(c!=null)frogcells.add(c);

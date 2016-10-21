@@ -1,10 +1,11 @@
-package org.fleen.blanketFlower.gSquid;
+package org.fleen.blanketFlower.geom_Boxy;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.fleen.blanketFlower.cellSystem.Cell;
 import org.fleen.geom_2D.GD;
 
 /*
@@ -17,7 +18,7 @@ public class Util{
    * TODO 
    * also, cells should hold no data. Just make em raw
    */
-  public static final List<SPolygon> getPolygons(List<SCell> cells){
+  public static final List<BPolygon> getPolygons(List<Cell> cells){
     return null;//TODO
   }
   
@@ -36,32 +37,32 @@ public class Util{
 //  public static List<SCell> testheadcells,testtailcells;
   
   
-  public static final List<SCell> getFill(SPolygon polygon){
+  public static final List<Cell> getFill(BPolygon polygon){
     //get twist
     boolean twist=polygon.getTwist();
     //get headcells and tailcells
     //that's the vertical strands of cells to the left and right of open spaces
-    Set<SCell> 
-      heads=new HashSet<SCell>(),
-      tails=new HashSet<SCell>();
+    Set<Cell> 
+      heads=new HashSet<Cell>(),
+      tails=new HashSet<Cell>();
     int dir;
     if(twist==TWIST_CW){
-      for(SSeg seg:polygon.getSegs()){
+      for(BSeg seg:polygon.getSegs()){
         dir=seg.getForward();
         if(dir==DIR_NORTH)
           heads.addAll(getCellsOnRight(seg,DIR_NORTH));
         else if(dir==DIR_SOUTH)
           tails.addAll(getCellsOnRight(seg,DIR_SOUTH));}
     }else{//twist==TWIST_CCW
-      for(SSeg seg:polygon.getSegs()){
+      for(BSeg seg:polygon.getSegs()){
         dir=seg.getForward();
         if(dir==DIR_SOUTH)
           heads.addAll(getCellsOnLeft(seg,DIR_SOUTH));
         else if(dir==DIR_NORTH)
           tails.addAll(getCellsOnLeft(seg,DIR_NORTH));}}
     //fill in between heads and tails
-    List<SCell> fillz=new ArrayList<SCell>();
-    for(SCell h:heads)
+    List<Cell> fillz=new ArrayList<Cell>();
+    for(Cell h:heads)
       fillRow(h,tails,fillz);
     fillz.addAll(tails);
     
@@ -71,30 +72,30 @@ public class Util{
     
   }
   
-  private static final void fillRow(SCell head,Set<SCell> tails,List<SCell> fillz){
-    SCell a=head;
+  private static final void fillRow(Cell head,Set<Cell> tails,List<Cell> fillz){
+    Cell a=head;
     while(!tails.contains(a)){
       fillz.add(a);
       a=a.getEast();}}
   
-  private static final List<SCell> getCellsOnRight(SSeg seg,int heading){
-    List<SCell> cells=new ArrayList<SCell>();
+  private static final List<Cell> getCellsOnRight(BSeg seg,int heading){
+    List<Cell> cells=new ArrayList<Cell>();
     if(heading==DIR_NORTH){
       for(int y=seg.v0.y;y<seg.v1.y;y++)
-        cells.add(new SCell(seg.v0.x,y));  
+        cells.add(new Cell(seg.v0.x,y));  
     }else{//heading==DIR_SOUTH
       for(int y=seg.v0.y-1;y>seg.v1.y-1;y--)
-        cells.add(new SCell(seg.v0.x-1,y));}
+        cells.add(new Cell(seg.v0.x-1,y));}
     return cells;}
   
-  private static final List<SCell> getCellsOnLeft(SSeg seg,int heading){
-    List<SCell> cells=new ArrayList<SCell>();
+  private static final List<Cell> getCellsOnLeft(BSeg seg,int heading){
+    List<Cell> cells=new ArrayList<Cell>();
     if(heading==DIR_NORTH){
       for(int y=seg.v0.y;y<seg.v1.y;y++)
-        cells.add(new SCell(seg.v0.x-1,y));  
+        cells.add(new Cell(seg.v0.x-1,y));  
     }else{//heading==DIR_SOUTH
       for(int y=seg.v0.y-1;y>seg.v1.y-1;y--)
-        cells.add(new SCell(seg.v0.x,y));}
+        cells.add(new Cell(seg.v0.x,y));}
     return cells;}
   
   
@@ -109,10 +110,10 @@ public class Util{
    * 
    * TODO make a faster version
    */
-  public static final boolean getTwist(SPolygon polygon){
+  public static final boolean getTwist(BPolygon polygon){
     int s=polygon.vertices.size();
     double[][] d=new double[polygon.vertices.size()][2];
-    SVertex v;
+    BVertex v;
     for(int i=0;i<s;i++){
       v=polygon.vertices.get(i);
       d[i][0]=v.x;
@@ -137,10 +138,10 @@ public class Util{
     TURN_LEFT=-1,
     TURN_REVERSE=-2;
   
-  public static final int getDirection(SVertex v0,SVertex v1){
+  public static final int getDirection(BVertex v0,BVertex v1){
     return getDirection(v0.x,v0.y,v1.x,v1.y);}
   
-  public static final int getDirection(SCell c0,SCell c1){
+  public static final int getDirection(Cell c0,Cell c1){
     return getDirection(c0.x,c0.y,c1.x,c1.y);}
   
   public static final int getDirection(int x0,int y0,int x1,int y1){
@@ -162,7 +163,7 @@ public class Util{
     }else{//diagonal
       return DIR_INVALID;}}
   
-  public static final int getDistance(SVertex v0,SVertex v1){
+  public static final int getDistance(BVertex v0,BVertex v1){
     return getDistance(v0.x,v0.y,v1.x,v1.y);}
   
   public static final int getDistance(int x0,int y0,int x1,int y1){

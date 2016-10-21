@@ -1,6 +1,6 @@
 package org.fleen.blanketFlower.jig;
 
-import org.fleen.blanketFlower.composition.Composition;
+import org.fleen.blanketFlower.bComposition.BComposition;
 
 /*
  * a jigger selects and executes jigs for a composition
@@ -13,7 +13,7 @@ public interface Jigger{
   /*
    * set the composition who's shape tree were doing stuff to
    */
-  void setComposition(Composition composition);
+  void setComposition(BComposition composition);
   
   /*
    * address the shapes in the shape tree

@@ -10,19 +10,19 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import org.fleen.blanketFlower.cellSystem.Cell;
-import org.fleen.blanketFlower.cellSystem.CellSystem;
-import org.fleen.blanketFlower.composition.Composition;
-import org.fleen.blanketFlower.composition.Shape;
+import org.fleen.blanketFlower.bComposition.BComposition;
+import org.fleen.blanketFlower.bComposition.BShape;
+import org.fleen.blanketFlower.grid.Cell;
+import org.fleen.blanketFlower.grid.Grid;
 
 public class Renderer_Production{
   
   public Renderer_Production(){
     colors=createPalette(COLORCOUNT);}
   
-  public BufferedImage render(Composition composition,int cellspan){
+  public BufferedImage render(BComposition composition,int cellspan){
     //get various relevant metrics
-    CellSystem grid=composition.getGrid();
+    Grid grid=composition.getGrid();
     int 
       imagewidth=grid.getWidth()*cellspan,
       imageheight=grid.getHeight()*cellspan;
@@ -56,11 +56,11 @@ public class Renderer_Production{
   //sum shape chorus indices at cell
   //% against color array
   //--------------------------------
-  private Map<Cell,ColorIndex> getCellColorIndices(Composition composition){
+  private Map<Cell,ColorIndex> getCellColorIndices(BComposition composition){
     Map<Cell,ColorIndex> colorindices=new HashMap<Cell,ColorIndex>();
     List<Cell> cells;
     ColorIndex colorindex;
-    for(Shape shape:composition.getShapes()){
+    for(BShape shape:composition.getShapes()){
       cells=shape.getCells(composition.getGrid());
       for(Cell cell:cells){
         colorindex=colorindices.get(cell);

@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import org.fleen.blanketFlower.composition.Shape;
+import org.fleen.blanketFlower.bComposition.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BPolygon;
 import org.fleen.blanketFlower.geom_Boxy.BVertex;
 
@@ -104,12 +104,12 @@ public class Jig_MovingStripe_Simple implements Jig{
    * ################################
    */
   
-  Shape target;  
+  BShape target;  
 
-  public void setTarget(Shape target){
+  public void setTarget(BShape target){
     this.target=target;}
   
-  public Shape getTarget(){
+  public BShape getTarget(){
     return target;}
 
 }

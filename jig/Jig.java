@@ -1,6 +1,6 @@
 package org.fleen.blanketFlower.jig;
 
-import org.fleen.blanketFlower.composition.Shape;
+import org.fleen.blanketFlower.bComposition.BShape;
 
 
 /*
@@ -28,8 +28,8 @@ public interface Jig{
   Jig dupe();
   
   //the target is the shape that we're editing the shapes of
-  void setTarget(Shape target);
+  void setTarget(BShape target);
   
-  Shape getTarget();
+  BShape getTarget();
   
 }

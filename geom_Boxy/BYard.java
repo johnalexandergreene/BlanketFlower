@@ -3,9 +3,9 @@ package org.fleen.blanketFlower.geom_Boxy;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.fleen.blanketFlower.composition.Shape;
+import org.fleen.blanketFlower.bComposition.BShape;
 
-public class BYard extends Shape{
+public class BYard extends BShape{
 
   public BYard(int chorusindex,List<String> tags){
     super(chorusindex,tags);

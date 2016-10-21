@@ -1,17 +1,17 @@
 package org.fleen.blanketFlower.jig;
 
-import org.fleen.blanketFlower.composition.Composition;
-import org.fleen.blanketFlower.composition.Shape;
+import org.fleen.blanketFlower.bComposition.BComposition;
+import org.fleen.blanketFlower.bComposition.BShape;
 
 public class Jigger_000 implements Jigger{
 
-  Composition composition;
+  BComposition composition;
   
-  public void setComposition(Composition composition){
+  public void setComposition(BComposition composition){
     this.composition=composition;}
 
   public void execute(){
-    for(Shape shape:composition.getShapes()){
+    for(BShape shape:composition.getShapes()){
       if(shape.getDepth()<1){
         if(shape.jig==null){
           shape.jig=new Jig_MovingStripes_4way();

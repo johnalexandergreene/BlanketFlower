@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import org.fleen.blanketFlower.cellSystem.Cell;
-import org.fleen.blanketFlower.cellSystem.CellSystem;
+import org.fleen.blanketFlower.grid.Cell;
+import org.fleen.blanketFlower.grid.Grid;
 
 /*
  * create a C shaped frog
@@ -29,7 +29,7 @@ public class Jig_Frogs implements Jig{
    * ################################
    */ 
   
-  public Jig_Frogs(CellSystem target){
+  public Jig_Frogs(Grid target){
     setTarget(target);}
   
   /*
@@ -38,12 +38,12 @@ public class Jig_Frogs implements Jig{
    * ################################
    */
   
-  CellSystem target;
+  Grid target;
   
-  public void setTarget(CellSystem target){
+  public void setTarget(Grid target){
     this.target=target;}
 
-  public CellSystem getTarget(){
+  public Grid getTarget(){
     return target;}
 
   /*

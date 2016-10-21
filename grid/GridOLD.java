@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.cellSystem;
+package org.fleen.blanketFlower.grid;
 
 import java.util.Iterator;
 
@@ -10,9 +10,9 @@ import java.util.Iterator;
  * one technique for rendering the composition is to get the sum of chorus indices for all shapes that enclose a cell : ISUM
  * then mod ISUM against an array of colors
  */
-public class CellSystem{
+public class GridOLD{
   
-  public CellSystem(int width,int height){
+  public GridOLD(int width,int height){
     initCells(width,height);}
   
   Cell[][] cells;

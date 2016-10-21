@@ -1,14 +1,14 @@
-package org.fleen.blanketFlower.composition;
+package org.fleen.blanketFlower.bComposition;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
 import org.fleen.blanketFlower.BlanketFlower;
-import org.fleen.blanketFlower.cellSystem.Cell;
-import org.fleen.blanketFlower.cellSystem.CellSystem;
 import org.fleen.blanketFlower.geom_Boxy.GB;
 import org.fleen.blanketFlower.geom_Boxy.BVertex;
+import org.fleen.blanketFlower.grid.Cell;
+import org.fleen.blanketFlower.grid.Grid;
 import org.fleen.blanketFlower.jig.Jig;
 import org.fleen.util.tag.TagManager;
 import org.fleen.util.tag.Tagged;
@@ -30,7 +30,7 @@ import org.fleen.util.tree.TreeNodeServices;
  *    eg squaregrid, 2 axii, 4 directions, integer coors
  *   
  */
-public abstract class Shape implements TreeNode,Serializable,BlanketFlower,Tagged{
+public abstract class BShape implements TreeNode,Serializable,BlanketFlower,Tagged{
   
   private static final long serialVersionUID=4092254036116132280L;
 
@@ -40,7 +40,7 @@ public abstract class Shape implements TreeNode,Serializable,BlanketFlower,Tagge
    * ################################
    */
   
-  public Shape(int chorusindex,List<String> tags){
+  public BShape(int chorusindex,List<String> tags){
     this.chorusindex=chorusindex;
     addTags(tags);}
   
@@ -79,7 +79,7 @@ public abstract class Shape implements TreeNode,Serializable,BlanketFlower,Tagge
   public int getWestBound(){
     return getBounds()[0];}
   
-  public abstract List<Cell> getCells(CellSystem grid);
+  public abstract List<Cell> getCells(Grid grid);
   
   public void move(int dir,int dis){
     //get the offset
@@ -217,13 +217,13 @@ public abstract class Shape implements TreeNode,Serializable,BlanketFlower,Tagge
    */
   
   private int chorusindex;
-  private ShapeSignature signature=null;
+  private BShapeSignature signature=null;
   
   public int getChorusIndex(){
     return chorusindex;}
   
-  public ShapeSignature getSignature(){
-    if(signature==null)signature=new ShapeSignature(this);
+  public BShapeSignature getSignature(){
+    if(signature==null)signature=new BShapeSignature(this);
     return signature;}
   
   /*

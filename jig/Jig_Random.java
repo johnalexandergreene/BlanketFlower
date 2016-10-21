@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.fleen.blanketFlower.cellSystem.Cell;
-import org.fleen.blanketFlower.cellSystem.CellSystem;
-import org.fleen.blanketFlower.composition.Shape;
+import org.fleen.blanketFlower.bComposition.BShape;
+import org.fleen.blanketFlower.grid.Cell;
+import org.fleen.blanketFlower.grid.Grid;
 
 /*
  * add 0 to 5 to each cell's value
@@ -19,7 +19,7 @@ public class Jig_Random implements Jig{
    * ################################
    */ 
   
-  public Jig_Random(Shape target){
+  public Jig_Random(BShape target){
     setTarget(target);}
   
   public Jig_Random(){}
@@ -41,12 +41,12 @@ public class Jig_Random implements Jig{
    * ################################
    */
   
-  Shape target;
+  BShape target;
   
-  public void setTarget(Shape target){
+  public void setTarget(BShape target){
     this.target=target;}
 
-  public Shape getTarget(){
+  public BShape getTarget(){
     return target;}
 
   /*

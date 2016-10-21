@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.composition;
+package org.fleen.blanketFlower.bComposition;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.List;
  * Identifies a squarzy composition shape in a uniqueish contexty way.
  * The shape's chorus index, the chorus index of its parent, grandparent... root
  */
-public class ShapeSignature implements Serializable{
+public class BShapeSignature implements Serializable{
   
   private static final long serialVersionUID=2037581696842008653L;
 
@@ -19,11 +19,11 @@ public class ShapeSignature implements Serializable{
    * ################################
    */
   
-  public ShapeSignature(Shape p){
-    Shape s=p;
+  public BShapeSignature(BShape p){
+    BShape s=p;
     while(s!=null){
       chorusindices.add(s.getChorusIndex());
-      s=(Shape)s.getParent();}
+      s=(BShape)s.getParent();}
     ((ArrayList<Integer>)chorusindices).trimToSize();}
   
   /*
@@ -54,7 +54,7 @@ public class ShapeSignature implements Serializable{
       hashcode+=a;}
   
   public boolean equals(Object a){
-    ShapeSignature s0=(ShapeSignature)a;
+    BShapeSignature s0=(BShapeSignature)a;
     if(s0.hashCode()!=hashCode())return false;
     int 
       c0=s0.chorusindices.size(),

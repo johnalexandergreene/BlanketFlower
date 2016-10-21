@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.cellSystem;
+package org.fleen.blanketFlower.grid;
 
 public class Cell{
   

@@ -5,7 +5,7 @@ import java.awt.EventQueue;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-import org.fleen.blanketFlower.composition.Composition;
+import org.fleen.blanketFlower.bComposition.BComposition;
 import org.fleen.blanketFlower.jig.Jigger;
 import org.fleen.blanketFlower.jig.Jigger_000;
 import org.fleen.blanketFlower.renderer.Renderer_Production;
@@ -53,10 +53,10 @@ public class Test{
 
   static final int GRIDWIDTH=100,GRIDHEIGHT=50;
   
-  Composition composition;
+  BComposition composition;
   
   void initComposition(){
-    composition=new Composition(GRIDWIDTH,GRIDHEIGHT);}
+    composition=new BComposition(GRIDWIDTH,GRIDHEIGHT);}
   
   /*
    * ################################

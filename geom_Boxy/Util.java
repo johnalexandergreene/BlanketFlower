@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.fleen.blanketFlower.cellSystem.Cell;
+import org.fleen.blanketFlower.grid.Cell;
 import org.fleen.geom_2D.GD;
 
 /*

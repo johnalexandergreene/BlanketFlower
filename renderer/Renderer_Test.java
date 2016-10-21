@@ -14,13 +14,13 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import org.fleen.blanketFlower.cellSystem.Cell;
-import org.fleen.blanketFlower.cellSystem.CellSystem;
-import org.fleen.blanketFlower.composition.Composition;
-import org.fleen.blanketFlower.composition.Shape;
+import org.fleen.blanketFlower.bComposition.BComposition;
+import org.fleen.blanketFlower.bComposition.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BPolygon;
 import org.fleen.blanketFlower.geom_Boxy.BVertex;
 import org.fleen.blanketFlower.geom_Boxy.BYard;
+import org.fleen.blanketFlower.grid.Cell;
+import org.fleen.blanketFlower.grid.Grid;
 import org.fleen.util.tree.TreeNodeIterator;
 
 public class Renderer_Test{
@@ -35,9 +35,9 @@ public class Renderer_Test{
   public Renderer_Test(){
     colors=createPalette(COLORCOUNT);}
   
-  public BufferedImage render(Composition composition,int cellspan){
+  public BufferedImage render(BComposition composition,int cellspan){
     //get various relevant metrics
-    CellSystem grid=composition.getGrid();
+    Grid grid=composition.getGrid();
     int 
       gridwidth=grid.getWidth(),
       gridheight=grid.getHeight(),
@@ -58,12 +58,12 @@ public class Renderer_Test{
       graphics.fillRect(cell.x*cellspan+1,cell.y*cellspan+1,cellspan-2,cellspan-2);}
     //render shape edges
     TreeNodeIterator ishapes=composition.getShapeIterator();
-    Shape shape;
+    BShape shape;
     Path2D path;
     graphics.setPaint(COLORSHAPESTROKE);
     graphics.setStroke(createStroke(WIDTHSHAPESTROKE));
     while(ishapes.hasNext()){
-      shape=(Shape)ishapes.next();
+      shape=(BShape)ishapes.next();
       if(!shape.isRoot()){
         path=getPath(shape,cellspan);
         graphics.draw(path);}}
@@ -94,11 +94,11 @@ public class Renderer_Test{
   //sum shape chorus indices at cell
   //% against color array
   //--------------------------------
-  private Map<Cell,ColorIndex> getCellColorIndices(Composition composition){
+  private Map<Cell,ColorIndex> getCellColorIndices(BComposition composition){
     Map<Cell,ColorIndex> colorindices=new HashMap<Cell,ColorIndex>();
     List<Cell> cells;
     ColorIndex colorindex;
-    for(Shape shape:composition.getShapes()){
+    for(BShape shape:composition.getShapes()){
       cells=shape.getCells(composition.getGrid());
       for(Cell cell:cells){
         colorindex=colorindices.get(cell);
@@ -119,7 +119,7 @@ public class Renderer_Test{
     Stroke stroke=new BasicStroke((float)strokewidth,BasicStroke.CAP_SQUARE,BasicStroke.JOIN_ROUND,0,null,0);
     return stroke;}
   
-  Path2D getPath(Shape shape,int cellspan){
+  Path2D getPath(BShape shape,int cellspan){
     if(shape instanceof BPolygon)
       return getPathForPolygon((BPolygon)shape,cellspan);
     else

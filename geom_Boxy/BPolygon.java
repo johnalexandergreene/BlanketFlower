@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.fleen.blanketFlower.cellSystem.Cell;
-import org.fleen.blanketFlower.cellSystem.CellSystem;
-import org.fleen.blanketFlower.composition.Shape;
+import org.fleen.blanketFlower.bComposition.BShape;
+import org.fleen.blanketFlower.grid.Cell;
+import org.fleen.blanketFlower.grid.Grid;
 
 /*
  * an SPolygon is defined by a list of SVertices
  * orientation and twist matter so if we want symmetry then we need to generate symmetric figures in our jigs 
  *   
  */
-public class BPolygon extends Shape{
+public class BPolygon extends BShape{
   
   private static final long serialVersionUID=1442016090376006753L;
   
@@ -68,7 +68,7 @@ public class BPolygon extends Shape{
    * ################################
    */
   
-  public List<Cell> getCells(CellSystem grid){
+  public List<Cell> getCells(Grid grid){
     List<Cell> 
       fillcells=Util.getFill(this),
       gridfillintersection=new ArrayList<Cell>();

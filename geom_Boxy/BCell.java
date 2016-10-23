@@ -1,6 +1,6 @@
-package org.fleen.blanketFlower.grid;
+package org.fleen.blanketFlower.geom_Boxy;
 
-public class Cell{
+public class BCell{
   
   /*
    * ################################
@@ -8,7 +8,7 @@ public class Cell{
    * ################################
    */
   
-  public Cell(int x,int y){
+  public BCell(int x,int y){
     this.x=x;
     this.y=y;}
   
@@ -20,17 +20,17 @@ public class Cell{
   
   public int x,y;
   
-  public Cell getEast(){
-    return new Cell(x+1,y);}
+  public BCell getEast(){
+    return new BCell(x+1,y);}
   
-  public Cell getWest(){
-    return new Cell(x-1,y);}
+  public BCell getWest(){
+    return new BCell(x-1,y);}
   
-  public Cell getNorth(){
-    return new Cell(x,y+1);}
+  public BCell getNorth(){
+    return new BCell(x,y+1);}
   
-  public Cell getSouth(){
-    return new Cell(x,y-1);}
+  public BCell getSouth(){
+    return new BCell(x,y-1);}
   
   /*
    * ################################
@@ -42,7 +42,7 @@ public class Cell{
     return x+37*y;}
   
   public boolean equals(Object a){
-    Cell b=(Cell)a;
+    BCell b=(BCell)a;
     return b.x==x&&b.y==y;}
   
   public String toString(){

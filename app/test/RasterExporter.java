@@ -16,14 +16,20 @@ public class RasterExporter{
   
   /*
    * ################################
+   * CONSTRUCTOR
+   * ################################
+   */
+  
+  RasterExporter(File exportdir){
+    this.exportdir=exportdir;}
+  
+  /*
+   * ################################
    * EXPORT DIR
    * ################################
    */
   
   File exportdir;
-  
-  void setExportDir(File exportdir){
-    this.exportdir=exportdir;}
   
   /*
    * ################################
@@ -35,24 +41,16 @@ public class RasterExporter{
   //specified DPI value.
   private static final double INCHES_IN_A_METER=39.3700787;
   private static final int DPI=300;
-  private static final String IMAGEFILEPREFIX="i";
   
-  File export(BufferedImage image){
-    File file=getExportFile(exportdir);
+  File export(BufferedImage image,int index){
+    File file=getExportFile(exportdir,index);
     write(image,file);
     return file;}
   
-  private File getExportFile(File exportdir){
-    File f=null;
-    boolean nameisused=true;
-    int index=0;
-    while(nameisused){
-      f=new File(exportdir.getPath()+"/"+IMAGEFILEPREFIX+index+".png");
-      if(f.exists()){
-        index++;
-      }else{
-        nameisused=false;}}
-    return f;}
+  private File getExportFile(File exportdir,int index){
+    String s = String.format("%1$05d",index);
+    File test=new File(exportdir.getPath()+"/"+s+".png");
+    return test;}
   
   private void write(BufferedImage image,File file){
     Iterator<ImageWriter> i=ImageIO.getImageWritersBySuffix("png");

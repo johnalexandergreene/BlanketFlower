@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.fleen.blanketFlower.bComposition.BShape;
-import org.fleen.blanketFlower.grid.Cell;
+import org.fleen.blanketFlower.geom_Boxy.BCell;
 import org.fleen.blanketFlower.grid.Grid;
 
 /*
@@ -65,8 +65,8 @@ public class Jig_Random implements Jig{
       gridwidth=target.getWidth(),
       gridheight=target.getHeight(),
       z;
-    Cell cell;
-    List<Cell> cells=new ArrayList<Cell>();
+    BCell cell;
+    List<BCell> cells=new ArrayList<BCell>();
     for(int x=0;x<gridwidth;x++){
       for(int y=0;y<gridheight;y++){
         if(rnd.nextInt(8)==0){

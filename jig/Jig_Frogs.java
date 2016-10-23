@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import org.fleen.blanketFlower.grid.Cell;
+import org.fleen.blanketFlower.geom_Boxy.BCell;
 import org.fleen.blanketFlower.grid.Grid;
 
 /*
@@ -57,10 +57,10 @@ public class Jig_Frogs implements Jig{
   Set<Frog> frogs=new HashSet<Frog>();
   static final int FROGVAL=2;
   
-  public List<Cell> execute(){
-    List<Cell>
+  public List<BCell> execute(){
+    List<BCell>
       frogcells,
-      touched=new ArrayList<Cell>();
+      touched=new ArrayList<BCell>();
     //create
     if(rnd.nextDouble()<FROGCREATIONPROBABILITY)
       createFrog();
@@ -69,7 +69,7 @@ public class Jig_Frogs implements Jig{
       frog.x++;
       frogcells=getFrogCells(frog);
       touched.addAll(frogcells);
-      for(Cell c:frogcells)
+      for(BCell c:frogcells)
         c.test+=FROGVAL;}
     //cull
     Iterator<Frog> i=frogs.iterator();
@@ -82,9 +82,9 @@ public class Jig_Frogs implements Jig{
     //
     return touched;}
   
-  List<Cell> getFrogCells(Frog frog){
-    List<Cell> frogcells=new ArrayList<Cell>();
-    Cell c=target.getCell(frog.x,frog.y);
+  List<BCell> getFrogCells(Frog frog){
+    List<BCell> frogcells=new ArrayList<BCell>();
+    BCell c=target.getCell(frog.x,frog.y);
     if(c!=null)frogcells.add(c);
     c=target.getCell(frog.x+1,frog.y);
     if(c!=null)frogcells.add(c);

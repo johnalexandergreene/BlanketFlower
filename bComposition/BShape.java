@@ -5,10 +5,9 @@ import java.util.Collection;
 import java.util.List;
 
 import org.fleen.blanketFlower.BlanketFlower;
-import org.fleen.blanketFlower.geom_Boxy.GB;
 import org.fleen.blanketFlower.geom_Boxy.BVertex;
-import org.fleen.blanketFlower.grid.Cell;
-import org.fleen.blanketFlower.grid.Grid;
+import org.fleen.blanketFlower.geom_Boxy.BCell;
+import org.fleen.blanketFlower.geom_Boxy.GB;
 import org.fleen.blanketFlower.jig.Jig;
 import org.fleen.util.tag.TagManager;
 import org.fleen.util.tag.Tagged;
@@ -50,9 +49,23 @@ public abstract class BShape implements TreeNode,Serializable,BlanketFlower,Tagg
    * ################################
    */
   
+  /*
+   * ++++++++++++++++++++++++++++++++
+   * VERTICES
+   * ++++++++++++++++++++++++++++++++
+   */
+  
   public abstract List<BVertex> getVertices();
   
-  //TODO we should do these in NESW order
+  /*
+   * ++++++++++++++++++++++++++++++++
+   * BOUNDS
+   * ++++++++++++++++++++++++++++++++
+   */
+  
+  /*
+   * return bounds in NESW order
+   */
   public int[] getBounds(){
     int 
       xmin=Integer.MAX_VALUE,
@@ -65,23 +78,46 @@ public abstract class BShape implements TreeNode,Serializable,BlanketFlower,Tagg
       if(v.y<ymin)ymin=v.y;
       if(v.x>xmax)xmax=v.x;
       if(v.y>ymax)ymax=v.y;}
-    return new int[]{xmin,ymin,xmax,ymax};}//aka westbound,southbound,eastbound,northbound
+    return new int[]{ymax,xmax,ymin,xmin};}//aka northbound,eastbound,southbound,westbound
   
   public int getNorthBound(){
-    return getBounds()[3];}
-  
-  public int getEastBound(){
-    return getBounds()[2];}
-  
-  public int getSouthBound(){
-    return getBounds()[1];}
-  
-  public int getWestBound(){
     return getBounds()[0];}
   
-  public abstract List<Cell> getCells(Grid grid);
+  public int getEastBound(){
+    return getBounds()[1];}
   
-  public void move(int dir,int dis){
+  public int getSouthBound(){
+    return getBounds()[2];}
+  
+  public int getWestBound(){
+    return getBounds()[3];}
+  
+  public int getWidth(){
+    int[] b=getBounds();
+    return Math.abs(b[1]-b[3]);}
+  
+  public int getHeight(){
+    int[] b=getBounds();
+    return Math.abs(b[0]-b[2]);}
+  /*
+   * ++++++++++++++++++++++++++++++++
+   * CELLS
+   * ++++++++++++++++++++++++++++++++
+   */
+  
+  /*
+   * return the cells within the domain of this shape
+   */
+  public abstract List<BCell> getCells();
+  
+  /*
+   * ++++++++++++++++++++++++++++++++
+   * TRANSFORM
+   * translate, grow, shrink, rotate and whatever else we can think of
+   * ++++++++++++++++++++++++++++++++
+   */
+  
+  public void translate(int dir,int dis){
     //get the offset
     int xoff,yoff;
     if(dir==GB.DIR_NORTH){
@@ -97,29 +133,17 @@ public abstract class BShape implements TreeNode,Serializable,BlanketFlower,Tagg
       xoff=-dis;
       yoff=0;
     }else{
-      //ambiguous dir, do nothing
-      return;
-    }
+      throw new IllegalArgumentException("UNDEFINED DIRECTION");}
     //move vertices
     for(BVertex v:getVertices()){
       v.x+=xoff;
       v.y+=yoff;}}
   
   /*
-   * ++++++++++++++++++++++++++++++++
-   * LOCAL GRID
-   * Each shape defines a local grid
-   * origin is v0
-   * north is dir(v0,v1)
-   * east and west are relative to this shape's parent depending on twist chirality
-   * if this shape's twist is clockwise then its east and west are the same as that of the parent, relative to local north
-   * if this shape's twist is counterclockwise then its east and west are the opposite that of the parent, relative to local north
-   * ++++++++++++++++++++++++++++++++
-   */
-  
-  /*
    * ################################
    * JIG
+   * This jig that this shape is using to create the system of shapes within its domain 
+   * If this shape is a leaf then the jig is null
    * ################################
    */
   

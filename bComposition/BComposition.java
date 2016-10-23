@@ -1,17 +1,17 @@
 package org.fleen.blanketFlower.bComposition;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import org.fleen.blanketFlower.geom_Boxy.BPolygon;
-import org.fleen.blanketFlower.geom_Boxy.BVertex;
-import org.fleen.blanketFlower.grid.Grid;
 import org.fleen.util.tree.TreeNodeIterator;
 
 /*
  * A tree of shapes 
  * Init, access 
+ * 
+ * Each shape defines within its domain a local grid and its children are defined within that grid
+ * The root shape is defined within the default grid
+ * 
  */
 public class BComposition{
   
@@ -23,6 +23,18 @@ public class BComposition{
   
   public BComposition(BShape root){
     this.root=root;}
+  
+  /*
+   * ################################
+   * METRICS
+   * ################################
+   */
+  
+  public int getWidth(){
+    return root.getWidth();}
+  
+  public int getHeight(){
+    return root.getHeight();}
   
   /*
    * ################################
@@ -56,13 +68,5 @@ public class BComposition{
       if(shape.isLeaf())
         leaves.add(shape);}
     return leaves;}
-  
-  /*
-   * ################################
-   * GRID
-   * We provide this here because it's our main rendering device and
-   * we use it all the time
-   * ################################
-   */
   
 }

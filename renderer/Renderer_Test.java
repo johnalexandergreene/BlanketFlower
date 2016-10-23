@@ -19,7 +19,7 @@ import org.fleen.blanketFlower.bComposition.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BPolygon;
 import org.fleen.blanketFlower.geom_Boxy.BVertex;
 import org.fleen.blanketFlower.geom_Boxy.BYard;
-import org.fleen.blanketFlower.grid.Cell;
+import org.fleen.blanketFlower.geom_Boxy.BCell;
 import org.fleen.blanketFlower.grid.Grid;
 import org.fleen.util.tree.TreeNodeIterator;
 
@@ -51,8 +51,8 @@ public class Renderer_Test{
     graphics.fillRect(1,1,imagewidth,imageheight);
     //render untouched cells
     graphics.setPaint(CELLBASE);
-    Iterator<Cell> icells=grid.getCellIterator();
-    Cell cell;
+    Iterator<BCell> icells=grid.getCellIterator();
+    BCell cell;
     while(icells.hasNext()){
       cell=icells.next();
       graphics.fillRect(cell.x*cellspan+1,cell.y*cellspan+1,cellspan-2,cellspan-2);}
@@ -68,7 +68,7 @@ public class Renderer_Test{
         path=getPath(shape,cellspan);
         graphics.draw(path);}}
     //render cells
-    Map<Cell,ColorIndex> cellcolorindices=getCellColorIndices(composition);
+    Map<BCell,ColorIndex> cellcolorindices=getCellColorIndices(composition);
     int cellcolorindex;
     Color cellcolor;
     icells=grid.getCellIterator();
@@ -81,7 +81,7 @@ public class Renderer_Test{
   
   
   
-  private void renderCell(BufferedImage image,Color color,Cell cell,int cellspan){
+  private void renderCell(BufferedImage image,Color color,BCell cell,int cellspan){
     int px,py,xoff=cell.x*cellspan,yoff=cell.y*cellspan;
     for(int cx=0;cx<cellspan;cx++){
       for(int cy=0;cy<cellspan;cy++){
@@ -94,13 +94,13 @@ public class Renderer_Test{
   //sum shape chorus indices at cell
   //% against color array
   //--------------------------------
-  private Map<Cell,ColorIndex> getCellColorIndices(BComposition composition){
-    Map<Cell,ColorIndex> colorindices=new HashMap<Cell,ColorIndex>();
-    List<Cell> cells;
+  private Map<BCell,ColorIndex> getCellColorIndices(BComposition composition){
+    Map<BCell,ColorIndex> colorindices=new HashMap<BCell,ColorIndex>();
+    List<BCell> cells;
     ColorIndex colorindex;
     for(BShape shape:composition.getShapes()){
       cells=shape.getCells(composition.getGrid());
-      for(Cell cell:cells){
+      for(BCell cell:cells){
         colorindex=colorindices.get(cell);
         if(colorindex==null){
           colorindex=new ColorIndex();

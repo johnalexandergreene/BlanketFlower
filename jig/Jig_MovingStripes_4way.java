@@ -33,7 +33,6 @@ public class Jig_MovingStripes_4way implements Jig{
    * only works on rectangular polygons
    */
   public void execute(){
-    System.out.println("stripecount="+stripes.size());
     createStripe();
     moveStripes();
     removeOffStripes();}
@@ -46,7 +45,7 @@ public class Jig_MovingStripes_4way implements Jig{
   
   private void moveStripes(){
     for(Stripe stripe:stripes)
-      stripe.move(stripe.dir,stripe.speed);}
+      stripe.translate(stripe.dir,stripe.speed);}
   
   /*
    * ++++++++++++++++++++++++++++++++
@@ -96,8 +95,8 @@ public class Jig_MovingStripes_4way implements Jig{
   static final double CREATENEWSTRIPEPROBABILITY=0.2;
   
   private static final int 
-    STRIPEWIDTH_MIN=6,
-    STRIPEWIDTH_MAX=30;
+    STRIPEWIDTH_MIN=8,
+    STRIPEWIDTH_MAX=50;
 
   void createStripe(){
     //will we create a new stripe?
@@ -124,7 +123,7 @@ public class Jig_MovingStripes_4way implements Jig{
   //create it just over the south edge of the target
   Stripe createStripe_North(int width,int speed){
     int[] tb=target.getBounds();//xmin,ymin,xmax,ymax
-    int north=0,east=tb[2],south=-width,west=0;
+    int north=0,east=tb[1],south=-width,west=0;
     BVertex[] vertices={ 
       new BVertex(west,south),
       new BVertex(west,north),
@@ -136,7 +135,7 @@ public class Jig_MovingStripes_4way implements Jig{
   //create it just over the west edge of the target
   Stripe createStripe_East(int width,int speed){
     int[] tb=target.getBounds();//xmin,ymin,xmax,ymax
-    int north=tb[3],east=0,south=0,west=-width;
+    int north=tb[0],east=0,south=0,west=-width;
     BVertex[] vertices={ 
       new BVertex(west,south),
       new BVertex(west,north),
@@ -148,7 +147,7 @@ public class Jig_MovingStripes_4way implements Jig{
   //create it just over the east edge of the target
   Stripe createStripe_West(int width,int speed){
     int[] tb=target.getBounds();//xmin,ymin,xmax,ymax
-    int north=tb[3],east=tb[2]+width,south=0,west=tb[2];
+    int north=tb[0],east=tb[1]+width,south=0,west=tb[3];
     BVertex[] vertices={ 
       new BVertex(west,south),
       new BVertex(west,north),
@@ -160,7 +159,7 @@ public class Jig_MovingStripes_4way implements Jig{
   //create it just over the north edge of the target
   Stripe createStripe_South(int width,int speed){
     int[] tb=target.getBounds();//xmin,ymin,xmax,ymax
-    int north=tb[3]+width,east=tb[2],south=tb[3],west=0;
+    int north=tb[0]+width,east=tb[1],south=tb[2],west=0;
     BVertex[] vertices={ 
       new BVertex(west,south),
       new BVertex(west,north),

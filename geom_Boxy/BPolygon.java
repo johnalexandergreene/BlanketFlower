@@ -1,12 +1,10 @@
 package org.fleen.blanketFlower.geom_Boxy;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.List;
 
 import org.fleen.blanketFlower.bComposition.BShape;
-import org.fleen.blanketFlower.grid.Cell;
-import org.fleen.blanketFlower.grid.Grid;
 
 /*
  * an SPolygon is defined by a list of SVertices
@@ -25,8 +23,11 @@ public class BPolygon extends BShape{
   
   public BPolygon(List<BVertex> vertices,int chorusindex,List<String> tags){
     super(chorusindex,tags);
-    this.vertices=new ArrayList<BVertex>(vertices);
-    System.out.println("polygon init vertex count = "+this.vertices.size());}
+    this.vertices=new ArrayList<BVertex>(vertices);}
+  
+  public BPolygon(BVertex... vertices){
+    super(0,null);
+    this.vertices=new ArrayList<BVertex>(Arrays.asList(vertices));}
   
   /*
    * ################################
@@ -68,15 +69,8 @@ public class BPolygon extends BShape{
    * ################################
    */
   
-  public List<Cell> getCells(Grid grid){
-    List<Cell> 
-      fillcells=Util.getFill(this),
-      gridfillintersection=new ArrayList<Cell>();
-    for(Cell c:fillcells){
-      if(grid.containsCell(c))
-        gridfillintersection.add(grid.getCell(c));
-      else
-        gridfillintersection.add(c);}
-    return gridfillintersection;}
+  public List<BCell> getCells(){
+    List<BCell> a=Util.getFill(this);
+    return a;}
   
 }

@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.fleen.blanketFlower.grid.Cell;
 import org.fleen.geom_2D.GD;
 
 /*
@@ -18,7 +17,7 @@ public class Util{
    * TODO 
    * also, cells should hold no data. Just make em raw
    */
-  public static final List<BPolygon> getPolygons(List<Cell> cells){
+  public static final List<BPolygon> getPolygons(List<BCell> cells){
     return null;//TODO
   }
   
@@ -37,16 +36,16 @@ public class Util{
 //  public static List<SCell> testheadcells,testtailcells;
   
   
-  public static final List<Cell> getFill(BPolygon polygon){
+  public static final List<BCell> getFill(BPolygon polygon){
     //get twist
     boolean twist=polygon.getTwist();
     //get headcells and tailcells
     //that's the vertical strands of cells to the left and right of open spaces
-    Set<Cell> 
-      heads=new HashSet<Cell>(),
-      tails=new HashSet<Cell>();
+    Set<BCell> 
+      heads=new HashSet<BCell>(),
+      tails=new HashSet<BCell>();
     int dir;
-    if(twist==TWIST_CW){
+    if(twist==GB.TWIST_CW){
       for(BSeg seg:polygon.getSegs()){
         dir=seg.getForward();
         if(dir==DIR_NORTH)
@@ -61,8 +60,8 @@ public class Util{
         else if(dir==DIR_NORTH)
           tails.addAll(getCellsOnLeft(seg,DIR_NORTH));}}
     //fill in between heads and tails
-    List<Cell> fillz=new ArrayList<Cell>();
-    for(Cell h:heads)
+    List<BCell> fillz=new ArrayList<BCell>();
+    for(BCell h:heads)
       fillRow(h,tails,fillz);
     fillz.addAll(tails);
     
@@ -72,36 +71,32 @@ public class Util{
     
   }
   
-  private static final void fillRow(Cell head,Set<Cell> tails,List<Cell> fillz){
-    Cell a=head;
+  private static final void fillRow(BCell head,Set<BCell> tails,List<BCell> fillz){
+    BCell a=head;
     while(!tails.contains(a)){
       fillz.add(a);
       a=a.getEast();}}
   
-  private static final List<Cell> getCellsOnRight(BSeg seg,int heading){
-    List<Cell> cells=new ArrayList<Cell>();
+  private static final List<BCell> getCellsOnRight(BSeg seg,int heading){
+    List<BCell> cells=new ArrayList<BCell>();
     if(heading==DIR_NORTH){
       for(int y=seg.v0.y;y<seg.v1.y;y++)
-        cells.add(new Cell(seg.v0.x,y));  
+        cells.add(new BCell(seg.v0.x,y));  
     }else{//heading==DIR_SOUTH
       for(int y=seg.v0.y-1;y>seg.v1.y-1;y--)
-        cells.add(new Cell(seg.v0.x-1,y));}
+        cells.add(new BCell(seg.v0.x-1,y));}
     return cells;}
   
-  private static final List<Cell> getCellsOnLeft(BSeg seg,int heading){
-    List<Cell> cells=new ArrayList<Cell>();
+  private static final List<BCell> getCellsOnLeft(BSeg seg,int heading){
+    List<BCell> cells=new ArrayList<BCell>();
     if(heading==DIR_NORTH){
       for(int y=seg.v0.y;y<seg.v1.y;y++)
-        cells.add(new Cell(seg.v0.x-1,y));  
+        cells.add(new BCell(seg.v0.x-1,y));  
     }else{//heading==DIR_SOUTH
       for(int y=seg.v0.y-1;y>seg.v1.y-1;y--)
-        cells.add(new Cell(seg.v0.x,y));}
+        cells.add(new BCell(seg.v0.x,y));}
     return cells;}
   
-  
-  
-  
-  public static final boolean TWIST_CW=true,TWIST_CCW=false;
   /*
    * convert to double[][] and use GD.getSignedArea2D
    * 
@@ -120,9 +115,9 @@ public class Util{
       d[i][1]=v.y;}
     double b=GD.getSignedArea2D(d);
     if(b<0)
-      return TWIST_CW;
+      return GB.TWIST_CW;
     else
-      return TWIST_CCW;}
+      return GB.TWIST_CCW;}
   
   public static final int
     //directions
@@ -141,7 +136,7 @@ public class Util{
   public static final int getDirection(BVertex v0,BVertex v1){
     return getDirection(v0.x,v0.y,v1.x,v1.y);}
   
-  public static final int getDirection(Cell c0,Cell c1){
+  public static final int getDirection(BCell c0,BCell c1){
     return getDirection(c0.x,c0.y,c1.x,c1.y);}
   
   public static final int getDirection(int x0,int y0,int x1,int y1){

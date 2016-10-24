@@ -95,8 +95,7 @@ public class Jig_MovingStripes_4way implements Jig{
   static final double CREATENEWSTRIPEPROBABILITY=0.2;
   
   private static final int 
-    STRIPEWIDTH_MIN=8,
-    STRIPEWIDTH_MAX=50;
+    STRIPEWIDTH_INCREMENT=16;
 
   void createStripe(){
     //will we create a new stripe?
@@ -104,7 +103,7 @@ public class Jig_MovingStripes_4way implements Jig{
     //yes
     //get random width, direction and speed 
     int 
-      width=rnd.nextInt(STRIPEWIDTH_MAX-STRIPEWIDTH_MIN)+STRIPEWIDTH_MIN,
+      width=rnd.nextInt(4)*STRIPEWIDTH_INCREMENT+STRIPEWIDTH_INCREMENT,
       speed=rnd.nextInt(3)+1,//TODO curve this
       dir=rnd.nextInt(4);//1 of the 4 directions  
     Stripe stripe;
@@ -120,53 +119,58 @@ public class Jig_MovingStripes_4way implements Jig{
     stripe.setParent(target);
     stripes.add(stripe);}
   
-  //create it just over the south edge of the target
+  //create it just over the south edge of the target, move north
   Stripe createStripe_North(int width,int speed){
-    int[] tb=target.getBounds();//xmin,ymin,xmax,ymax
-    int north=0,east=tb[1],south=-width,west=0;
+    int[] tb=target.getBounds();//nesw
+    int north=tb[2],east=tb[1],south=tb[2]-width,west=tb[3];
     BVertex[] vertices={ 
       new BVertex(west,south),
       new BVertex(west,north),
       new BVertex(east,north),
       new BVertex(east,south)};
-    Stripe stripe=new Stripe(Arrays.asList(vertices),rnd.nextInt(3),null,GB.DIR_NORTH,speed);
+    Stripe stripe=new Stripe(Arrays.asList(vertices),getChorusIndexForNewStripe(),null,GB.DIR_NORTH,speed);
     return stripe;}
   
   //create it just over the west edge of the target
   Stripe createStripe_East(int width,int speed){
-    int[] tb=target.getBounds();//xmin,ymin,xmax,ymax
-    int north=tb[0],east=0,south=0,west=-width;
+    int[] tb=target.getBounds();//nesw
+    int north=tb[0],east=tb[3],south=tb[2],west=tb[3]-width;
     BVertex[] vertices={ 
       new BVertex(west,south),
       new BVertex(west,north),
       new BVertex(east,north),
       new BVertex(east,south)};
-    Stripe stripe=new Stripe(Arrays.asList(vertices),rnd.nextInt(3),null,GB.DIR_EAST,speed);
+    Stripe stripe=new Stripe(Arrays.asList(vertices),getChorusIndexForNewStripe(),null,GB.DIR_EAST,speed);
     return stripe;}
   
   //create it just over the east edge of the target
   Stripe createStripe_West(int width,int speed){
-    int[] tb=target.getBounds();//xmin,ymin,xmax,ymax
-    int north=tb[0],east=tb[1]+width,south=0,west=tb[3];
+    int[] tb=target.getBounds();//nesw
+    int north=tb[0],east=tb[1]+width,south=tb[2],west=tb[1];
     BVertex[] vertices={ 
       new BVertex(west,south),
       new BVertex(west,north),
       new BVertex(east,north),
       new BVertex(east,south)};
-    Stripe stripe=new Stripe(Arrays.asList(vertices),rnd.nextInt(3),null,GB.DIR_WEST,speed);
+    Stripe stripe=new Stripe(Arrays.asList(vertices),getChorusIndexForNewStripe(),null,GB.DIR_WEST,speed);
     return stripe;}
   
   //create it just over the north edge of the target
   Stripe createStripe_South(int width,int speed){
-    int[] tb=target.getBounds();//xmin,ymin,xmax,ymax
-    int north=tb[0]+width,east=tb[1],south=tb[2],west=0;
+    int[] tb=target.getBounds();//nesw
+    int north=tb[0]+width,east=tb[1],south=tb[0],west=0;
     BVertex[] vertices={ 
       new BVertex(west,south),
       new BVertex(west,north),
       new BVertex(east,north),
       new BVertex(east,south)};
-    Stripe stripe=new Stripe(Arrays.asList(vertices),rnd.nextInt(3),null,GB.DIR_SOUTH,speed);
+    Stripe stripe=new Stripe(Arrays.asList(vertices),getChorusIndexForNewStripe(),null,GB.DIR_SOUTH,speed);
     return stripe;}
+  
+  private int getChorusIndexForNewStripe(){
+    return rnd.nextInt(3);
+//    return 1;
+  }
   
   /*
    * ++++++++++++++++++++++++++++++++

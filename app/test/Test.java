@@ -131,14 +131,13 @@ public class Test{
    * ################################
    */
   
-  static final String EXPORTDIR="/home/john/Desktop/squarzyexport";
+  static final String EXPORTDIR="/home/john/Desktop/bfexport";
   
   RasterExporter rasterexporter=new RasterExporter(new File(EXPORTDIR));
   
   void export(int index){
     System.out.println("export");
     BufferedImage exportimage=renderer.render(composition,CELLSPAN);
-    File d=new File(EXPORTDIR);
     rasterexporter.export(exportimage,index);}
   
   /*

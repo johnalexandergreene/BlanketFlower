@@ -8,6 +8,11 @@ import org.fleen.blanketFlower.geom_Boxy.BVertex;
  * local to a shape
  * defined in terms of the shape
  * used by the shape's children
+ * 
+ * a bunch of methods for translating between local and absolute vertices, directions and cells
+ * 
+ * note that translation from local to absolute means translating through 1 or more nesting grids 
+ * 
  */
 public class BGrid{
   
@@ -17,43 +22,42 @@ public class BGrid{
   BShape shape;
   
   /*
-   * translate local vertex to global vertex
-   * TODO find a better name than "glogal"
+   * translate local vertex to Absolute vertex
    */
-  public BVertex getGlobalVertex(BVertex vertex){
+  public BVertex getAbsoluteVertex(BVertex vertex){
     
   }
   
   /*
-   * translate global vertex to local vertex 
+   * translate Absolute vertex to local vertex 
    */
   public BVertex getLocalVertex(BVertex vertex){
     
   }
   
   /*
-   * translate local direction to global direction
+   * translate local direction to Absolute direction
    */
-  public int getGlobalDir(int dir){
+  public int getAbsoluteDir(int dir){
     
   }
   
   /*
-   * translate global direction to local direction
+   * translate Absolute direction to local direction
    */
   public int getLocalDir(int dir){
     
   }
   
   /*
-   * translate local cell to global cell
+   * translate local cell to Absolute cell
    */
-  public int getGlobalCell(BCell cell){
+  public int getAbsoluteCell(BCell cell){
     
   }
   
   /*
-   * translate global cell to local cell
+   * translate Absolute cell to local cell
    */
   public int getLocalCell(BCell cell){
     

@@ -13,6 +13,17 @@ import org.fleen.blanketFlower.geom_Boxy.BVertex;
  * 
  * note that translation from local to absolute means translating through 1 or more nesting grids 
  * 
+ * ---
+ * 
+ * the root shape is defined in absolute terms
+ * 
+ * the root shape's children are defined in terms of the root shape's grid
+ * 
+ * the root shape's children are generated and managed by the root shape's jig
+ * 
+ * and so on
+ * 
+ * 
  */
 public class BGrid{
   

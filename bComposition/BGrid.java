@@ -38,19 +38,25 @@ public class BGrid{
   
   /*
    * ################################
-   * DEFINITION
-   * in terms of parent grid geometry
+   * PARENT GRID GEOMETRY
+   * get local geometry in terms of parent grid
+   * in the case of the root shape this is the same as absolute
    * ################################
-   * 
    */
   
-  public BVertex getOrigin(){
+  /*
+   * get local origin point (0,0) in terms of parent grid
+   */
+  public BVertex getOrigin_Parent(){
     if(shape instanceof BPolygon)
       return ((BPolygon)shape).vertices.get(0);
     else
       return((BYard)shape).polygons.get(0).vertices.get(0);}
   
-  public int getNorth(){
+  /*
+   * get local north in terms of parent grid
+   */
+  public int getNorth_Parent(){
     BVertex v0,v1;
     if(shape instanceof BPolygon){
       v0=((BPolygon)shape).vertices.get(1);
@@ -61,10 +67,9 @@ public class BGrid{
     return GB.getDirection(v0,v1);}
   
   /*
-   * if this shape has the same twist as the parent then east has the same relationship to north as the parent
-   * otherwise it has the opposite. That is to say, east and west are reversed, relatively speaking.
+   * get local east in terms of parent grid
    */
-  public int getEast(){
+  public int getEast_Parent(){
     //get the polygon to examine
     BPolygon p;
     if(shape instanceof BPolygon)
@@ -73,22 +78,51 @@ public class BGrid{
       p=((BYard)shape).polygons.get(0);
     //
     boolean ptwist=p.getTwist();
-    int north=getNorth(),east;
+    int north=getNorth_Parent(),east;
     if(p.getTwist()==GB.TWIST_CW){
       east=GB.getDirectionAtDelta(north,GB.TURN_RIGHT);
     }else{//p.getTwist()==GB.TWIST_CCW
       east=GB.getDirectionAtDelta(north,GB.TURN_LEFT);}
     return east;}
   
-  public int getSouth(){
-    return GB.getOppositeDirection(getNorth());}
+  /*
+   * get local south in terms of parent grid
+   */
+  public int getSouth_Parent(){
+    return GB.getOppositeDirection(getNorth_Parent());}
   
-  public int getWest(){
-    return GB.getOppositeDirection(getEast());}
+  /*
+   * get local west in terms of parent grid
+   */
+  public int getWest_Parent(){
+    return GB.getOppositeDirection(getEast_Parent());}
+  
+  /*
+   * get arbitrary local vertex in terms of parent grid
+   * get the origin
+   * get the vertex in terms of nesw offset from origin
+   * TODO test this
+   */
+  public BVertex getVertex_Parent(BVertex v){
+    BVertex v0=new BVertex(getOrigin_Parent());
+    if(v.x>0){
+      int peast=getEast_Parent();
+      v0=v0.getVertex(peast,v.x);
+    }else if(v.x<0){
+      int pwest=getEast_Parent();
+      v0=v0.getVertex(pwest,-v.x);}
+    if(v.y>0){
+      int pnorth=getNorth_Parent();
+      v0=v0.getVertex(pnorth,v.y);
+    }else if(v.y<0){
+      int psouth=getSouth_Parent();
+      v0=v0.getVertex(psouth,-v.y);}
+    return v0;}
   
   /*
    * ################################
-   * TRANSLATE TO PARENT GRID
+   * ABSOLUTE GRID GEOMETRY
+   * get local geometry in terms of absolute grid
    * ################################
    */
   

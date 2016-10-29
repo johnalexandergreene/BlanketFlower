@@ -9,9 +9,9 @@ public class BVertex{
   public int x,y;
   
   public int getDirection(BVertex v){
-    return Util.getDirection(this,v);}
+    return GB.getDirection(this,v);}
   
   public int getDistance(BVertex v){
-    return Util.getDistance(this,v);}
+    return GB.getDistance(this,v);}
 
 }

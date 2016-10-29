@@ -53,24 +53,19 @@ public class BPolygon extends BShape{
     return segs;}
   
   public boolean getTwist(){
-    return Util.getTwist(this);}
+    return GB.getTwist(this);}
   
   public List<BVertex> getVertices(){
     return vertices;}
   
   /*
    * ################################
-   * GET CELLS
-   * Returns the 1x1 cells enclosed by by the polygon edge
-   * When gleaning cells we consult the param grid
-   * For each cell
-   *   if the cell is contained within the grid then we return that
-   *   if it isn't then we create a new one 
+   * GET CELLS CONTAINED WITHIN THIS POLYGON
    * ################################
    */
   
   public List<BCell> getCells(){
-    List<BCell> a=Util.getFill(this);
+    List<BCell> a=GB.getPolygonCellFill(this);
     return a;}
   
 }

@@ -5,7 +5,6 @@ import org.fleen.blanketFlower.geom_Boxy.BPolygon;
 import org.fleen.blanketFlower.geom_Boxy.BVertex;
 import org.fleen.blanketFlower.geom_Boxy.BYard;
 import org.fleen.blanketFlower.geom_Boxy.GB;
-import org.fleen.blanketFlower.geom_Boxy.Util;
 
 /*
  * a coordinate system
@@ -123,55 +122,45 @@ public class BGrid{
    * ################################
    * ABSOLUTE GRID GEOMETRY
    * get local geometry in terms of absolute grid
+   * in the case of the root shape this is the same was the parent
    * ################################
    */
   
-  /*
-   * translate vertex in local grid to vertex in parent grid
-   */
-  public BVertex getParentVertex(BVertex v){
+
+  public BVertex getOrigin_Absolute(){
+    BVertex origin=getOrigin_Parent();
+    while(!shape.isRoot()){
+      shape=(BShape)shape.getParent();
+      origin=shape.grid.getVertex_Parent(origin);}
+    return origin;}
+  
+  public int getNorth_Absolute(){
+    if(shape.isRoot())return getNorth_Parent();
     
   }
   
-  /*
-   * translate local vertex to Absolute vertex
-   */
-  public BVertex getAbsoluteVertex(BVertex vertex){
+  public int getEast_Absolute(){
+    if(shape.isRoot())return getEast_Parent();
     
   }
   
-  /*
-   * translate Absolute vertex to local vertex 
-   */
-  public BVertex getLocalVertex(BVertex vertex){
+  public int getSouth_Absolute(){
+    if(shape.isRoot())return getSouth_Parent();
     
   }
   
-  /*
-   * translate local direction to Absolute direction
-   */
-  public int getAbsoluteDir(int dir){
+  public int getWest_Absolute(){
+    if(shape.isRoot())return getWest_Parent();
     
   }
   
-  /*
-   * translate Absolute direction to local direction
-   */
-  public int getLocalDir(int dir){
+  public BVertex getVertex_Absolute(BVertex vertex){
+    if(shape.isRoot())return getVertex_Parent(vertex);
     
   }
   
-  /*
-   * translate local cell to Absolute cell
-   */
-  public int getAbsoluteCell(BCell cell){
-    
-  }
-  
-  /*
-   * translate Absolute cell to local cell
-   */
-  public int getLocalCell(BCell cell){
+  public int getCell_Absolute(BCell cell){
+    if(shape.isRoot())return getCell_Parent(cell);
     
   }
 

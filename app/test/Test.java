@@ -152,7 +152,7 @@ public class Test{
     for(int i=0;i<400;i++){
       test.executeJigger();
       test.renderComposition();
-      test.export(i);
+//      test.export(i);
       System.out.println("FRAME#"+i);
       try{
         Thread.sleep(10,0);

@@ -32,8 +32,8 @@ public class Renderer_Production{
     rootcells=new HashSet<BCell>(composition.getRoot().getCells());
     //get various relevant metrics
     int 
-      imagewidth=composition.getWidth()*cellspan,
-      imageheight=composition.getHeight()*cellspan;
+      imagewidth=composition.getRoot().getWidth()*cellspan,
+      imageheight=composition.getRoot().getHeight()*cellspan;
     //init image
     BufferedImage image=new BufferedImage(imagewidth,imageheight,BufferedImage.TYPE_INT_RGB);
     //render cells

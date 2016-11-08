@@ -141,16 +141,6 @@ public abstract class BShape implements TreeNode,Serializable,BlanketFlower,Tagg
   
   /*
    * ################################
-   * GRID
-   * The children of this shape are defined in terms of this grid
-   * This makes the domain of this shape act like a distinct space. Movable, transformable, etc
-   * ################################
-   */
-  
-  public BGrid grid=null;
-  
-  /*
-   * ################################
    * JIG
    * This jig that this shape is using to create the system of shapes within its domain 
    * If this shape is a leaf then the jig is null

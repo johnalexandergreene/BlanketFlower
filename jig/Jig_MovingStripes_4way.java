@@ -44,8 +44,9 @@ public class Jig_MovingStripes_4way implements Jig{
    */
   
   private void moveStripes(){
-    for(Stripe stripe:stripes)
-      stripe.translate(stripe.dir,stripe.speed);}
+    for(Stripe stripe:stripes){
+      stripe.offset+=stripe.speed;
+      stripe.updateLocation();}}
   
   /*
    * ++++++++++++++++++++++++++++++++
@@ -95,34 +96,35 @@ public class Jig_MovingStripes_4way implements Jig{
   static final double CREATENEWSTRIPEPROBABILITY=0.2;
   
   private static final int 
-    STRIPEWIDTH_INCREMENT=16;
+    STRIPETHICKNESS_INCREMENT=16,
+    MAXSTRIPETHICKNESS=4;
 
   void createStripe(){
     //will we create a new stripe?
     if(rnd.nextDouble()>CREATENEWSTRIPEPROBABILITY)return;//no
     //yes
-    //get random width, direction and speed 
+    //get random thickness, direction and speed 
     int 
-      width=rnd.nextInt(4)*STRIPEWIDTH_INCREMENT+STRIPEWIDTH_INCREMENT,
+      thickness=rnd.nextInt(MAXSTRIPETHICKNESS)*STRIPETHICKNESS_INCREMENT+STRIPETHICKNESS_INCREMENT,
       speed=rnd.nextInt(3)+1,//TODO curve this
       dir=rnd.nextInt(4);//1 of the 4 directions  
     Stripe stripe;
     if(dir==GB.DIR_NORTH){
-      stripe=createStripe_North(width,speed);
+      stripe=createStripe_North(thickness,speed);
     }else if(dir==GB.DIR_EAST){
-      stripe=createStripe_East(width,speed);
+      stripe=createStripe_East(thickness,speed);
     }else if(dir==GB.DIR_SOUTH){
-      stripe=createStripe_South(width,speed);
+      stripe=createStripe_South(thickness,speed);
     }else{//dir==GSquid.DIR_WEST
-      stripe=createStripe_West(width,speed);}  
+      stripe=createStripe_West(thickness,speed);}  
     target.addChild(stripe);
     stripe.setParent(target);
     stripes.add(stripe);}
   
   //create it just over the south edge of the target, move north
-  Stripe createStripe_North(int width,int speed){
+  Stripe createStripe_North(int thickness,int speed){
     int[] tb=target.getBounds();//nesw
-    int north=tb[2],east=tb[1],south=tb[2]-width,west=tb[3];
+    int north=tb[2],east=tb[1],south=tb[2]-thickness,west=tb[3];
     BVertex[] vertices={ 
       new BVertex(west,south),
       new BVertex(west,north),
@@ -132,9 +134,9 @@ public class Jig_MovingStripes_4way implements Jig{
     return stripe;}
   
   //create it just over the west edge of the target
-  Stripe createStripe_East(int width,int speed){
+  Stripe createStripe_East(int thickness,int speed){
     int[] tb=target.getBounds();//nesw
-    int north=tb[0],east=tb[3],south=tb[2],west=tb[3]-width;
+    int north=tb[0],east=tb[3],south=tb[2],west=tb[3]-thickness;
     BVertex[] vertices={ 
       new BVertex(west,south),
       new BVertex(west,north),
@@ -142,23 +144,11 @@ public class Jig_MovingStripes_4way implements Jig{
       new BVertex(east,south)};
     Stripe stripe=new Stripe(Arrays.asList(vertices),getChorusIndexForNewStripe(),null,GB.DIR_EAST,speed);
     return stripe;}
-  
-  //create it just over the east edge of the target
-  Stripe createStripe_West(int width,int speed){
-    int[] tb=target.getBounds();//nesw
-    int north=tb[0],east=tb[1]+width,south=tb[2],west=tb[1];
-    BVertex[] vertices={ 
-      new BVertex(west,south),
-      new BVertex(west,north),
-      new BVertex(east,north),
-      new BVertex(east,south)};
-    Stripe stripe=new Stripe(Arrays.asList(vertices),getChorusIndexForNewStripe(),null,GB.DIR_WEST,speed);
-    return stripe;}
-  
+
   //create it just over the north edge of the target
-  Stripe createStripe_South(int width,int speed){
+  Stripe createStripe_South(int thickness,int speed){
     int[] tb=target.getBounds();//nesw
-    int north=tb[0]+width,east=tb[1],south=tb[0],west=0;
+    int north=tb[0]+thickness,east=tb[1],south=tb[0],west=0;
     BVertex[] vertices={ 
       new BVertex(west,south),
       new BVertex(west,north),
@@ -167,9 +157,25 @@ public class Jig_MovingStripes_4way implements Jig{
     Stripe stripe=new Stripe(Arrays.asList(vertices),getChorusIndexForNewStripe(),null,GB.DIR_SOUTH,speed);
     return stripe;}
   
+  //create it just over the east edge of the target
+  Stripe createStripe_West(int thickness,int speed){
+    int[] tb=target.getBounds();//nesw
+    int north=tb[0],east=tb[1]+thickness,south=tb[2],west=tb[1];
+    BVertex[] vertices={ 
+      new BVertex(west,south),
+      new BVertex(west,north),
+      new BVertex(east,north),
+      new BVertex(east,south)};
+    Stripe stripe=new Stripe(Arrays.asList(vertices),getChorusIndexForNewStripe(),null,GB.DIR_WEST,speed);
+    return stripe;}
+  
   private int getChorusIndexForNewStripe(){
     return rnd.nextInt(3);
 //    return 1;
+  }
+  
+  private void updateStripeLocation(){
+    
   }
   
   /*
@@ -190,7 +196,13 @@ public class Jig_MovingStripes_4way implements Jig{
       this.speed=speed;
     }
     
-    int dir,speed;
+    int dir,speed,offset=0;
+    
+    void updateLocation(){
+//      stripe.translate(stripe.dir,stripe.speed);
+      
+      
+    }
     
   }
   

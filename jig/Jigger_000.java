@@ -12,7 +12,7 @@ public class Jigger_000 implements Jigger{
 
   public void execute(){
     for(BShape shape:composition.getShapes()){
-      if(shape.getDepth()<1){
+      if(shape.getDepth()<2){
         if(shape.jig==null){
           shape.jig=new Jig_MovingStripes_4way();
           shape.jig.setTarget(shape);}

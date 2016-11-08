@@ -3,14 +3,19 @@ package org.fleen.blanketFlower.bComposition;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.fleen.blanketFlower.geom_Boxy.BCell;
 import org.fleen.util.tree.TreeNodeIterator;
 
 /*
+ * A bounding box
  * A tree of shapes 
- * Init, access 
+ * Init
+ * access to verticves,polygons,cells 
  * 
- * Each shape defines within its domain a local grid and its children are defined within that grid
- * The root shape is defined within the default grid
+ * We do NOT use nesting grids. All geometry is absolute.
+ * We base geometry operations upon target shape geomerty analysis : vertices, twist, etc
+ * We manages symmetry via shape signatures and target geometry
+ * 
  * 
  */
 public class BComposition{
@@ -23,18 +28,6 @@ public class BComposition{
   
   public BComposition(BShape root){
     this.root=root;}
-  
-  /*
-   * ################################
-   * METRICS
-   * ################################
-   */
-  
-  public int getWidth(){
-    return root.getWidth();}
-  
-  public int getHeight(){
-    return root.getHeight();}
   
   /*
    * ################################
@@ -68,5 +61,15 @@ public class BComposition{
       if(shape.isLeaf())
         leaves.add(shape);}
     return leaves;}
+  
+  /*
+   * ################################
+   * CELLS
+   * The cells of the composition are the cells of the root shape
+   * ################################
+   */
+  
+  public List<BCell> getCells(){
+    return root.getCells();}
   
 }

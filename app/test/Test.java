@@ -57,11 +57,18 @@ public class Test{
   BComposition composition;
   
   void initComposition(){
+//    BShape r=new BPolygon(
+//      new BVertex(0,0),
+//      new BVertex(0,100),
+//      new BVertex(200,100),
+//      new BVertex(200,0));
+    
     BShape r=new BPolygon(
-      new BVertex(0,0),
-      new BVertex(0,100),
-      new BVertex(200,100),
-      new BVertex(200,0));
+        new BVertex(0,0),
+        new BVertex(0,30),
+        new BVertex(60,30),
+        new BVertex(60,0));
+    
     composition=new BComposition(r);}
   
   /*
@@ -115,7 +122,8 @@ public class Test{
     new Color(0,255,0)};
   
 //  static final int CELLSPAN=6;
-  static final int CELLSPAN=5;//for mya thing
+//  static final int CELLSPAN=5;//for mya thing
+  static final int CELLSPAN=15;//for mya thing
   
   BufferedImage image;
   Renderer_Production renderer=new Renderer_Production(PALETTE000);
@@ -155,7 +163,7 @@ public class Test{
 //      test.export(i);
       System.out.println("FRAME#"+i);
       try{
-        Thread.sleep(10,0);
+        Thread.sleep(50,0);
       }catch(Exception x){x.printStackTrace();}}
     System.out.println("----end process");
     }

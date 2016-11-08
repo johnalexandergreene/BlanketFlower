@@ -12,10 +12,13 @@ public class Jigger_000 implements Jigger{
 
   public void execute(){
     for(BShape shape:composition.getShapes()){
-      if(shape.getDepth()<2){
+      if(shape.getDepth()<1){
+        //get a jig
         if(shape.jig==null){
-          shape.jig=new Jig_MovingStripes_4way();
+//          shape.jig=new Jig_MovingStripes_4way();
+          shape.jig=new Jig_RandomDots();
           shape.jig.setTarget(shape);}
+        //do it
         shape.jig.execute();}}
     
   }

@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -13,6 +12,7 @@ import java.util.Set;
 import org.fleen.blanketFlower.bComposition.BComposition;
 import org.fleen.blanketFlower.bComposition.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BCell;
+import org.fleen.blanketFlower.geom_Boxy.BCellMass;
 
 public class Renderer_Production{
 
@@ -64,7 +64,7 @@ public class Renderer_Production{
   //--------------------------------
   private Map<BCell,ColorIndex> getCellColorIndices(BComposition composition){
     Map<BCell,ColorIndex> colorindices=new HashMap<BCell,ColorIndex>();
-    List<BCell> cells;
+    BCellMass cells;
     ColorIndex colorindex;
     for(BShape shape:composition.getShapes()){
       cells=shape.getCells();

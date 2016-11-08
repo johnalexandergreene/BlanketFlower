@@ -30,6 +30,19 @@ public class BPolygon extends BShape{
     this.vertices=new ArrayList<BVertex>(Arrays.asList(vertices));}
   
   /*
+   * given an assumedly contiguous cell mass
+   */
+  public BPolygon(BCellMass cells){
+    super(0,null);
+    init(cells);}
+  
+  public BPolygon(BCell cell){
+    super(0,null);
+    BCellMass m=new BCellMass();
+    m.add(cell);
+    init(m);}
+  
+  /*
    * ################################
    * GEOMETRY
    * ################################
@@ -60,12 +73,42 @@ public class BPolygon extends BShape{
   
   /*
    * ################################
-   * GET CELLS CONTAINED WITHIN THIS POLYGON
+   * INIT WITH A MASS OF CELLS
    * ################################
    */
   
-  public List<BCell> getCells(){
-    List<BCell> a=GB.getPolygonCellFill(this);
-    return a;}
+  /*
+   * given an assumedly contiguous mass of cells, init the polygon described by its edge
+   * if it ain't contiguous then we might have trouble
+   */
+  private void init(BCellMass cells){
+    if(cells.isEmpty()){
+      throw new IllegalArgumentException("no cells");
+    }else if(cells.size()==1){
+      initVerticesFor1Cell(cells.iterator().next());
+    }else{
+      initVerticesForNCells(cells);}}
+  
+  private void initVerticesFor1Cell(BCell cell){
+    vertices=new ArrayList<BVertex>(4);
+    vertices.add(new BVertex(cell.x,cell.y));
+    vertices.add(new BVertex(cell.x+1,cell.y));
+    vertices.add(new BVertex(cell.x+1,cell.y-1));
+    vertices.add(new BVertex(cell.x,cell.y-1));}
+  
+  /*
+   * for each cell in cells : c0
+   *   for each of the 4 neighbors of c0 : n
+   *     if n is not in in cells then get that corrosponding seg and put it in edges
+   * now we have all the edges of the mass/es    
+   * piece them together into strings, matching endpoints, until we have used up all the edges
+   * these strings of segs are our polygons 
+   * 
+   *   
+   */
+  private void initVerticesForNCells(BCellMass cells){
+    
+  }
+  
   
 }

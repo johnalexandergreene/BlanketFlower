@@ -23,9 +23,9 @@ public interface Jig{
   //do the thing to the target
   void execute();
   
-  //duplicate this jig
+  //duplicate this jig for use in symmetric structures
   //we can't just use the same jig over and over, we are tracking unique sets of shapes
-  Jig dupe();
+  Object clone();
   
   //the target is the shape that we're editing the shapes of
   void setTarget(BShape target);

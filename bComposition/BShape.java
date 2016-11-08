@@ -5,8 +5,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.fleen.blanketFlower.BlanketFlower;
+import org.fleen.blanketFlower.geom_Boxy.BCellMass;
 import org.fleen.blanketFlower.geom_Boxy.BVertex;
-import org.fleen.blanketFlower.geom_Boxy.BCell;
 import org.fleen.blanketFlower.geom_Boxy.GB;
 import org.fleen.blanketFlower.jig.Jig;
 import org.fleen.util.tag.TagManager;
@@ -39,6 +39,8 @@ public abstract class BShape implements TreeNode,Serializable,BlanketFlower,Tagg
    * ################################
    */
   
+  public BShape(){}
+  
   public BShape(int chorusindex,List<String> tags){
     this.chorusindex=chorusindex;
     addTags(tags);}
@@ -46,16 +48,14 @@ public abstract class BShape implements TreeNode,Serializable,BlanketFlower,Tagg
   /*
    * ################################
    * GEOMETRY
+   * TODO maybe cache this stuff. a treewide purgegeomcache method too.
    * ################################
    */
   
-  /*
-   * ++++++++++++++++++++++++++++++++
-   * VERTICES
-   * ++++++++++++++++++++++++++++++++
-   */
-  
   public abstract List<BVertex> getVertices();
+  
+  public BCellMass getCells(){
+    return new BCellMass(this);}
   
   /*
    * ++++++++++++++++++++++++++++++++
@@ -99,16 +99,6 @@ public abstract class BShape implements TreeNode,Serializable,BlanketFlower,Tagg
   public int getHeight(){
     int[] b=getBounds();
     return Math.abs(b[0]-b[2]);}
-  /*
-   * ++++++++++++++++++++++++++++++++
-   * CELLS
-   * ++++++++++++++++++++++++++++++++
-   */
-  
-  /*
-   * return the cells within the domain of this shape
-   */
-  public abstract List<BCell> getCells();
   
   /*
    * ++++++++++++++++++++++++++++++++
@@ -242,6 +232,9 @@ public abstract class BShape implements TreeNode,Serializable,BlanketFlower,Tagg
   
   private int chorusindex;
   private BShapeSignature signature=null;
+  
+  public void setChorusIndex(int i){
+    chorusindex=i;}
   
   public int getChorusIndex(){
     return chorusindex;}

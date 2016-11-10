@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.app.test;
+package org.fleen.blanketFlower.test.general;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -34,7 +34,7 @@ public class Test{
    */
   
   static final String TITLE="blanketflower";
-  static final int UIWIDTH=1000,UIHEIGHT=600;
+  static final int UIWIDTH=1400,UIHEIGHT=800;
   public UI ui;
   
   private void initUI(){
@@ -65,9 +65,9 @@ public class Test{
     
     BShape r=new BPolygon(
         new BVertex(0,0),
-        new BVertex(0,30),
-        new BVertex(60,30),
-        new BVertex(60,0));
+        new BVertex(0,20),
+        new BVertex(50,20),
+        new BVertex(50,0));
     
     composition=new BComposition(r);}
   
@@ -121,9 +121,17 @@ public class Test{
     new Color(255,255,0),
     new Color(0,255,0)};
   
+  //VWYG
+//  private static final Color[] PALETTE000=new Color[]{
+//    new Color(255,0,255),
+//    new Color(255,255,255),
+//    new Color(255,255,0),
+//    new Color(0,255,0)};
+  
+  
 //  static final int CELLSPAN=6;
 //  static final int CELLSPAN=5;//for mya thing
-  static final int CELLSPAN=15;//for mya thing
+  static final int CELLSPAN=20;
   
   BufferedImage image;
   Renderer_Production renderer=new Renderer_Production(PALETTE000);
@@ -163,7 +171,7 @@ public class Test{
 //      test.export(i);
       System.out.println("FRAME#"+i);
       try{
-        Thread.sleep(50,0);
+        Thread.sleep(100,0);
       }catch(Exception x){x.printStackTrace();}}
     System.out.println("----end process");
     }

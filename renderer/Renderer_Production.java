@@ -1,6 +1,9 @@
 package org.fleen.blanketFlower.renderer;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Path2D;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,17 +39,29 @@ public class Renderer_Production{
       imageheight=composition.getRoot().getHeight()*cellspan;
     //init image
     BufferedImage image=new BufferedImage(imagewidth,imageheight,BufferedImage.TYPE_INT_RGB);
+    Graphics2D g=image.createGraphics();
+    g.setPaint(Color.white);
+    g.fillRect(0,0,imagewidth,imageheight);
+    AffineTransform t=new AffineTransform();
+    t.translate(0,imageheight);
+    t.scale(cellspan,-cellspan);
+    g.setTransform(t);
     //render cells
     Map<BCell,ColorIndex> cellcolorindices=getCellColorIndices(composition);
     int cellcolorindex;
     Color cellcolor;
     BCell cell;
     Iterator<BCell> icells=cellcolorindices.keySet().iterator();
+    Path2D cellpath;
     while(icells.hasNext()){
       cell=icells.next();
       cellcolorindex=cellcolorindices.get(cell).value;
       cellcolor=colors[cellcolorindex%colors.length];
-      renderCell(image,cellcolor,cell,cellspan);}
+      cellpath=cell.getPath2D();
+      g.setPaint(cellcolor);
+      g.fill(cellpath);
+//      renderCell(image,cellcolor,cell,cellspan);
+      }
   return image;}
   
   private void renderCell(BufferedImage image,Color color,BCell cell,int cellspan){

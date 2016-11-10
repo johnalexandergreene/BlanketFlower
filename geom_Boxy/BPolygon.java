@@ -90,11 +90,7 @@ public class BPolygon extends BShape{
       initVerticesForNCells(cells);}}
   
   private void initVerticesFor1Cell(BCell cell){
-    vertices=new ArrayList<BVertex>(4);
-    vertices.add(new BVertex(cell.x,cell.y));
-    vertices.add(new BVertex(cell.x+1,cell.y));
-    vertices.add(new BVertex(cell.x+1,cell.y-1));
-    vertices.add(new BVertex(cell.x,cell.y-1));}
+    vertices=new ArrayList<BVertex>(cell.getSquare().vertices);}
   
   /*
    * for each cell in cells : c0

@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.app.test;
+package org.fleen.blanketFlower.test.general;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -36,14 +36,12 @@ public class ImagePanel extends JPanel{
   private static final int PADDINGSPAN=30;
   
   public void paint(Graphics g){
-    AffineTransform paddedcartesian=new AffineTransform();
-    paddedcartesian.scale(1,-1);
-    paddedcartesian.translate(0,-getHeight());
-    paddedcartesian.translate(PADDINGSPAN,PADDINGSPAN);
+    AffineTransform pad=new AffineTransform();
+    pad.translate(PADDINGSPAN,PADDINGSPAN);
     //
     super.paint(g);
     if(sampler==null||sampler.image==null)return;
     Graphics2D g2=(Graphics2D)g;
-    g2.drawImage(sampler.image,paddedcartesian,null);}
+    g2.drawImage(sampler.image,pad,null);}
 
 }

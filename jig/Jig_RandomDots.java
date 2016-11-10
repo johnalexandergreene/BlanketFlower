@@ -82,7 +82,6 @@ public class Jig_RandomDots implements Jig{
   private void createDots(){
     List<BCell> targetcells=new ArrayList<BCell>(target.getCells());
     int s=targetcells.size();
-    System.out.println("target cells count="+s);
     if(s<2)return;//fail
     int dotcount=(int)(targetcells.size()*DOTCOUNT);
     if(dotcount<1)dotcount=1;

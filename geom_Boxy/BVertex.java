@@ -8,6 +8,8 @@ public class BVertex{
    * ################################
    */
   
+  public BVertex(){}
+  
   public BVertex(int x,int y){
     this.x=x;
     this.y=y;}
@@ -22,7 +24,7 @@ public class BVertex{
    * ################################
    */
   
-  public int x,y;
+  public int x=0,y=0;
   
   public int getDirection(BVertex v){
     return GB.getDirection(this,v);}

@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.jig;
+package org.fleen.blanketFlower.jig.sweepingStripes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +11,7 @@ import org.fleen.blanketFlower.bComposition.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BPolygon;
 import org.fleen.blanketFlower.geom_Boxy.BVertex;
 import org.fleen.blanketFlower.geom_Boxy.GB;
+import org.fleen.blanketFlower.jig.Jig;
 
 /*
  * a haze of static
@@ -19,7 +20,7 @@ import org.fleen.blanketFlower.geom_Boxy.GB;
  *   a dot is a 1-square shape
  * create new dots
  */
-public class Jig_RandomMovingStripes implements Jig{
+public class Jig_SweepingStripes implements Jig{
 
   /*
    * ################################
@@ -27,10 +28,10 @@ public class Jig_RandomMovingStripes implements Jig{
    * ################################
    */ 
   
-  public Jig_RandomMovingStripes(BShape target){
+  public Jig_SweepingStripes(BShape target){
     setTarget(target);}
   
-  public Jig_RandomMovingStripes(){}
+  public Jig_SweepingStripes(){}
   
   /*
    * ################################
@@ -39,7 +40,7 @@ public class Jig_RandomMovingStripes implements Jig{
    */
   
   public Object clone(){
-    return new Jig_RandomMovingStripes();}
+    return new Jig_SweepingStripes();}
   
   /*
    * ################################
@@ -76,53 +77,8 @@ public class Jig_RandomMovingStripes implements Jig{
    * ################################
    */
   
-  static final boolean 
-    STRIPEORIENTATION_HORIZONTAL=true,
-    STRIPEORIENTATION_VERTICAL=false;
-  
   List<Stripe> stripes=new ArrayList<Stripe>();
   Map<Stripe,BShape> shapebystripe=new HashMap<Stripe,BShape>();
-  
-  /*
-   * STRIPE CLASS
-   * 
-   * A stripe is arranged like this
-   * 
-   *   1            2
-   *   o------------o
-   *   |            |
-   *   |            |
-   *   |            |
-   *   |            |
-   *   o------------o
-   *   0            3
-   * 
-   * we locate the v0 vertex of the stripe by offset from the southwest corner of the target's bounding rectangle
-   */
-  
-  class Stripe{
-    
-    Stripe(boolean orientation,int thickness,int course,int speed){
-      this.orientation=orientation;
-      this.thickness=thickness;
-      this.course=course;
-      this.speed=speed;}
-    
-    //spanning the bounding rectangle of the target
-    //horizontally or vertically
-    boolean orientation;
-    //in terms of cells or unit increments or whatever
-    int thickness;
-    //the direction that the stripe is moving : nesw
-    int course;  
-    //speed is cells traversed per execution cycle
-    int speed;
-    //a reference vertex in the target, specified by index, used for stripe positioning
-    int refvertexindex;
-    //position of the stripe v0 relative to target v0
-    int offsetx,offsety;
-    //set to true when the stripe, in course, exits the target bounding rectangle
-    boolean cull=false;}
   
   /*
    * ################################
@@ -149,14 +105,14 @@ public class Jig_RandomMovingStripes implements Jig{
   private boolean getOrientationForNewStripe(){
     int w=target.getWidth(),h=target.getHeight();
     if(w>h)
-      return STRIPEORIENTATION_VERTICAL;
+      return Stripe.STRIPEORIENTATION_VERTICAL;
     else if(h>w)
-      return STRIPEORIENTATION_HORIZONTAL;
+      return Stripe.STRIPEORIENTATION_HORIZONTAL;
     else
       if(rnd.nextBoolean())
-        return STRIPEORIENTATION_VERTICAL;
+        return Stripe.STRIPEORIENTATION_VERTICAL;
       else
-        return STRIPEORIENTATION_HORIZONTAL;}
+        return Stripe.STRIPEORIENTATION_HORIZONTAL;}
   
   private static final int 
     STRIPETHICKNESS_INCREMENT=16,
@@ -167,7 +123,7 @@ public class Jig_RandomMovingStripes implements Jig{
     return thickness;}
   
   private int getCourseForNewStripe(boolean orientation){
-    if(orientation==STRIPEORIENTATION_VERTICAL)
+    if(orientation==Stripe.STRIPEORIENTATION_VERTICAL)
       if(rnd.nextBoolean())
         return GB.DIR_EAST;
       else
@@ -315,7 +271,7 @@ public class Jig_RandomMovingStripes implements Jig{
       v0x=refvertexx+stripe.offsetx,
       v0y=refvertexy+stripe.offsety,
       v1x,v1y,v2x,v2y,v3x,v3y;
-    if(stripe.orientation==STRIPEORIENTATION_VERTICAL){
+    if(stripe.orientation==Stripe.STRIPEORIENTATION_VERTICAL){
       v1x=v0x;
       v1y=v0y+target.getHeight();
       v2x=v1x+stripe.thickness;

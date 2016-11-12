@@ -4,6 +4,8 @@ import java.util.Random;
 
 import org.fleen.blanketFlower.bComposition.BComposition;
 import org.fleen.blanketFlower.bComposition.BShape;
+import org.fleen.blanketFlower.jig.sprinkle.Jig_Sprinkle;
+import org.fleen.blanketFlower.jig.sweepingStripes.Jig_SweepingStripes;
 
 public class Jigger_000 implements Jigger{
 
@@ -22,12 +24,12 @@ public class Jigger_000 implements Jigger{
         //get a jig
         if(shape.jig==null){
           if(d==0){
-            shape.jig=new Jig_RandomMovingStripes();
+            shape.jig=new Jig_SweepingStripes();
           }else{
             if(rnd.nextBoolean())
-              shape.jig=new Jig_RandomDots(); 
+              shape.jig=new Jig_Sprinkle(); 
             else
-              shape.jig=new Jig_RandomMovingStripes();
+              shape.jig=new Jig_SweepingStripes();
           }
           shape.jig.setTarget(shape);}
         //do it

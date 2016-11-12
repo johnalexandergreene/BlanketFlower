@@ -65,9 +65,9 @@ public class Test{
     
     BShape r=new BPolygon(
         new BVertex(0,0),
-        new BVertex(0,100),
-        new BVertex(200,100),
-        new BVertex(200,0));
+        new BVertex(0,81),
+        new BVertex(150,81),
+        new BVertex(150,0));
     
     composition=new BComposition(r);}
   
@@ -166,7 +166,7 @@ public class Test{
   public static final void main(String[] a){
     System.out.println("----begin process");
     Test test=new Test();
-    for(int i=0;i<600;i++){
+    for(int i=0;i<500;i++){
       test.executeJigger();
       test.renderComposition();
 //      test.export(i);

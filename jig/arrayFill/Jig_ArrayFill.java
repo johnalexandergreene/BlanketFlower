@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.jig;
+package org.fleen.blanketFlower.jig.arrayFill;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -9,6 +9,7 @@ import java.util.Set;
 import org.fleen.blanketFlower.bComposition.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BCell;
 import org.fleen.blanketFlower.geom_Boxy.BPolygon;
+import org.fleen.blanketFlower.jig.Jig;
 
 /*
  * a haze of static
@@ -17,7 +18,7 @@ import org.fleen.blanketFlower.geom_Boxy.BPolygon;
  *   a dot is a 1-square shape
  * create new dots
  */
-public class Jig_RandomDots implements Jig{
+public class Jig_ArrayFill implements Jig{
 
   /*
    * ################################
@@ -25,10 +26,10 @@ public class Jig_RandomDots implements Jig{
    * ################################
    */ 
   
-  public Jig_RandomDots(BShape target){
+  public Jig_ArrayFill(BShape target){
     setTarget(target);}
   
-  public Jig_RandomDots(){}
+  public Jig_ArrayFill(){}
   
   /*
    * ################################
@@ -37,7 +38,7 @@ public class Jig_RandomDots implements Jig{
    */
   
   public Object clone(){
-    return new Jig_RandomDots();}
+    return new Jig_ArrayFill();}
   
   /*
    * ################################

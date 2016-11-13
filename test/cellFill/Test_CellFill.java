@@ -3,7 +3,7 @@ package org.fleen.blanketFlower.test.cellFill;
 import java.util.Iterator;
 
 import org.fleen.blanketFlower.geom_Boxy.BCell;
-import org.fleen.blanketFlower.geom_Boxy.BCellMass;
+import org.fleen.blanketFlower.geom_Boxy.BCellGroup;
 import org.fleen.blanketFlower.geom_Boxy.BPolygon;
 import org.fleen.blanketFlower.geom_Boxy.BVertex;
 
@@ -18,7 +18,7 @@ public class Test_CellFill{
   public static final void main(String[] a){
     System.out.println("FILL POLYGON WITH CELLS TEST");
     BPolygon p=new BPolygon(VERTICES);
-    BCellMass m=new BCellMass(p);
+    BCellGroup m=new BCellGroup(p);
     System.out.println("mass size="+m.size());
     Iterator<BCell> i=m.iterator();
     BCell cell;

@@ -32,13 +32,13 @@ public class BPolygon extends BShape{
   /*
    * given an assumedly contiguous cell mass
    */
-  public BPolygon(BCellMass cells){
+  public BPolygon(BCellGroup cells){
     super(0,null);
     init(cells);}
   
   public BPolygon(BCell cell){
     super(0,null);
-    BCellMass m=new BCellMass();
+    BCellGroup m=new BCellGroup();
     m.add(cell);
     init(m);}
   
@@ -81,7 +81,7 @@ public class BPolygon extends BShape{
    * given an assumedly contiguous mass of cells, init the polygon described by its edge
    * if it ain't contiguous then we might have trouble
    */
-  private void init(BCellMass cells){
+  private void init(BCellGroup cells){
     if(cells.isEmpty()){
       throw new IllegalArgumentException("no cells");
     }else if(cells.size()==1){
@@ -102,7 +102,7 @@ public class BPolygon extends BShape{
    * 
    *   
    */
-  private void initVerticesForNCells(BCellMass cells){
+  private void initVerticesForNCells(BCellGroup cells){
     
   }
   

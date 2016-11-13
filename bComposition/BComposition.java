@@ -3,7 +3,7 @@ package org.fleen.blanketFlower.bComposition;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.fleen.blanketFlower.geom_Boxy.BCell;
+import org.fleen.blanketFlower.geom_Boxy.BCellGroup;
 import org.fleen.util.tree.TreeNodeIterator;
 
 /*
@@ -69,7 +69,7 @@ public class BComposition{
    * ################################
    */
   
-  public List<BCell> getCells(){
+  public BCellGroup getCells(){
     return root.getCells();}
   
 }

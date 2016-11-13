@@ -15,7 +15,7 @@ import java.util.Set;
 import org.fleen.blanketFlower.bComposition.BComposition;
 import org.fleen.blanketFlower.bComposition.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BCell;
-import org.fleen.blanketFlower.geom_Boxy.BCellMass;
+import org.fleen.blanketFlower.geom_Boxy.BCellGroup;
 
 public class Renderer_Production{
 
@@ -79,7 +79,7 @@ public class Renderer_Production{
   //--------------------------------
   private Map<BCell,ColorIndex> getCellColorIndices(BComposition composition){
     Map<BCell,ColorIndex> colorindices=new HashMap<BCell,ColorIndex>();
-    BCellMass cells;
+    BCellGroup cells;
     ColorIndex colorindex;
     for(BShape shape:composition.getShapes()){
       cells=shape.getCells();

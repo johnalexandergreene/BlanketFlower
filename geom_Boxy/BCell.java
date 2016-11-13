@@ -22,18 +22,29 @@ public class BCell{
    */
   
   public int x,y;
+
+  public BCell getNorth(){
+    return new BCell(x,y+1);}
   
   public BCell getEast(){
     return new BCell(x+1,y);}
+
+  public BCell getSouth(){
+    return new BCell(x,y-1);}
   
   public BCell getWest(){
     return new BCell(x-1,y);}
   
-  public BCell getNorth(){
-    return new BCell(x,y+1);}
-  
-  public BCell getSouth(){
-    return new BCell(x,y-1);}
+  /*
+   * returns true if the specified cfell is 
+   * adjacent-flat (as opposed to adjacent-corner) to this cell.
+   */
+  public boolean isAdjacentFlat(BCell c){
+    if(c.x==x&&c.y==y+1)return true;
+    if(c.x==x+1&&c.y==y)return true;
+    if(c.x==x&&c.y==y-1)return true;
+    if(c.x==x-1&&c.y==y)return true;
+    return false;}
   
   
   /*   

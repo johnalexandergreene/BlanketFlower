@@ -25,6 +25,10 @@ public class BPolygon extends BShape{
     super(chorusindex,tags);
     this.vertices=new ArrayList<BVertex>(vertices);}
   
+  public BPolygon(List<BVertex> vertices){
+    super(0,null);
+    this.vertices=new ArrayList<BVertex>(vertices);}
+  
   public BPolygon(BVertex... vertices){
     super(0,null);
     this.vertices=new ArrayList<BVertex>(Arrays.asList(vertices));}
@@ -70,6 +74,12 @@ public class BPolygon extends BShape{
   
   public List<BVertex> getVertices(){
     return vertices;}
+  
+  //TODO
+  public void removeRedundantColinearVertices(){
+    
+    
+  }
   
   /*
    * ################################

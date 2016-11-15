@@ -420,6 +420,7 @@ public class GB{
   private static final List<EdgeSection> getAssembledSections(List<EdgeSection> sectionpool){
     EdgeSection section=sectionpool.remove(sectionpool.size()-1);
     List<EdgeSection> assembledsections=new ArrayList<EdgeSection>();
+    assembledsections.add(section);
     while(!sectionpool.isEmpty()){
       section=getNextSection(assembledsections,sectionpool);
       if(section==null)throw new IllegalArgumentException("noncontiguous cell group");

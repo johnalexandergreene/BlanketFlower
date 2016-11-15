@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.test.general;
+package org.fleen.blanketFlower.test.production;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -16,7 +16,7 @@ public class ImagePanel extends JPanel{
    * ################################
    */
   
-  ImagePanel(Test sampler){
+  ImagePanel(Test_Production sampler){
     this.sampler=sampler;}
   
   /*
@@ -25,7 +25,7 @@ public class ImagePanel extends JPanel{
    * ################################
    */
   
-  Test sampler;
+  Test_Production sampler;
   
   /*
    * ################################

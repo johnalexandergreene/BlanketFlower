@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.test.general;
+package org.fleen.blanketFlower.test.production;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -13,7 +13,7 @@ import org.fleen.blanketFlower.jig.Jigger;
 import org.fleen.blanketFlower.jig.Jigger_000;
 import org.fleen.blanketFlower.renderer.Renderer_Production;
 
-public class Test{
+public class Test_Production{
   
   /*
    * ################################
@@ -21,7 +21,7 @@ public class Test{
    * ################################
    */
   
-  Test(){
+  Test_Production(){
     initComposition();
     initJigger();
     initUI();
@@ -41,7 +41,7 @@ public class Test{
     EventQueue.invokeLater(new Runnable(){
       public void run(){
         try{
-          ui=new UI(Test.this,UIWIDTH,UIHEIGHT);
+          ui=new UI(Test_Production.this,UIWIDTH,UIHEIGHT);
           ui.setVisible(true);
           ui.setTitle(TITLE);
           ui.getContentPane().setBackground(Color.black);
@@ -165,7 +165,7 @@ public class Test{
   
   public static final void main(String[] a){
     System.out.println("----begin process");
-    Test test=new Test();
+    Test_Production test=new Test_Production();
     for(int i=0;i<720;i++){
       test.executeJigger();
       test.renderComposition();

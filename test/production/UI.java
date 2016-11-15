@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.test.general;
+package org.fleen.blanketFlower.test.production;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -8,7 +8,7 @@ public class UI extends JFrame{
 
   public JPanel imagepanel;
 
-  public UI(Test test,int w,int h){
+  public UI(Test_Production test,int w,int h){
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(50,50,w,h);
     imagepanel=new ImagePanel(test);

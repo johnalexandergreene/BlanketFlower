@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.test.general;
+package org.fleen.blanketFlower.test.production;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

@@ -1,5 +1,6 @@
 package org.fleen.blanketFlower.geom_Boxy;
 
+import java.awt.geom.Path2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -80,6 +81,17 @@ public class BPolygon extends BShape{
     
     
   }
+  
+  public Path2D getPath2D(){
+    int s=vertices.size();
+    Path2D path=new Path2D.Double();
+    BVertex v=vertices.get(0);
+    path.moveTo(v.x,v.y);
+    for(int i=1;i<s;i++){
+      v=vertices.get(i);
+      path.lineTo(v.x,v.y);}
+    path.closePath();
+    return path;}
   
   /*
    * ################################

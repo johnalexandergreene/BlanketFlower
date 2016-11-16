@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.fleen.blanketFlower.BlanketFlower;
 import org.fleen.blanketFlower.geom_Boxy.BCellGroup;
+import org.fleen.blanketFlower.geom_Boxy.BPolygon;
 import org.fleen.blanketFlower.geom_Boxy.BVertex;
 import org.fleen.blanketFlower.geom_Boxy.GB;
 import org.fleen.blanketFlower.jig.Jig;
@@ -53,6 +54,8 @@ public abstract class BShape implements TreeNode,Serializable,BlanketFlower,Tagg
    */
   
   public abstract List<BVertex> getVertices();
+  
+  public abstract List<BPolygon> getPolygons();
   
   public BCellGroup getCells(){
     return new BCellGroup(this);}

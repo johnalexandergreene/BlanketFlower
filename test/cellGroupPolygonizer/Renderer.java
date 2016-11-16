@@ -8,6 +8,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.image.BufferedImage;
 
+import org.fleen.blanketFlower.bComposition.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BCell;
 import org.fleen.blanketFlower.geom_Boxy.BPolygon;
 
@@ -56,7 +57,7 @@ public class Renderer{
     //init image
     BufferedImage image=new BufferedImage(imagewidth,imageheight,BufferedImage.TYPE_INT_RGB);
     Graphics2D g=image.createGraphics();
-    g.setPaint(Color.white);
+    g.setPaint(BACKGROUNDCOLOR);
     g.fillRect(0,0,imagewidth,imageheight);
     AffineTransform t=new AffineTransform();
     t.translate(0,imageheight);
@@ -64,7 +65,7 @@ public class Renderer{
     t.scale(CELLSPAN,-CELLSPAN);
     g.setTransform(t);
     //render cells
-    Color cellcolor=Color.red;
+    Color cellcolor=CELLCOLOR;
     Path2D path;
     for(BCell cell:cgp.cellmess){
       path=cell.getPath2D();
@@ -73,10 +74,11 @@ public class Renderer{
     //render polygons
     g.setStroke(createStroke());
     g.setPaint(POLYGONSTROKECOLOR);
-    for(BPolygon polygon:cgp.cellmess.getPolygons()){
-      path=polygon.getPath2D();
-      g.draw(path);
-    }
+    for(BShape shape:cgp.cellmess.getShapes()){
+      for(BPolygon polygon:shape.getPolygons()){
+        path=polygon.getPath2D();
+        g.draw(path);
+    }}
   return image;}
   
   /*

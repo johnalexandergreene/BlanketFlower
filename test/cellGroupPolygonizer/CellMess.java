@@ -3,9 +3,9 @@ package org.fleen.blanketFlower.test.cellGroupPolygonizer;
 import java.util.List;
 import java.util.Random;
 
+import org.fleen.blanketFlower.bComposition.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BCell;
 import org.fleen.blanketFlower.geom_Boxy.BCellGroup;
-import org.fleen.blanketFlower.geom_Boxy.BPolygon;
 import org.fleen.blanketFlower.geom_Boxy.GB;
 
 /*
@@ -31,7 +31,7 @@ class CellMess extends BCellGroup{
       cell=new BCell(x,y);
       add(cell);}}
   
-  List<BPolygon> getPolygons(){
-    return GB.getPolygons(this);}
+  List<BShape> getShapes(){
+    return GB.getShapes(this);}
 
 }

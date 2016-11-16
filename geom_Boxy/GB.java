@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.fleen.blanketFlower.bComposition.BShape;
 import org.fleen.geom_2D.GD;
 
 /*
@@ -350,22 +351,22 @@ public class GB{
   
   /*
    * ################################
-   * ARBITRARILY CONTIGUOUS CELL GROUP TO POLYGONS
+   * ARBITRARILY CONTIGUOUS CELL GROUP TO SHAPES
    *
    * given cell group : BCellGroup M
    * get contiguous subgroupes within M : list C (see above)
-   * for each contiguous group within C create one polygon.
+   * for each contiguous group within C create one shape (polygon or yard).
    * ################################
    */
   
-  public static final List<BPolygon> getPolygons(BCellGroup agroup){
+  public static final List<BShape> getShapes(BCellGroup agroup){
     List<BCellGroup> cgroups=getContiguousSubgroups(agroup);
-    List<BPolygon> polygons=new ArrayList<BPolygon>(cgroups.size());
-    BPolygon polygon;
+    List<BShape> shapes=new ArrayList<BShape>(cgroups.size());
+    BShape shape;
     for(BCellGroup cgroup:cgroups){
-      polygon=getPolygon(cgroup);
-      polygons.add(polygon);}
-    return polygons;}
+      shape=getShape(cgroup);
+      shapes.add(shape);}
+    return shapes;}
   
   /*
    * ################################
@@ -388,17 +389,54 @@ public class GB{
   /*
    * TODO this could be optimized
    * we're checking edge cell neighbors twice. Maybe that's bad.
+   * 
+   * 
+   * TODO this must return a SHAPE, NOT A POLYGON
+   * because a polygon might have a hole. and then it is contiguous but with multiple polygons.$$$$$$$$$$$$$$$$$
+   * 
+   * 
    */
-  public static BPolygon getPolygon(BCellGroup contiguous){
+  public static BShape getShape(BCellGroup contiguous){
     //get the sections
     List<EdgeSection> sectionpool=new ArrayList<EdgeSection>();
     for(BCell cell:contiguous)
       if(contiguous.isEdge(cell))
         sectionpool.addAll(getEdgeSections(cell,contiguous));
-    //assemble them into a polygon
-    List<EdgeSection> assembledsections=getAssembledSections(sectionpool);
-    BPolygon polygon=getPolygon(assembledsections);
-    return polygon;}
+    //assemble them into 1..n polygonal lists of sections
+    List<List<EdgeSection>> assembledsectionslist=getSectionLoops(sectionpool);
+    List<BPolygon> polygons=getPolygons(assembledsectionslist);
+    BShape shape=getShape(polygons);
+    return shape;}
+  
+  private static final BShape getShape(List<BPolygon> polygons){
+    if(polygons.size()==1){
+      return polygons.get(0);
+    }else{
+      BPolygon outer=getOuter(polygons);
+      BYard yard=new BYard(outer);
+      polygons.remove(outer);
+      yard.polygons.addAll(polygons);
+      return yard;}}
+  
+  /*
+   * find the polygon that contains at least 1 vertex from each of the other polygons
+   */
+  private static final BPolygon getOuter(List<BPolygon> polygons){
+    boolean contains;
+    for(BPolygon p0:polygons){
+      contains=true;
+      seek:for(BPolygon p1:polygons){
+        if(!p0.contains(p1.vertices.get(0))){
+          contains=false;
+          break seek;}}
+      if(contains)return p0;}
+    throw new IllegalArgumentException("wha");}
+  
+  private static final List<BPolygon> getPolygons(List<List<EdgeSection>> assembledsectionslist){
+    List<BPolygon> polygons=new ArrayList<BPolygon>(assembledsectionslist.size());
+    for(List<EdgeSection> assembledsections:assembledsectionslist)
+      polygons.add(getPolygon(assembledsections));
+    return polygons;}
   
   private static final BPolygon getPolygon(List<EdgeSection> assembledsections){
     List<BVertex> vertices=new ArrayList<BVertex>();
@@ -408,25 +446,47 @@ public class GB{
     polygon.removeRedundantColinearVertices();
     return polygon;}
   
+  private static final List<List<EdgeSection>> getSectionLoops(List<EdgeSection> sectionpool){
+    List<List<EdgeSection>> sectionloops=new ArrayList<List<EdgeSection>>();
+    while(!sectionpool.isEmpty())
+      sectionloops.add(getSectionLoop(sectionpool));
+    return sectionloops;}
+  
   /*
    * get arbitrary section, remove it from sectionpool
-   * init assembledsections list with it
+   * init loop list with it
    * while(sectionpool isn't empty)
-   *   get the section that fits onto the last section in the assembledsections list. 
-   *     remove it from sectionpool, add it to assembledsections
+   *   get the section that fits onto the last section in the loop. 
+   *     remove it from sectionpool, add it to loop
    *     if no such section is found then fail. we have noncontiguous cell group.
    *  
    */
-  private static final List<EdgeSection> getAssembledSections(List<EdgeSection> sectionpool){
+  private static final List<EdgeSection> getSectionLoop(List<EdgeSection> sectionpool){
     EdgeSection section=sectionpool.remove(sectionpool.size()-1);
-    List<EdgeSection> assembledsections=new ArrayList<EdgeSection>();
-    assembledsections.add(section);
-    while(!sectionpool.isEmpty()){
-      section=getNextSection(assembledsections,sectionpool);
+    List<EdgeSection> loop=new ArrayList<EdgeSection>();
+    loop.add(section);
+    boolean finished=false;
+    while(!finished){
+      section=getNextSection(loop,sectionpool);
       if(section==null)throw new IllegalArgumentException("noncontiguous cell group");
       sectionpool.remove(section);
-      assembledsections.add(section);}
-    return assembledsections;}
+      loop.add(section);
+      finished=loopIsFinished(loop);}
+    return loop;}
+  
+  /*
+   * if the last vertex in the last section is equal to the 
+   * first vertex in the first section then the loop is finished
+   */
+  private static final boolean loopIsFinished(List<EdgeSection> loop){
+    EdgeSection 
+      sfirst=loop.get(0),
+      slast=loop.get(loop.size()-1);
+    BVertex 
+      sfirstvfirst=sfirst.get(0),
+      slastvlast=slast.get(slast.size()-1);
+    boolean loopisfinished=sfirstvfirst.equals(slastvlast);
+    return loopisfinished;}
   
   /*
    * given a list of assembled sections and a pool of unassembled sections

@@ -1,7 +1,6 @@
 package org.fleen.blanketFlower.geom_Boxy;
 
 import java.awt.geom.Path2D;
-import java.awt.geom.Path2D.Double;
 
 public class BCell{
   
@@ -36,7 +35,43 @@ public class BCell{
     return new BCell(x-1,y);}
   
   /*
-   * returns true if the specified cfell is 
+   * ++++++++++++++++++++++++++++++++
+   * get the cell if it is in the group, return null otherwise
+   * ++++++++++++++++++++++++++++++++
+   */
+  
+  public BCell getNorth(BCellGroup g){
+    BCell c=new BCell(x,y+1);
+    if(g.contains(c))
+      return c;
+    else return null;}
+  
+  public BCell getEast(BCellGroup g){
+    BCell c=new BCell(x+1,y);
+    if(g.contains(c))
+      return c;
+    else return null;}
+
+  public BCell getSouth(BCellGroup g){
+    BCell c=new BCell(x,y-1);
+    if(g.contains(c))
+      return c;
+    else return null;}
+    
+  public BCell getWest(BCellGroup g){
+    BCell c=new BCell(x-1,y);
+    if(g.contains(c))
+      return c;
+    else return null;}
+  
+  /*
+   * ++++++++++++++++++++++++++++++++
+   * adjacentness
+   * ++++++++++++++++++++++++++++++++
+   */
+  
+  /*
+   * returns true if the specified cell is 
    * adjacent-flat (as opposed to adjacent-corner) to this cell.
    */
   public boolean isAdjacentFlat(BCell c){

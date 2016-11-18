@@ -1,12 +1,12 @@
 package org.fleen.blanketFlower.geom_Boxy;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.fleen.blanketFlower.bComposition.BShape;
+import org.fleen.blanketFlower.geom_Boxy.contiguousCellGroupShaper.ContiguousCellGroupShaper;
 import org.fleen.geom_2D.GD;
 
 /*
@@ -351,288 +351,33 @@ public class GB{
   
   /*
    * ################################
-   * ARBITRARILY CONTIGUOUS CELL GROUP TO SHAPES
-   *
-   * given cell group : BCellGroup M
-   * get contiguous subgroupes within M : list C (see above)
-   * for each contiguous group within C create one shape (polygon or yard).
+   * CELL GROUP TO SHAPE
    * ################################
    */
   
-  public static final List<BShape> getShapes(BCellGroup agroup){
-    List<BCellGroup> cgroups=getContiguousSubgroups(agroup);
+  private static final ContiguousCellGroupShaper ccgs=new ContiguousCellGroupShaper();
+  
+  /*
+   * given cell group : BCellGroup g
+   * get contiguous subgroups within g : cgroups
+   * for each contiguous group within cgroups create one shape (polygon or yard).
+   */
+  public static final List<BShape> getShapes(BCellGroup g){
+    List<BCellGroup> cgroups=getContiguousSubgroups(g);
     List<BShape> shapes=new ArrayList<BShape>(cgroups.size());
     BShape shape;
     for(BCellGroup cgroup:cgroups){
-      shape=getShape(cgroup);
+      shape=getShapeFromContiguousGroup(cgroup);
       shapes.add(shape);}
     return shapes;}
   
   /*
-   * ################################
-   * CONTIGUOUS GROUP TO POLYGON
-   * 
-   * given contiguous cell group (we're assuming, we aren't gonna test it)
-   * get the polygon described by its edge
-   * 
-   * get all edge cells
-   * for each edge cell : c0 
-   *   get 1 or 2 edge sections. add to sections list
-   * assemble sections into polygons via end-vertex matching
-   * 
-   * edge sections are clockwise sections of a cell edge
-   * our product polygons will be clockwise
-   * 
-   * ################################
+   * given a contiguous cell group return a shape
    */
-  
-  /*
-   * TODO this could be optimized
-   * we're checking edge cell neighbors twice. Maybe that's bad.
-   * 
-   * 
-   * TODO this must return a SHAPE, NOT A POLYGON
-   * because a polygon might have a hole. and then it is contiguous but with multiple polygons.$$$$$$$$$$$$$$$$$
-   * 
-   * 
-   */
-  public static BShape getShape(BCellGroup contiguous){
-    //get the sections
-    List<EdgeSection> sectionpool=new ArrayList<EdgeSection>();
-    for(BCell cell:contiguous)
-      if(contiguous.isEdge(cell))
-        sectionpool.addAll(getEdgeSections(cell,contiguous));
-    //assemble them into 1..n polygonal lists of sections
-    List<List<EdgeSection>> assembledsectionslist=getSectionLoops(sectionpool);
-    List<BPolygon> polygons=getPolygons(assembledsectionslist);
-    BShape shape=getShape(polygons);
+  public static final BShape getShapeFromContiguousGroup(BCellGroup contiguous){
+    BShape shape=ccgs.getShape(contiguous);
     return shape;}
   
-  private static final BShape getShape(List<BPolygon> polygons){
-    if(polygons.size()==1){
-      return polygons.get(0);
-    }else{
-      BPolygon outer=getOuter(polygons);
-      BYard yard=new BYard(outer);
-      polygons.remove(outer);
-      yard.polygons.addAll(polygons);
-      return yard;}}
-  
-  /*
-   * find the polygon that contains at least 1 vertex from each of the other polygons
-   */
-  private static final BPolygon getOuter(List<BPolygon> polygons){
-    boolean contains;
-    for(BPolygon p0:polygons){
-      contains=true;
-      seek:for(BPolygon p1:polygons){
-        if(!p0.contains(p1.vertices.get(0))){
-          contains=false;
-          break seek;}}
-      if(contains)return p0;}
-    throw new IllegalArgumentException("wha");}
-  
-  private static final List<BPolygon> getPolygons(List<List<EdgeSection>> assembledsectionslist){
-    List<BPolygon> polygons=new ArrayList<BPolygon>(assembledsectionslist.size());
-    for(List<EdgeSection> assembledsections:assembledsectionslist)
-      polygons.add(getPolygon(assembledsections));
-    return polygons;}
-  
-  private static final BPolygon getPolygon(List<EdgeSection> assembledsections){
-    List<BVertex> vertices=new ArrayList<BVertex>();
-    for(EdgeSection section:assembledsections)
-      vertices.addAll(section.subList(0,section.size()-1));
-    BPolygon polygon=new BPolygon(vertices);
-    polygon.removeRedundantColinearVertices();
-    return polygon;}
-  
-  private static final List<List<EdgeSection>> getSectionLoops(List<EdgeSection> sectionpool){
-    List<List<EdgeSection>> sectionloops=new ArrayList<List<EdgeSection>>();
-    while(!sectionpool.isEmpty())
-      sectionloops.add(getSectionLoop(sectionpool));
-    return sectionloops;}
-  
-  /*
-   * get arbitrary section, remove it from sectionpool
-   * init loop list with it
-   * while(sectionpool isn't empty)
-   *   get the section that fits onto the last section in the loop. 
-   *     remove it from sectionpool, add it to loop
-   *     if no such section is found then fail. we have noncontiguous cell group.
-   *  
-   */
-  private static final List<EdgeSection> getSectionLoop(List<EdgeSection> sectionpool){
-    EdgeSection section=sectionpool.remove(sectionpool.size()-1);
-    List<EdgeSection> loop=new ArrayList<EdgeSection>();
-    loop.add(section);
-    boolean finished=false;
-    while(!finished){
-      section=getNextSection(loop,sectionpool);
-      if(section==null)throw new IllegalArgumentException("noncontiguous cell group");
-      sectionpool.remove(section);
-      loop.add(section);
-      finished=loopIsFinished(loop);}
-    return loop;}
-  
-  /*
-   * if the last vertex in the last section is equal to the 
-   * first vertex in the first section then the loop is finished
-   */
-  private static final boolean loopIsFinished(List<EdgeSection> loop){
-    EdgeSection 
-      sfirst=loop.get(0),
-      slast=loop.get(loop.size()-1);
-    BVertex 
-      sfirstvfirst=sfirst.get(0),
-      slastvlast=slast.get(slast.size()-1);
-    boolean loopisfinished=sfirstvfirst.equals(slastvlast);
-    return loopisfinished;}
-  
-  /*
-   * given a list of assembled sections and a pool of unassembled sections
-   * find a section in the pool that connects to the last section in the assembled sections list
-   * if none is found then return null
-   */
-  private static final EdgeSection getNextSection(List<EdgeSection> assembledsections,List<EdgeSection> sectionpool){
-    EdgeSection lastsection=assembledsections.get(assembledsections.size()-1);
-    BVertex lastvertex=lastsection.get(lastsection.size()-1);
-    for(EdgeSection section:sectionpool){
-      if(section.get(0).equals(lastvertex))
-        return section;}
-    return null;}
-  
-  
-  
-  private static List<EdgeSection> getEdgeSections(BCell cell,BCellGroup contiguous){
-    //map cell edges to boolean array
-    boolean[] e={//edges nesw
-      cell.getNorth()!=null,
-      cell.getEast()!=null,
-      cell.getSouth()!=null,
-      cell.getWest()!=null};
-    BPolygon p=cell.getSquare();
-    BVertex[] v=p.vertices.toArray(new BVertex[p.vertices.size()]);//vertices sw nw ne se
-    EdgeSection section0=null,section1=null;
-    //convert boolean array to list of sections
-    //test each possible permutation crudely and literally
-    //TODO we could optimize this, nest the logic
-    //
-    //---SINGLE EDGES
-    //
-    //PERMUTATION 0 : north edge
-    if((e[0])&&(!e[1])&&(!e[2])&&(!e[3])){
-      section0=new EdgeSection(v[1],v[2]);
-    //PERMUTATION 1 : east edge
-    }else if((!e[0])&&(e[1])&&(!e[2])&&(!e[3])){
-      section0=new EdgeSection(v[2],v[3]);
-    //PERMUTATION 2 : south edge
-    }else if((!e[0])&&(!e[1])&&(e[2])&&(!e[3])){
-      section0=new EdgeSection(v[3],v[0]);
-    //PERMUTATION 3 : west edge
-    }else if((!e[0])&&(!e[1])&&(!e[2])&&(e[3])){
-      section0=new EdgeSection(v[0],v[1]);
-    //  
-    //---CORNERS
-    //  
-    //PERMUTATION 4 : north and east edges
-    }else if((e[0])&&(e[1])&&(!e[2])&&(!e[3])){
-      section0=new EdgeSection(v[1],v[2],v[3]);
-    //PERMUTATION 5 : east and south edges
-    }else if((!e[0])&&(e[1])&&(e[2])&&(!e[3])){
-      section0=new EdgeSection(v[2],v[3],v[0]);
-    //PERMUTATION 6 : south and west edges
-    }else if((!e[0])&&(!e[1])&&(e[2])&&(e[3])){
-      section0=new EdgeSection(v[3],v[0],v[1]);
-    //PERMUTATION 7 : west and north edges
-    }else if((e[0])&&(!e[1])&&(!e[2])&&(e[3])){
-      section0=new EdgeSection(v[0],v[1],v[2]);
-    //
-    //---TOES
-    //
-    //PERMUTATION 8 : north, east and south edges
-    }else if((e[0])&&(e[1])&&(e[2])&&(!e[3])){
-      section0=new EdgeSection(v[1],v[2],v[3],v[0]);
-    //PERMUTATION 9 : east, south and west edges
-    }else if((!e[0])&&(e[1])&&(e[2])&&(e[3])){
-      section0=new EdgeSection(v[2],v[3],v[0],v[1]);
-    //PERMUTATION 10 : south, west and north edges
-    }else if((e[0])&&(!e[1])&&(e[2])&&(e[3])){
-      section0=new EdgeSection(v[3],v[0],v[1],v[2]);
-    //PERMUTATION 11 : west, north and east edges
-    }else if((e[0])&&(e[1])&&(!e[2])&&(e[3])){
-      section0=new EdgeSection(v[0],v[1],v[2],v[3]);
-    //
-    //---2 PARALLEL SIDES
-    //  
-    //PERMUTATION 12 : north and south edges
-    }else if((e[0])&&(!e[1])&&(e[2])&&(!e[3])){
-      section0=new EdgeSection(v[1],v[2]);
-      section1=new EdgeSection(v[3],v[0]);
-    //PERMUTATION 13 : east and west edges
-    }else if((!e[0])&&(e[1])&&(!e[2])&&(e[3])){
-      section0=new EdgeSection(v[2],v[3]);
-      section1=new EdgeSection(v[0],v[1]);
-    //
-    //---ALL 4. A contiguous cell group of 1
-    //
-    //PERMUTATION 14 : north, east, south and west edges.
-    }else if((e[0])&&(e[1])&&(e[2])&&(e[3])){
-      section0=new EdgeSection(true,v[0],v[1],v[2],v[3]);
-    //WHATEVER
-    }else{
-      throw new IllegalArgumentException("whatever");}
-    //
-    List<EdgeSection> sections=new ArrayList<EdgeSection>(2);
-    if(section0!=null)
-      sections.add(section0);
-    if(section1!=null)
-      sections.add(section1);
-    return sections;}
-  
-  /*
-   * edge sections look like this. we have 4 models
-   * 
-   * o------o
-   * 
-   * o------o
-   *        |
-   *        |
-   *        |
-   *        o
-   *        
-   * o------o
-   *        |
-   *        |
-   *        |
-   * o------o
-   * 
-   * o------o
-   * |      |
-   * |      |
-   * |      |
-   * o------o
-   * 
-   * An edge section is a list of 2, 3 or 4 vertices
-   * the vertices are always addressed in clockwise, index+ direction
-   *          
-   */
-  
-  @SuppressWarnings("serial")
-  private static class EdgeSection extends ArrayList<BVertex>{
-    
-    EdgeSection(BVertex... v){
-      super(Arrays.asList(v));}
-    
-    //we use this for when the section is all 4 sides of the cell. closed is true
-    EdgeSection(boolean closed,BVertex... v){
-      super(Arrays.asList(v));
-      this.closed=closed;}
-    
-    boolean closed=false;//used for whole cell edge section
-    //if we've got one of these then our contiguous group must either consist 
-    //of just 1 cell or it is noncontiguous and we have an exception
-    
-  }
   
   
  

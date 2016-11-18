@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.test.cellGroupPolygonizer;
+package org.fleen.blanketFlower.test.contiguousCellGroupShaper;
 
 import java.awt.image.BufferedImage;
 
@@ -10,15 +10,15 @@ import java.awt.image.BufferedImage;
  * trace the edges of the clumps and holes
  * 
  */
-public class Test_CellGroupPolygonizer{
+public class Test_ContiguousCellGroupShaper{
   
   public static final int 
     UIWIDTH=1000,
     UIHEIGHT=1000;
   
   public static final int 
-    CELLMESSWIDTH=20,
-    CELLMESSHEIGHT=20;
+    CELLMESSWIDTH=5,
+    CELLMESSHEIGHT=5;
   
   public static final int CELLCOUNT=200;
   
@@ -28,7 +28,7 @@ public class Test_CellGroupPolygonizer{
    * ################################
    */
   
-  Test_CellGroupPolygonizer(){
+  Test_ContiguousCellGroupShaper(){
     initUI();
     initCellMess();
     initRenderer();
@@ -79,8 +79,9 @@ public class Test_CellGroupPolygonizer{
    */
   
   public static final void main(String[] a){
-    Test_CellGroupPolygonizer cgp=new Test_CellGroupPolygonizer();
+    Test_ContiguousCellGroupShaper cgp=new Test_ContiguousCellGroupShaper();
     cgp.cellmess.generate(CELLCOUNT);
+    System.out.println("cell mess cell count="+cgp.cellmess.size());
     cgp.render();
     
   }

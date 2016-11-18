@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.test.cellGroupPolygonizer;
+package org.fleen.blanketFlower.test.contiguousCellGroupShaper;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -8,7 +8,7 @@ class UI extends JFrame{
 
   JPanel imagepanel;
 
-  UI(Test_CellGroupPolygonizer test,int w,int h){
+  UI(Test_ContiguousCellGroupShaper test,int w,int h){
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(50,50,w,h);
     imagepanel=new ImagePanel(test);

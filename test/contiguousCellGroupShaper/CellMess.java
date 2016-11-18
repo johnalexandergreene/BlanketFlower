@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.test.cellGroupPolygonizer;
+package org.fleen.blanketFlower.test.contiguousCellGroupShaper;
 
 import java.util.List;
 import java.util.Random;
@@ -20,16 +20,22 @@ class CellMess extends BCellGroup{
   
   int width,height;
   
+//  void generate(int cellcount){
+//    clear();
+//    int x,y;
+//    BCell cell;
+//    Random rnd=new Random();
+//    while(size()<cellcount){
+//      x=rnd.nextInt(width);
+//      y=rnd.nextInt(height);
+//      cell=new BCell(x,y);
+//      add(cell);}}
+  
   void generate(int cellcount){
     clear();
-    int x,y;
-    BCell cell;
-    Random rnd=new Random();
-    while(size()<cellcount){
-      x=rnd.nextInt(width);
-      y=rnd.nextInt(height);
-      cell=new BCell(x,y);
-      add(cell);}}
+    for(int x=0;x<width;x++)
+      for(int y=0;y<height;y++)
+        add(new BCell(x,y));}
   
   List<BShape> getShapes(){
     return GB.getShapes(this);}

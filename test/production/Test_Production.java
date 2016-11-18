@@ -65,9 +65,9 @@ public class Test_Production{
     
     BShape r=new BPolygon(
         new BVertex(0,0),
-        new BVertex(0,80),
-        new BVertex(128,80),
-        new BVertex(128,0));
+        new BVertex(0,90),
+        new BVertex(160,90),
+        new BVertex(160,0));
     
     composition=new BComposition(r);}
   
@@ -131,7 +131,7 @@ public class Test_Production{
   
 //  static final int CELLSPAN=6;
 //  static final int CELLSPAN=5;//for mya thing
-  static final int CELLSPAN=6;
+  static final int CELLSPAN=8;
   
   BufferedImage image;
 //  Renderer_Production renderer=new Renderer_Production(PALETTE000);
@@ -166,7 +166,7 @@ public class Test_Production{
   public static final void main(String[] a){
     System.out.println("----begin process");
     Test_Production test=new Test_Production();
-    for(int i=0;i<720;i++){
+    for(int i=0;i<1212;i++){
       test.executeJigger();
       test.renderComposition();
       test.export(i);

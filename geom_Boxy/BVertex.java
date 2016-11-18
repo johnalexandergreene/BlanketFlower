@@ -45,5 +45,15 @@ public class BVertex{
     }else{
       throw new IllegalArgumentException("invalid dir");}
     return v;}
+  
+  /*
+   * ################################
+   * OBJECT
+   * ################################
+   */
+  
+  public boolean equals(Object a){
+    BVertex b=(BVertex)a;
+    return b.x==x&&b.y==y;}
 
 }

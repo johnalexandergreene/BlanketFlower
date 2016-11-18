@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.test.cellGroupPolygonizer;
+package org.fleen.blanketFlower.test.contiguousCellGroupShaper;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -20,7 +20,7 @@ public class Renderer{
    * ################################
    */
   
-  public Renderer(Test_CellGroupPolygonizer cgp){
+  public Renderer(Test_ContiguousCellGroupShaper cgp){
     this.cgp=cgp;}
   
   /*
@@ -29,7 +29,7 @@ public class Renderer{
    * ################################
    */
   
-  Test_CellGroupPolygonizer cgp;
+  Test_ContiguousCellGroupShaper cgp;
   
   /*
    * ################################
@@ -87,7 +87,7 @@ public class Renderer{
    * ################################
    */
   
-  private static final float STROKEWIDTH_DEFAULT=0.5f;
+  private static final float STROKEWIDTH_DEFAULT=0.1f;
   private float strokewidth=STROKEWIDTH_DEFAULT;
   
   private Stroke createStroke(){

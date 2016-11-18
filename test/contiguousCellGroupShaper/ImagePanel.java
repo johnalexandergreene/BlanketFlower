@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.test.cellGroupPolygonizer;
+package org.fleen.blanketFlower.test.contiguousCellGroupShaper;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -16,7 +16,7 @@ public class ImagePanel extends JPanel{
    * ################################
    */
   
-  ImagePanel(Test_CellGroupPolygonizer test){
+  ImagePanel(Test_ContiguousCellGroupShaper test){
     this.test=test;}
   
   /*
@@ -25,7 +25,7 @@ public class ImagePanel extends JPanel{
    * ################################
    */
   
-  Test_CellGroupPolygonizer test;
+  Test_ContiguousCellGroupShaper test;
   
   /*
    * ################################

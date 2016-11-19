@@ -56,7 +56,9 @@ public class ContiguousCellGroupShaper{
   /*
    * given 1..n polygons
    * if we have just 1 polygon then that's our shape
-   * 
+   * if we have multiple polygons then
+   *   get the outer polygon first, index=0. That's the outer edge.
+   *   add the rest. Those are holes.
    */
   private BShape getShape(List<BPolygon> polygons){
     if(polygons.size()==1){
@@ -69,7 +71,15 @@ public class ContiguousCellGroupShaper{
       return yard;}}
   
   /*
-   * find the polygon that contains at least 1 vertex from each of the other polygons
+   * we have a contiguous group of cells
+   * its edges are defined by 1..n polygons
+   * if it's just 1 polygon then that polygon is the outer edge
+   * it it's >1 polygon then those other polygons are holes
+   * so if we have more than 1 polygon then we gotta figure out 
+   * which polygon is the outer edge.
+   * 
+   * 
+   * find the polygon that contains 1 vertex from each of the other polygons
    * 
    * TODO
    * &&&&&&&&&&&&&&&&&&
@@ -78,14 +88,15 @@ public class ContiguousCellGroupShaper{
    * 
    */
   private static final BPolygon getOuter(List<BPolygon> polygons){
-    boolean contains;
+    boolean fail;
     for(BPolygon p0:polygons){
-      contains=true;
-      seek:for(BPolygon p1:polygons){
-        if(!p0.contains(p1.vertices.get(0))){
-          contains=false;
-          break seek;}}
-      if(contains)return p0;}
+      fail=false;
+      test:for(BPolygon p1:polygons){
+        if(p0!=p1){
+          if(!p0.contains(p1.vertices.get(0))){
+          fail=true;  
+          break test;}}}
+      if(!fail)return p0;}
     throw new IllegalArgumentException("wha");}
   
   /*

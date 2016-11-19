@@ -178,6 +178,11 @@ public class ContiguousCellGroupShaper{
         sectionpool.addAll(getEdgeSections(cell,contiguous));
     return sectionpool;}
   
+  //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+  //TODO check this over. something is weird
+  //the e array works when neighbor==null delivers true. weird
+  
+  
   private static List<EdgeSection> getEdgeSections(BCell cell,BCellGroup contiguous){
     //map cell edges to boolean array
     boolean[] e={//edges nesw

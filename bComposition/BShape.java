@@ -248,6 +248,21 @@ public abstract class BShape implements TreeNode,Serializable,BlanketFlower,Tagg
   
   /*
    * ################################
+   * COLOR INDEX
+   * this way we can control color via jig
+   * ################################
+   */
+  
+  private int colorindex=1;
+  
+  public void setColorIndex(int i){
+    colorindex=i;}
+  
+  public int getColorIndex(){
+    return colorindex;}
+  
+  /*
+   * ################################
    * TAGS
    * ################################
    */

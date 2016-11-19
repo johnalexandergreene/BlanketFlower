@@ -70,6 +70,12 @@ public class ContiguousCellGroupShaper{
   
   /*
    * find the polygon that contains at least 1 vertex from each of the other polygons
+   * 
+   * TODO
+   * &&&&&&&&&&&&&&&&&&
+   * THIS AIN'T WORKING
+   * WHA IS HAPPENING
+   * 
    */
   private static final BPolygon getOuter(List<BPolygon> polygons){
     boolean contains;
@@ -90,14 +96,20 @@ public class ContiguousCellGroupShaper{
   
   private List<BPolygon> getPolygons(List<EdgeSectionLoop> loops){
     List<BPolygon> polygons=new ArrayList<BPolygon>(loops.size());
-    for(List<EdgeSection> assembledsections:loops)
-      polygons.add(getPolygon(assembledsections));
+    for(EdgeSectionLoop loop:loops)
+      polygons.add(getPolygon(loop));
     return polygons;}
   
-  private BPolygon getPolygon(List<EdgeSection> assembledsections){
+  private BPolygon getPolygon(EdgeSectionLoop loop){
     List<BVertex> vertices=new ArrayList<BVertex>();
-    for(EdgeSection section:assembledsections)
-      vertices.addAll(section.subList(0,section.size()-1));
+    //special case : the loop consists of just 1 section and that section is a closed 1-cell loop
+    if(loop.size()==1){
+      vertices.addAll(loop.get(0));
+    //otherwise get each section and add its vertices
+    }else{
+      for(EdgeSection section:loop)
+        vertices.addAll(section.subList(0,section.size()-1));}
+    //create polygon
     BPolygon polygon=new BPolygon(vertices);
     polygon.removeRedundantColinearVertices();//TODO
     return polygon;}
@@ -178,24 +190,23 @@ public class ContiguousCellGroupShaper{
         sectionpool.addAll(getEdgeSections(cell,contiguous));
     return sectionpool;}
   
-  //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-  //TODO check this over. something is weird
-  //the e array works when neighbor==null delivers true. weird
-  
-  
   private static List<EdgeSection> getEdgeSections(BCell cell,BCellGroup contiguous){
-    //map cell edges to boolean array
-    boolean[] e={//edges nesw
-      cell.getNorth(contiguous)!=null,
-      cell.getEast(contiguous)!=null,
-      cell.getSouth(contiguous)!=null,
-      cell.getWest(contiguous)!=null};
+    //get the corner vertices of our cell
     BPolygon p=cell.getSquare();
     BVertex[] v=p.vertices.toArray(new BVertex[p.vertices.size()]);//vertices sw nw ne se
-    EdgeSection section0=null,section1=null;
+    //map cell presence at edges to boolean array
+    //NOTE that the edges are where a neighbor cell is not!
+    //if our cell has a neighbor then there is no edge, thus false. 
+    //If there is no neighbor then there is an edge, thus true. 
+    boolean[] e={//edges nesw
+      cell.getNorth(contiguous)==null,
+      cell.getEast(contiguous)==null,
+      cell.getSouth(contiguous)==null,
+      cell.getWest(contiguous)==null};
     //convert boolean array to list of sections
     //test each possible permutation crudely and literally
     //TODO we could optimize this, nest the logic
+    EdgeSection section0=null,section1=null;
     //
     //---SINGLE EDGES
     //
@@ -253,13 +264,13 @@ public class ContiguousCellGroupShaper{
       section0=new EdgeSection(v[2],v[3]);
       section1=new EdgeSection(v[0],v[1]);
     //
-    //---ALL 4. A contiguous cell group of 1
+    //---ALL 4. ISOLATED CELL. A contiguous cell group of 1
     //
     //PERMUTATION 14 : north, east, south and west edges.
     }else if((e[0])&&(e[1])&&(e[2])&&(e[3])){
       section0=new EdgeSection(true,v[0],v[1],v[2],v[3]);
       section0.closed=true;
-    //WHATEVER
+    //EXCEPTION
     }else{
       throw new IllegalArgumentException("whatever");}
     //

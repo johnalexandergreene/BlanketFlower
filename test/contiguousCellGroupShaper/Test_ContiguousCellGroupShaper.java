@@ -1,6 +1,12 @@
 package org.fleen.blanketFlower.test.contiguousCellGroupShaper;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.fleen.blanketFlower.bComposition.BShape;
+import org.fleen.blanketFlower.geom_Boxy.BCellGroup;
+import org.fleen.blanketFlower.geom_Boxy.GB;
 
 /*
  * test the arbitrarily contiguous cell group to polygons converter
@@ -17,8 +23,8 @@ public class Test_ContiguousCellGroupShaper{
     UIHEIGHT=1000;
   
   public static final int 
-    CELLMESSWIDTH=5,
-    CELLMESSHEIGHT=5;
+    CELLMESSWIDTH=20,
+    CELLMESSHEIGHT=20;
   
   public static final int CELLCOUNT=200;
   
@@ -29,9 +35,32 @@ public class Test_ContiguousCellGroupShaper{
    */
   
   Test_ContiguousCellGroupShaper(){
+    System.out.println("#########################################");
+    System.out.println("TEST CONTIGUOUS CELL GROUP SHAPER : START");
+    System.out.println("#########################################");
+    
     initUI();
+    //create our (probably chaotic) pattern of cells
+    System.out.println("cell mess init");
     initCellMess();
+    System.out.println("cell mess cell count = "+cellmess.size());
+    //derive contiguous groups from cell mess
+    System.out.println("derive contiguous groups");
+    cgroups=GB.getContiguousSubgroups(cellmess);
+    System.out.println("contiguous groups count = "+cgroups.size());
+    //derive shapes from contiguous groups
+    System.out.println("derive shapes");
+    shapes=new ArrayList<BShape>(cgroups.size());
+    for(BCellGroup group:cgroups)
+      shapes.add(GB.getShapeFromContiguousGroup(group));
+    System.out.println("shape count = "+shapes.size());
+    //render
+    System.out.println("render");
     initRenderer();
+    
+    System.out.println("#######################################");
+    System.out.println("TEST CONTIGUOUS CELL GROUP SHAPER : END");
+    System.out.println("#######################################");
   }
   
   /*
@@ -68,9 +97,12 @@ public class Test_ContiguousCellGroupShaper{
    */
   
   CellMess cellmess;
+  List<BCellGroup> cgroups;
+  List<BShape> shapes;
   
   private void initCellMess(){
-    cellmess=new CellMess(CELLMESSWIDTH,CELLMESSHEIGHT);}
+    cellmess=new CellMess(CELLMESSWIDTH,CELLMESSHEIGHT);
+    cellmess.generate(CELLCOUNT);}
   
   /*
    * ################################
@@ -80,8 +112,6 @@ public class Test_ContiguousCellGroupShaper{
   
   public static final void main(String[] a){
     Test_ContiguousCellGroupShaper cgp=new Test_ContiguousCellGroupShaper();
-    cgp.cellmess.generate(CELLCOUNT);
-    System.out.println("cell mess cell count="+cgp.cellmess.size());
     cgp.render();
     
   }

@@ -7,9 +7,13 @@ import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.image.BufferedImage;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 import org.fleen.blanketFlower.bComposition.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BCell;
+import org.fleen.blanketFlower.geom_Boxy.BCellGroup;
 import org.fleen.blanketFlower.geom_Boxy.BPolygon;
 
 public class Renderer{
@@ -44,11 +48,8 @@ public class Renderer{
   private static final Color
     BACKGROUNDCOLOR=Color.white,
     CELLCOLOR=Color.red,
-    POLYGONSTROKECOLOR=Color.green,
-    POLYGONVERTEX=Color.black;
-  
-  
-  
+    POLYGONSTROKECOLOR=Color.black,
+    POLYGONVERTEX=Color.gray;
   
   public BufferedImage render(){
     int 
@@ -71,14 +72,23 @@ public class Renderer{
       path=cell.getPath2D();
       g.setPaint(cellcolor);
       g.fill(path);}
+    //render contiguous groups cells
+    for(BCellGroup cgroup:cgp.cgroups){
+      g.setPaint(getRandomColor());
+      for(BCell cell:cgroup){
+        path=cell.getPath2D();
+        g.fill(path);}}
     //render polygons
     g.setStroke(createStroke());
     g.setPaint(POLYGONSTROKECOLOR);
-    for(BShape shape:cgp.cellmess.getShapes()){
+    for(BShape shape:cgp.shapes){
       for(BPolygon polygon:shape.getPolygons()){
         path=polygon.getPath2D();
-        g.draw(path);
-    }}
+        g.draw(path);}
+      
+      
+    }
+    
   return image;}
   
   /*
@@ -93,6 +103,18 @@ public class Renderer{
   private Stroke createStroke(){
     Stroke stroke=new BasicStroke(strokewidth,BasicStroke.CAP_SQUARE,BasicStroke.JOIN_ROUND,0,null,0);
     return stroke;}
+  
+  /*
+   * ################################
+   * RANDOM COLOR
+   * ################################
+   */
+  
+  //PASTEL PALETTE MOTHER
+  Color getRandomColor(){
+    Random rnd=new Random();
+    Color c=new Color(128+rnd.nextInt(8)*16,128+rnd.nextInt(8)*16,128+rnd.nextInt(8)*16);
+    return c;}
   
   
 

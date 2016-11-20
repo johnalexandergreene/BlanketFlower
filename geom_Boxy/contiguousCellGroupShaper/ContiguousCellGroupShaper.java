@@ -122,7 +122,7 @@ public class ContiguousCellGroupShaper{
         vertices.addAll(section.subList(0,section.size()-1));}
     //create polygon
     BPolygon polygon=new BPolygon(vertices);
-    polygon.removeRedundantColinearVertices();//TODO
+    polygon.removeRedundantColinearVertices();
     return polygon;}
  
   /*

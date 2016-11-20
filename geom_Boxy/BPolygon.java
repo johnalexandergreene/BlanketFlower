@@ -1,7 +1,6 @@
 package org.fleen.blanketFlower.geom_Boxy;
 
 import java.awt.geom.Path2D;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -82,11 +81,22 @@ public class BPolygon extends BShape{
     polygons.add(this);
     return polygons;}
   
-  //TODO
   public void removeRedundantColinearVertices(){
-    
-    
-  }
+    List<BVertex> newvertices=new ArrayList<BVertex>();
+    int s=vertices.size(),iprior,inext,directiondelta;
+    BVertex vprior,v,vnext;
+    for(int i=0;i<s;i++){
+      iprior=i-1;
+      if(iprior==-1)iprior=s-1;
+      inext=i+1;
+      if(inext==s)inext=0;
+      vprior=vertices.get(iprior);
+      v=vertices.get(i);
+      vnext=vertices.get(inext);
+      directiondelta=GB.getDirectionDelta(vprior,v,vnext);
+      if(directiondelta!=GB.TURN_STRAIGHT)
+        newvertices.add(v);}
+    vertices=newvertices;}
   
   public Path2D getPath2D(){
     int s=vertices.size();

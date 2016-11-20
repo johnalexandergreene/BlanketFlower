@@ -5,16 +5,16 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 import java.awt.image.BufferedImage;
-import java.util.HashSet;
 import java.util.Random;
-import java.util.Set;
 
 import org.fleen.blanketFlower.bComposition.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BCell;
 import org.fleen.blanketFlower.geom_Boxy.BCellGroup;
 import org.fleen.blanketFlower.geom_Boxy.BPolygon;
+import org.fleen.blanketFlower.geom_Boxy.BVertex;
 
 public class Renderer{
 
@@ -49,7 +49,7 @@ public class Renderer{
     BACKGROUNDCOLOR=Color.white,
     CELLCOLOR=Color.red,
     POLYGONSTROKECOLOR=Color.black,
-    POLYGONVERTEX=Color.gray;
+    DOTCOLOR=Color.black;
   
   public BufferedImage render(){
     int 
@@ -83,13 +83,26 @@ public class Renderer{
     g.setPaint(POLYGONSTROKECOLOR);
     for(BShape shape:cgp.shapes){
       for(BPolygon polygon:shape.getPolygons()){
+        //stroke edge
         path=polygon.getPath2D();
-        g.draw(path);}
-      
-      
-    }
-    
+        g.draw(path);
+        //do vertex dots
+        for(BVertex v:polygon.vertices){
+          doDot(v.x,v.y,g);}}}
   return image;}
+  
+  /*
+   * ################################
+   * DOT
+   * ################################
+   */
+  
+  private static final double DOTWIDTH=0.3f;
+  
+  private void doDot(double x,double y,Graphics2D g){
+    Ellipse2D a=new Ellipse2D.Double(x-DOTWIDTH/2,y-DOTWIDTH/2,DOTWIDTH,DOTWIDTH);
+    g.setPaint(DOTCOLOR);
+    g.fill(a);}
   
   /*
    * ################################
@@ -97,11 +110,10 @@ public class Renderer{
    * ################################
    */
   
-  private static final float STROKEWIDTH_DEFAULT=0.1f;
-  private float strokewidth=STROKEWIDTH_DEFAULT;
+  private static final float STROKEWIDTH=0.1f;
   
   private Stroke createStroke(){
-    Stroke stroke=new BasicStroke(strokewidth,BasicStroke.CAP_SQUARE,BasicStroke.JOIN_ROUND,0,null,0);
+    Stroke stroke=new BasicStroke(STROKEWIDTH,BasicStroke.CAP_SQUARE,BasicStroke.JOIN_ROUND,0,null,0);
     return stroke;}
   
   /*

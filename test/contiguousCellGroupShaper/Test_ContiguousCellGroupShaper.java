@@ -28,7 +28,7 @@ public class Test_ContiguousCellGroupShaper{
     CELLMESSWIDTH=20,
     CELLMESSHEIGHT=20;
   
-  public static final int CELLCOUNT=200;
+  public static final int CELLCOUNT=150;
   
   /*
    * ################################

@@ -179,6 +179,18 @@ public class GB{
       throw new IllegalArgumentException("invalid dir");}}
   
   /*
+   * get dir(v0,v1) and dir(v1,v2)
+   * get the direction delta
+   * aka the angle
+   */
+  public static final int getDirectionDelta(BVertex v0,BVertex v1,BVertex v2){
+    int 
+      d0=v0.getDirection(v1),
+      d1=v1.getDirection(v2);
+    int dd=getDirectionDelta(d0,d1);
+    return dd;}
+  
+  /*
    * ################################
    * TWIST
    * AKA CHIRALITY

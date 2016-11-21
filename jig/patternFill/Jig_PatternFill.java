@@ -34,10 +34,10 @@ import org.fleen.blanketFlower.jig.Jig;
  * from K get contiguous subgroups, polygons.
  * from those polygons create shapes.
  * 
+ * ---
  * 
- *   
+ * THIS IS NOT AN ORIENTED JIG
  * 
- *   
  */
 public class Jig_PatternFill implements Jig{
 
@@ -59,7 +59,7 @@ public class Jig_PatternFill implements Jig{
    */
   
   public Object clone(){
-    return new Jig_ArrayFill();}
+    return new Jig_PatternFill();}
   
   /*
    * ################################
@@ -79,24 +79,44 @@ public class Jig_PatternFill implements Jig{
    * ################################
    * PATTERN
    * we can set a pattern or we can get a pattern at random from our assets
+   * on clone we preserve pattern selection
    * ################################
    */
   
+  Pattern pattern=null;
   
-
+  public void setPattern(Pattern pattern){
+    this.pattern=pattern;}
+  
+  public Pattern getPattern(){
+    if(pattern==null)initRandomPattern();
+    return pattern;}
+  
+  private void initRandomPattern(){
+    Random rnd=new Random();
+    int a=Pattern.getPatternCount();
+    pattern=Pattern.getPattern(rnd.nextInt(a));}
+  
   /*
    * ################################
    * EXECUTE
-   * init pattern
-   * do cell dance
-   * create shapes
+   * get our bounding box
+   * get offsets at origin etc
+   * create cell list : K
+   * add to list from pattern, getting cells over bounding box, at all offsets
+   * get intersection of K and target cells: now we have a cellgroup : P
+   * create shapes from P.
+   * stick em in the target
+   * 
+   * TODO movement? orientation?
+   * 
    * ################################
    */
   
-  Random rnd=new Random();
-  List<BShape> dots=new ArrayList<BShape>();
   
   public void execute(){
-    init}
+    
+    
+    }
 
 }

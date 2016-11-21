@@ -16,7 +16,23 @@ import org.fleen.blanketFlower.bComposition.BShape;
  *     And then take COLORCOUNT%K to get a color index)
  *     
  *   Provides a dupe method, so we can duplicate the Jig and assign it to multiple shapes, thus achieving symmetry
- *      
+ *   
+ * +++++++++++++++++++++++++++++
+ * ABOUT ORIENTED
+ * +++++++++++++++++++++++++++++
+ * 
+ * An oriented Jig delivers a uniform product over identical shapes
+ *   we ignore global nesw. we use local orientation
+ * we are guided by 
+ *   V0
+ *   dir(V0,V1)
+ *   polygon twist
+ *   
+ * this gvies us a local origin and nesw
+ * 
+ * by using oriented Jigs and chorus-index guided jig selection we can 
+ *   create multiple-shape-spanning symmetric geometries
+ *   
  */
 public interface Jig{
 

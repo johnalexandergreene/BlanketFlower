@@ -92,6 +92,9 @@ public class BCellGroup extends HashSet<BCell>{
     if(!contains(c))return true;
     return false;}
   
+  public List<BShape> getShapes(){
+    return GB.getShapes(this);}
+  
   
   
 }

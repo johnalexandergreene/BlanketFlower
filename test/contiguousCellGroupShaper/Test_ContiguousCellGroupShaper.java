@@ -129,7 +129,7 @@ public class Test_ContiguousCellGroupShaper{
    */
   
   public static final void main(String[] a){
-    Test_ContiguousCellGroupShaper cgp=new Test_ContiguousCellGroupShaper();
+    new Test_ContiguousCellGroupShaper();
     
   }
   

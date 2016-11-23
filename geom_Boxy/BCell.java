@@ -133,6 +133,4 @@ public class BCell{
   public String toString(){
     return "["+x+","+y+"]";}
   
-  
-
 }

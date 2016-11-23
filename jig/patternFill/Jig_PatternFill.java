@@ -1,14 +1,10 @@
 package org.fleen.blanketFlower.jig.patternFill;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 import org.fleen.blanketFlower.bComposition.BShape;
-import org.fleen.blanketFlower.geom_Boxy.BCell;
-import org.fleen.blanketFlower.geom_Boxy.BPolygon;
+import org.fleen.blanketFlower.geom_Boxy.BCellGroup;
 import org.fleen.blanketFlower.jig.Jig;
 
 /*
@@ -100,7 +96,7 @@ public class Jig_PatternFill implements Jig{
   /*
    * ################################
    * EXECUTE
-   * get our bounding box
+   * get our bounds
    * get offsets at origin etc
    * create cell list : K
    * add to list from pattern, getting cells over bounding box, at all offsets
@@ -113,10 +109,43 @@ public class Jig_PatternFill implements Jig{
    * ################################
    */
   
+  List<BShape> shapes=null;
   
   public void execute(){
-    
-    
-    }
+    clearShapes();
+    Pattern pattern=Pattern.getRandomPattern();
+    //get some metrics
+    int[] tbounds=target.getBounds();
+    int 
+      twidth=target.getWidth(),
+      theight=target.getHeight(),
+      originoffsetx=tbounds[3],
+      originoffsety=tbounds[2];
+    //get the group of glyph cells
+    BCellGroup glyphs=new BCellGroup();
+    int //offset increments
+      ix=pattern.getWidth(),
+      iy=pattern.getHeight();
+    for(int x=originoffsetx;x<=twidth;x+=ix)
+      for(int y=originoffsety;y<=theight;y+=iy)
+        glyphs.addAll(pattern.getCells(x,y));
+    //crop the group of glyph cells to the target area
+    BCellGroup tcells=target.getCells();
+    glyphs.retainAll(tcells);
+    //create and install shapes
+    //we should be getting 1..n polygons and 1 yard, excluding degenerate cases
+    shapes=glyphs.getShapes();
+    for(BShape shape:shapes){
+      shape.setChorusIndex(0);
+      shape.setColorIndex(0);//TODO a blinky thing
+      shape.setParent(target);
+      target.addChild(shape);}}
+  
+  private void clearShapes(){
+    if(shapes==null)return;
+    for(BShape shape:shapes){
+      shape.setParent(null);
+      target.removeChild(shape);}
+    shapes.clear();}
 
 }

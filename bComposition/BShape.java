@@ -8,6 +8,7 @@ import org.fleen.blanketFlower.BlanketFlower;
 import org.fleen.blanketFlower.geom_Boxy.BCellGroup;
 import org.fleen.blanketFlower.geom_Boxy.BPolygon;
 import org.fleen.blanketFlower.geom_Boxy.BVertex;
+import org.fleen.blanketFlower.geom_Boxy.BYard;
 import org.fleen.blanketFlower.geom_Boxy.GB;
 import org.fleen.blanketFlower.jig.Jig;
 import org.fleen.util.tag.TagManager;
@@ -131,6 +132,20 @@ public abstract class BShape implements TreeNode,Serializable,BlanketFlower,Tagg
     for(BVertex v:getVertices()){
       v.x+=xoff;
       v.y+=yoff;}}
+  
+  /*
+   * ++++++++++++++++++++++++++++++++
+   * A LITTLE ANALYSIS
+   * ++++++++++++++++++++++++++++++++
+   */
+  
+  //goo has no holes. is polygonal
+  public boolean isGoo(){
+    return this instanceof BPolygon;}
+  
+  //foam has holes. is yard
+  public boolean isFoam(){
+    return this instanceof BYard;}
   
   /*
    * ################################

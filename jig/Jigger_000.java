@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.fleen.blanketFlower.bComposition.BComposition;
 import org.fleen.blanketFlower.bComposition.BShape;
+import org.fleen.blanketFlower.jig.patternFill.Jig_PatternFill;
 import org.fleen.blanketFlower.jig.sprinkle.Jig_Sprinkle;
 import org.fleen.blanketFlower.jig.sweepingStripes.Jig_SweepingStripes;
 
@@ -17,7 +18,7 @@ public class Jigger_000 implements Jigger{
   Random rnd=new Random();
   
   public void execute(){
-    int d;
+    int d,a;
     for(BShape shape:composition.getShapes()){
       d=shape.getDepth();
       if(d<2){
@@ -26,10 +27,15 @@ public class Jigger_000 implements Jigger{
           if(d==0){
             shape.jig=new Jig_SweepingStripes();
           }else{
-            if(rnd.nextBoolean())
+            a=rnd.nextInt(3);
+            a=2;
+            if(a==0){
               shape.jig=new Jig_Sprinkle(); 
-            else
+            }else if(a==1){
               shape.jig=new Jig_SweepingStripes();
+            }else{
+              shape.jig=new Jig_PatternFill();
+            }
           }
           shape.jig.setTarget(shape);}
         //do it

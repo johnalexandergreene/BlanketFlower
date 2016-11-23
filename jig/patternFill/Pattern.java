@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -46,6 +47,12 @@ public class Pattern{
           cells.add(new BCell(x+xoff,y+yoff));
     return cells;}
   
+  public int getWidth(){
+    return bitmap.length;}
+  
+  public int getHeight(){
+    return bitmap[0].length;}
+  
   /*
    * ################################
    * INIT WITH IMAGE
@@ -67,8 +74,8 @@ public class Pattern{
   
   /*
    * ################################
-   * STATIC PATTERNS ACCESS
-   * init, get, random get, etc
+   * STATIC PATTERNS LIB ACCESS
+   * We can define our own pattern or we can pick one from our little library
    * ################################
    */
   
@@ -79,7 +86,13 @@ public class Pattern{
     return p.length;}
   
   public static final Pattern getPattern(int i){
-    return PATTERNS[i];}
+    Pattern[] p=getPatterns();
+    return p[i];}
+  
+  public static final Pattern getRandomPattern(){
+    Pattern[] p=getPatterns();
+    Random r=new Random();
+    return p[r.nextInt(p.length)];}
   
   public static final Pattern[] getPatterns(){
     if(PATTERNS==null)initPatterns();

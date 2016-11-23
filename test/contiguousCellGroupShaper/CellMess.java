@@ -37,7 +37,7 @@ class CellMess extends BCellGroup{
 //      for(int y=0;y<height;y++)
 //        add(new BCell(x,y));}
   
-  List<BShape> getShapes(){
+  public List<BShape> getShapes(){
     return GB.getShapes(this);}
 
 }

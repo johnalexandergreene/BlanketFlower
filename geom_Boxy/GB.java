@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.fleen.blanketFlower.bComposition.BShape;
 import org.fleen.blanketFlower.geom_Boxy.contiguousCellGroupShaper.ContiguousCellGroupShaper;
 import org.fleen.geom_2D.GD;
 

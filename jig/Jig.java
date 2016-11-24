@@ -1,6 +1,6 @@
 package org.fleen.blanketFlower.jig;
 
-import org.fleen.blanketFlower.bComposition.BShape;
+import org.fleen.blanketFlower.geom_Boxy.BShape;
 
 
 /*

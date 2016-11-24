@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.bComposition;
+package org.fleen.blanketFlower.geom_Boxy;
 
 import java.io.Serializable;
 import java.util.ArrayList;

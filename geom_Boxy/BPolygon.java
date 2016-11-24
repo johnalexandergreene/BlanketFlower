@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.fleen.blanketFlower.bComposition.BShape;
 
 /*
  * an SPolygon is defined by a list of SVertices
@@ -18,7 +17,7 @@ public class BPolygon extends BShape{
   
   /*
    * ################################
-   * CONSTRUCTOR
+   * CONSTRUCTORS
    * ################################
    */
   

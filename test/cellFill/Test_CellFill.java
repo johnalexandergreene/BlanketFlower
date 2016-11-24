@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.test.patternFill;
+package org.fleen.blanketFlower.test.cellFill;
 
 import java.util.Iterator;
 
@@ -7,7 +7,7 @@ import org.fleen.blanketFlower.geom_Boxy.BCellGroup;
 import org.fleen.blanketFlower.geom_Boxy.BPolygon;
 import org.fleen.blanketFlower.geom_Boxy.BVertex;
 
-public class Test_PatternFill{
+public class Test_CellFill{
   
   static final BVertex[] VERTICES={
     new BVertex(0,0),

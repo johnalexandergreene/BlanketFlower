@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.test.contiguousCellGroupShaper;
+package org.fleen.blanketFlower.test.jigPatternFill;
 
 import java.util.List;
 import java.util.Random;

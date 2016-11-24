@@ -3,8 +3,8 @@ package org.fleen.blanketFlower.jig.patternFill;
 import java.util.List;
 import java.util.Random;
 
-import org.fleen.blanketFlower.bComposition.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BCellGroup;
+import org.fleen.blanketFlower.geom_Boxy.BShape;
 import org.fleen.blanketFlower.jig.Jig;
 
 /*
@@ -113,21 +113,24 @@ public class Jig_PatternFill implements Jig{
   
   public void execute(){
     clearShapes();
-    Pattern pattern=Pattern.getRandomPattern();
+    createShapes();}
+  
+  private void createShapes(){
+    Pattern pattern=getPattern();
     //get some metrics
     int[] tbounds=target.getBounds();
     int 
-      twidth=target.getWidth(),
-      theight=target.getHeight(),
       originoffsetx=tbounds[3],
-      originoffsety=tbounds[2];
+      originoffsety=tbounds[2],
+      xoffsetlimit=tbounds[1],
+      yoffsetlimit=tbounds[0];
     //get the group of glyph cells
     BCellGroup glyphs=new BCellGroup();
     int //offset increments
       ix=pattern.getWidth(),
       iy=pattern.getHeight();
-    for(int x=originoffsetx;x<=twidth;x+=ix)
-      for(int y=originoffsety;y<=theight;y+=iy)
+    for(int x=originoffsetx;x<=xoffsetlimit+ix;x+=ix)
+      for(int y=originoffsety;y<=yoffsetlimit+iy;y+=iy)
         glyphs.addAll(pattern.getCells(x,y));
     //crop the group of glyph cells to the target area
     BCellGroup tcells=target.getCells();
@@ -136,8 +139,8 @@ public class Jig_PatternFill implements Jig{
     //we should be getting 1..n polygons and 1 yard, excluding degenerate cases
     shapes=glyphs.getShapes();
     for(BShape shape:shapes){
-      shape.setChorusIndex(0);
-      shape.setColorIndex(0);//TODO a blinky thing
+      shape.setChorusIndex(1);
+      shape.setColorIndex(1);//TODO a blinky thing
       shape.setParent(target);
       target.addChild(shape);}}
   

@@ -6,8 +6,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.fleen.blanketFlower.bComposition.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BCellGroup;
+import org.fleen.blanketFlower.geom_Boxy.BShape;
 import org.fleen.blanketFlower.geom_Boxy.GB;
 
 /*

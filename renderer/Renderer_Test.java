@@ -15,8 +15,8 @@ import java.util.Random;
 import java.util.Set;
 
 import org.fleen.blanketFlower.bComposition.BComposition;
-import org.fleen.blanketFlower.bComposition.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BPolygon;
+import org.fleen.blanketFlower.geom_Boxy.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BVertex;
 import org.fleen.blanketFlower.geom_Boxy.BYard;
 import org.fleen.blanketFlower.geom_Boxy.BCell;

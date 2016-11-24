@@ -1,16 +1,24 @@
 package org.fleen.blanketFlower.geom_Boxy;
 
+import java.awt.geom.Path2D;
+import java.awt.geom.Path2D.Double;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.fleen.blanketFlower.bComposition.BShape;
 
 public class BYard extends BShape{
 
-  public BYard(int chorusindex,List<String> tags){
+  private static final long serialVersionUID=2320841650019876227L;
+  
+  /*
+   * ################################
+   * CONSTRUCTORS
+   * ################################
+   */
+
+  public BYard(List<BPolygon> polygons,int chorusindex,int colorindex,List<String> tags){
     super(chorusindex,tags);
-    // TODO Auto-generated constructor stub
   }
   
   public BYard(BPolygon... polygons){
@@ -20,6 +28,12 @@ public class BYard extends BShape{
   }
   
   public BYard(){}
+  
+  /*
+   * ################################
+   * GEOMETRY
+   * ################################
+   */
   
   public List<BPolygon> polygons;
   
@@ -31,5 +45,11 @@ public class BYard extends BShape{
     for(BPolygon p:polygons)
       vertices.addAll(p.getVertices());
     return vertices;}
+
+  public Path2D getPath2D(){
+    Path2D path=new Path2D.Double();
+    for(BPolygon polygon:polygons)
+      path.append(polygon.getPath2D(),false);
+    return path;}
 
 }

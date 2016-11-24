@@ -13,9 +13,9 @@ import java.util.Random;
 import java.util.Set;
 
 import org.fleen.blanketFlower.bComposition.BComposition;
-import org.fleen.blanketFlower.bComposition.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BCell;
 import org.fleen.blanketFlower.geom_Boxy.BCellGroup;
+import org.fleen.blanketFlower.geom_Boxy.BShape;
 
 public class Renderer_Production{
 

@@ -10,10 +10,10 @@ import java.awt.geom.Path2D;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-import org.fleen.blanketFlower.bComposition.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BCell;
 import org.fleen.blanketFlower.geom_Boxy.BCellGroup;
 import org.fleen.blanketFlower.geom_Boxy.BPolygon;
+import org.fleen.blanketFlower.geom_Boxy.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BVertex;
 
 public class Renderer{

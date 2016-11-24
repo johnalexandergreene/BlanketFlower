@@ -3,10 +3,10 @@ package org.fleen.blanketFlower.geom_Boxy.contiguousCellGroupShaper;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.fleen.blanketFlower.bComposition.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BCell;
 import org.fleen.blanketFlower.geom_Boxy.BCellGroup;
 import org.fleen.blanketFlower.geom_Boxy.BPolygon;
+import org.fleen.blanketFlower.geom_Boxy.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BVertex;
 import org.fleen.blanketFlower.geom_Boxy.BYard;
 
@@ -36,13 +36,10 @@ public class ContiguousCellGroupShaper{
   public BShape getShape(BCellGroup contiguous){
     //get the sections
     List<EdgeSection> sectionpool=getEdgeSections(contiguous);
-    System.out.println("edge section count = "+sectionpool.size());
     //assemble them into loops
     List<EdgeSectionLoop> loops=getLoops(sectionpool);
-    System.out.println("loop count = "+loops.size());
     //get the polygons, then the shape
     List<BPolygon> polygons=getPolygons(loops);
-    System.out.println("polygon count = "+polygons.size());
     BShape shape=getShape(polygons);
     //
     return shape;}

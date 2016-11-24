@@ -1,15 +1,11 @@
-package org.fleen.blanketFlower.bComposition;
+package org.fleen.blanketFlower.geom_Boxy;
 
+import java.awt.geom.Path2D;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
 import org.fleen.blanketFlower.BlanketFlower;
-import org.fleen.blanketFlower.geom_Boxy.BCellGroup;
-import org.fleen.blanketFlower.geom_Boxy.BPolygon;
-import org.fleen.blanketFlower.geom_Boxy.BVertex;
-import org.fleen.blanketFlower.geom_Boxy.BYard;
-import org.fleen.blanketFlower.geom_Boxy.GB;
 import org.fleen.blanketFlower.jig.Jig;
 import org.fleen.util.tag.TagManager;
 import org.fleen.util.tag.Tagged;
@@ -60,6 +56,8 @@ public abstract class BShape implements TreeNode,Serializable,BlanketFlower,Tagg
   
   public BCellGroup getCells(){
     return new BCellGroup(this);}
+  
+  public abstract Path2D getPath2D();
   
   /*
    * ++++++++++++++++++++++++++++++++

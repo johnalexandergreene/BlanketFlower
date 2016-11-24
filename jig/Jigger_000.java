@@ -3,7 +3,7 @@ package org.fleen.blanketFlower.jig;
 import java.util.Random;
 
 import org.fleen.blanketFlower.bComposition.BComposition;
-import org.fleen.blanketFlower.bComposition.BShape;
+import org.fleen.blanketFlower.geom_Boxy.BShape;
 import org.fleen.blanketFlower.jig.patternFill.Jig_PatternFill;
 import org.fleen.blanketFlower.jig.sprinkle.Jig_Sprinkle;
 import org.fleen.blanketFlower.jig.sweepingStripes.Jig_SweepingStripes;
@@ -28,7 +28,7 @@ public class Jigger_000 implements Jigger{
             shape.jig=new Jig_SweepingStripes();
           }else{
             a=rnd.nextInt(3);
-            a=2;
+//            a=2;
             if(a==0){
               shape.jig=new Jig_Sprinkle(); 
             }else if(a==1){

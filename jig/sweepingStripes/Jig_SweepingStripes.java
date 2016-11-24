@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import org.fleen.blanketFlower.bComposition.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BPolygon;
+import org.fleen.blanketFlower.geom_Boxy.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BVertex;
 import org.fleen.blanketFlower.geom_Boxy.GB;
 import org.fleen.blanketFlower.jig.Jig;
@@ -63,7 +63,6 @@ public class Jig_SweepingStripes implements Jig{
    */
   
   public void execute(){
-    System.out.println("stripe count ="+stripes.size());
     createStripe();
     moveStripes();
     setExitStripesForCull();
@@ -260,11 +259,6 @@ public class Jig_SweepingStripes implements Jig{
         updateShapeLocation(stripe,shape);}}
   
   private void updateShapeLocation(Stripe stripe,BPolygon shape){
-    
-    System.out.println("@updateShapeLocation");
-    System.out.println("stripe="+stripe);
-    System.out.println("shape="+shape);
-    
     int 
       refvertexx=target.getWestBound(),
       refvertexy=target.getSouthBound(),

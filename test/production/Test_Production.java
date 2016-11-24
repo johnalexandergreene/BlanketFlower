@@ -6,8 +6,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 import org.fleen.blanketFlower.bComposition.BComposition;
-import org.fleen.blanketFlower.bComposition.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BPolygon;
+import org.fleen.blanketFlower.geom_Boxy.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BVertex;
 import org.fleen.blanketFlower.jig.Jigger;
 import org.fleen.blanketFlower.jig.Jigger_000;

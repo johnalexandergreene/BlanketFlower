@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.test.production;
+package org.fleen.blanketFlower.test.production_PowerBox;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -10,10 +10,9 @@ import org.fleen.blanketFlower.geom_Boxy.BPolygon;
 import org.fleen.blanketFlower.geom_Boxy.BShape;
 import org.fleen.blanketFlower.geom_Boxy.BVertex;
 import org.fleen.blanketFlower.jig.Jigger;
-import org.fleen.blanketFlower.jig.Jigger_000;
 import org.fleen.blanketFlower.renderer.Renderer_Blender_PaletteMother;
 
-public class Test_Production{
+public class Test_Production_PowerBox{
   
   /*
    * ################################
@@ -21,7 +20,7 @@ public class Test_Production{
    * ################################
    */
   
-  Test_Production(){
+  Test_Production_PowerBox(){
     initComposition();
     initJigger();
     initUI();
@@ -41,7 +40,7 @@ public class Test_Production{
     EventQueue.invokeLater(new Runnable(){
       public void run(){
         try{
-          ui=new UI(Test_Production.this,UIWIDTH,UIHEIGHT);
+          ui=new UI(Test_Production_PowerBox.this,UIWIDTH,UIHEIGHT);
           ui.setVisible(true);
           ui.setTitle(TITLE);
           ui.getContentPane().setBackground(Color.black);
@@ -64,12 +63,12 @@ public class Test_Production{
 //      new BVertex(200,0));
     
     
-//    720p 8px cells
+//    box 4px cells
     BShape r=new BPolygon(
         new BVertex(0,0),
-        new BVertex(0,90),
-        new BVertex(160,90),
-        new BVertex(160,0));
+        new BVertex(0,128),
+        new BVertex(128,128),
+        new BVertex(128,0));
     
 //    //for 640x480 4px cell gif
 //    BShape r=new BPolygon(
@@ -138,14 +137,10 @@ public class Test_Production{
 //    new Color(0,255,0)};
   
   
-//  static final int CELLSPAN=6;
-//  static final int CELLSPAN=5;//for mya thing
-  static final int CELLSPAN=8; //for 720p video
-//  static final int CELLSPAN=4;//for site gif. nice gif. 640x480 final size.
+  static final int CELLSPAN=4;
   
   BufferedImage image;
-//  Renderer_Production renderer=new Renderer_Production(PALETTE000);
-  Renderer_Blender_PaletteMother renderer=new Renderer_Blender_PaletteMother();//palette mother
+  Renderer_Blender_PaletteMother renderer=new Renderer_Blender_PaletteMother();
   
   private void renderComposition(){
     image=renderer.render(composition,CELLSPAN);
@@ -175,12 +170,12 @@ public class Test_Production{
   
   public static final void main(String[] a){
     System.out.println("----begin process");
-    Test_Production test=new Test_Production();
-    for(int i=0;i<1608;i++){//2:14 of 12fps video
+    Test_Production_PowerBox test=new Test_Production_PowerBox();
+    for(int i=0;i<500;i++){
 //    for(int i=0;i<303;i++){//a nice looping gif 15 sec
       test.executeJigger(i);
       test.renderComposition();
-//      test.export(i);
+      test.export(i);
       System.out.println("FRAME#"+i);
       try{
         Thread.sleep(10,0);

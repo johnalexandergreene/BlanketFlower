@@ -101,7 +101,7 @@ public class Test_JigPatternFill{
     BPolygon root=getRootPolygon();
     //do pattern fill
     Jig_PatternFill j=new Jig_PatternFill(root);
-    j.execute();
+    j.execute(0);
     
     //render
     System.out.println("render");

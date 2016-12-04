@@ -37,7 +37,12 @@ import org.fleen.blanketFlower.geom_Boxy.BShape;
 public interface Jig{
 
   //do the thing to the target
-  void execute();
+  //frameindex gives us some idea of how far along in our sequence we are
+  //  some jigs use it, some don't
+  //  it's good for rhythmic effects, ramping effects
+  //  if we design the jig to fit a certain frame sequence 
+  //  length we can program up some complex behavior
+  void execute(int frameindex);
   
   //duplicate this jig for use in symmetric structures
   //we can't just use the same jig over and over, we are tracking unique sets of shapes

@@ -23,8 +23,17 @@ public interface Jigger{
    *   if it has a jig (Shape.jig) then execute it
    *   
    * we will probably remove all off-grid or otherwise unneeded shapes here too. 
+   * 
+   * ---
+   * 
+   * frameindex gives us some idea of how far along in our sequence we are
+   * some jigs use it, some don't
+   * it's good for rhythmic effects, ramping effects
+   * if we design the jig to fit a certain frame sequence 
+   * length we can program up some complex behavior
+   * 
    */
-  void execute();
+  void execute(int frameindex);
   
   
 

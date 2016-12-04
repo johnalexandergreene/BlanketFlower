@@ -17,15 +17,15 @@ import org.fleen.blanketFlower.geom_Boxy.BCell;
 import org.fleen.blanketFlower.geom_Boxy.BCellGroup;
 import org.fleen.blanketFlower.geom_Boxy.BShape;
 
-public class Renderer_Production{
+public class Renderer_Blender_PaletteMother{
 
-  public Renderer_Production(Color[] colors){
+  public Renderer_Blender_PaletteMother(Color[] colors){
     if(colors==null||colors.length<2)
       this.colors=createPalette(COLORCOUNT);
     else
       this.colors=colors;}
   
-  public Renderer_Production(){
+  public Renderer_Blender_PaletteMother(){
     this(null);}
   
   private Set<BCell> rootcells;
@@ -89,7 +89,7 @@ public class Renderer_Production{
         if(colorindex==null){
           colorindex=new ColorIndex();
           colorindices.put(cell,colorindex);}
-        colorindex.value+=shape.getChorusIndex();}}
+        colorindex.value+=shape.getColorIndex();}}
     return colorindices;}
   
   //because Integer is immutable

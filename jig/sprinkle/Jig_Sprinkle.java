@@ -66,7 +66,7 @@ public class Jig_Sprinkle implements Jig{
   Random rnd=new Random();
   List<BShape> dots=new ArrayList<BShape>();
   
-  public void execute(){
+  public void execute(int frameindex){
     clearDots();
     createDots();}
   
@@ -94,7 +94,8 @@ public class Jig_Sprinkle implements Jig{
     BPolygon dot;
     for(BCell dotcell:dotcells){
       dot=new BPolygon(dotcell);
-      dot.setChorusIndex(1);
+      dot.setChorusIndex(0);
+      dot.setColorIndex(1);
       dot.setTags("dot");
       dot.setParent(target);
       target.addChild(dot);

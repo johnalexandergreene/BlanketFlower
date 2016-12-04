@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.jig.sweepingStripes;
+package org.fleen.blanketFlower.jig.boxRhythmicSweepingStripes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ import org.fleen.blanketFlower.jig.Jig;
  *   a dot is a 1-square shape
  * create new dots
  */
-public class Jig_SweepingStripes implements Jig{
+public class Jig_BoxRhythmicSweepingStripes implements Jig{
 
   /*
    * ################################
@@ -28,10 +28,10 @@ public class Jig_SweepingStripes implements Jig{
    * ################################
    */ 
   
-  public Jig_SweepingStripes(BShape target){
+  public Jig_BoxRhythmicSweepingStripes(BShape target){
     setTarget(target);}
   
-  public Jig_SweepingStripes(){}
+  public Jig_BoxRhythmicSweepingStripes(){}
   
   /*
    * ################################
@@ -40,7 +40,7 @@ public class Jig_SweepingStripes implements Jig{
    */
   
   public Object clone(){
-    return new Jig_SweepingStripes();}
+    return new Jig_BoxRhythmicSweepingStripes();}
   
   /*
    * ################################
@@ -63,7 +63,7 @@ public class Jig_SweepingStripes implements Jig{
    */
   
   public void execute(int frameindex){
-    createStripe();
+    create4Stripes();
     moveStripes();
     setExitStripesForCull();
     cullExitStripesAndShapes();
@@ -89,32 +89,34 @@ public class Jig_SweepingStripes implements Jig{
   private static final double STRIPECREATIONPROBABILITY=0.06;//TODO should be param
   Random rnd=new Random();
   
-  private static final int MINSTRIPECOUNT=3;
+  private static final boolean
+    ORIENTATION_STRIPE_N=Stripe.STRIPEORIENTATION_HORIZONTAL,
+    ORIENTATION_STRIPE_E=Stripe.STRIPEORIENTATION_VERTICAL,
+    ORIENTATION_STRIPE_S=Stripe.STRIPEORIENTATION_HORIZONTAL,
+    ORIENTATION_STRIPE_W=Stripe.STRIPEORIENTATION_VERTICAL;
+  private static final int
+    COURSE_STRIPE_N=GB.DIR_NORTH,
+    COURSE_STRIPE_E=GB.DIR_EAST,
+    COURSE_STRIPE_S=GB.DIR_SOUTH,
+    COURSE_STRIPE_W=GB.DIR_WEST;
   
-  private void createStripe(){
-    //sometimes we create a stripe, usually we don't
-    if((!(stripes.size()<MINSTRIPECOUNT))&&rnd.nextDouble()>STRIPECREATIONPROBABILITY)return;
-    //stripe across the shorter span of the target
-    boolean orientation=getOrientationForNewStripe();
+  private void create4Stripes(){
+    if(rnd.nextDouble()>STRIPECREATIONPROBABILITY)return;
     int 
       thickness=getThicknessForNewStripe(),
-      course=getCourseForNewStripe(orientation),
       speed=getSpeedForNewStripe();
+    createStripe(ORIENTATION_STRIPE_N,thickness,COURSE_STRIPE_N,speed);
+    createStripe(ORIENTATION_STRIPE_E,thickness,COURSE_STRIPE_E,speed);
+    createStripe(ORIENTATION_STRIPE_S,thickness,COURSE_STRIPE_S,speed);
+    createStripe(ORIENTATION_STRIPE_W,thickness,COURSE_STRIPE_W,speed);}
+  
+  /*
+   * when we create a stripe we create 4 stripes
+   */
+  private void createStripe(boolean orientation,int thickness,int course,int speed){
     Stripe stripe=new Stripe(orientation,thickness,course,speed);
     initOffsetsForNewStripe(stripe);
     stripes.add(stripe);}
-  
-  private boolean getOrientationForNewStripe(){
-    int w=target.getWidth(),h=target.getHeight();
-    if(w>h)
-      return Stripe.STRIPEORIENTATION_VERTICAL;
-    else if(h>w)
-      return Stripe.STRIPEORIENTATION_HORIZONTAL;
-    else
-      if(rnd.nextBoolean())
-        return Stripe.STRIPEORIENTATION_VERTICAL;
-      else
-        return Stripe.STRIPEORIENTATION_HORIZONTAL;}
   
   private static final int 
     STRIPETHICKNESS_INCREMENT=16,
@@ -123,18 +125,6 @@ public class Jig_SweepingStripes implements Jig{
   private int getThicknessForNewStripe(){
     int thickness=rnd.nextInt(MAXSTRIPETHICKNESS)*STRIPETHICKNESS_INCREMENT+STRIPETHICKNESS_INCREMENT;
     return thickness;}
-  
-  private int getCourseForNewStripe(boolean orientation){
-    if(orientation==Stripe.STRIPEORIENTATION_VERTICAL)
-      if(rnd.nextBoolean())
-        return GB.DIR_EAST;
-      else
-        return GB.DIR_WEST;
-    else//horizontal
-      if(rnd.nextBoolean())
-        return GB.DIR_NORTH;
-      else
-        return GB.DIR_SOUTH;}
   
   private int getSpeedForNewStripe(){
     int speed=rnd.nextInt(3)+1;

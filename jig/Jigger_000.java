@@ -17,7 +17,7 @@ public class Jigger_000 implements Jigger{
 
   Random rnd=new Random();
   
-  public void execute(){
+  public void execute(int frameindex){
     int d,a;
     for(BShape shape:composition.getShapes()){
       d=shape.getDepth();
@@ -39,7 +39,7 @@ public class Jigger_000 implements Jigger{
           }
           shape.jig.setTarget(shape);}
         //do it
-        shape.jig.execute();}}
+        shape.jig.execute(frameindex);}}
     
   }
 

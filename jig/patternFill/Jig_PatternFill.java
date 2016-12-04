@@ -111,11 +111,13 @@ public class Jig_PatternFill implements Jig{
   
   List<BShape> shapes=null;
   
-  public void execute(){
-    clearShapes();
-    createShapes();}
+  Random rnd=new Random();
   
-  private void createShapes(){
+  public void execute(int frameindex){
+    clearShapes();
+    createShapes(frameindex);}
+  
+  private void createShapes(int frameindex){
     Pattern pattern=getPattern();
     //get some metrics
     int[] tbounds=target.getBounds();
@@ -138,11 +140,21 @@ public class Jig_PatternFill implements Jig{
     //create and install shapes
     //we should be getting 1..n polygons and 1 yard, excluding degenerate cases
     shapes=glyphs.getShapes();
+    int colorindex;
     for(BShape shape:shapes){
-      shape.setChorusIndex(1);
-      shape.setColorIndex(1);//TODO a blinky thing
+      shape.setChorusIndex(0);
+      colorindex=rnd.nextInt(3)+1;
+      doBlip(colorindex);
+      shape.setColorIndex(rnd.nextInt(3)+1);//randomy
+//      shape.setColorIndex(1);//constant
+//      shape.setColorIndex((frameindex/10)%3+1);//blinky
       shape.setParent(target);
       target.addChild(shape);}}
+  
+  private void doBlip(int a){
+    
+    
+  }
   
   private void clearShapes(){
     if(shapes==null)return;

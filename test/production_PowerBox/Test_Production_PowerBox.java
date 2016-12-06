@@ -171,7 +171,7 @@ public class Test_Production_PowerBox{
   public static final void main(String[] a){
     System.out.println("----begin process");
     Test_Production_PowerBox test=new Test_Production_PowerBox();
-    for(int i=0;i<500;i++){
+    for(int i=0;i<300;i++){
 //    for(int i=0;i<303;i++){//a nice looping gif 15 sec
       test.executeJigger(i);
       test.renderComposition();

@@ -63,7 +63,7 @@ public class Jig_BoxRhythmicSweepingStripes implements Jig{
    */
   
   public void execute(int frameindex){
-    create4Stripes();
+    create4Stripes(frameindex);
     moveStripes();
     setExitStripesForCull();
     cullExitStripesAndShapes();
@@ -100,8 +100,9 @@ public class Jig_BoxRhythmicSweepingStripes implements Jig{
     COURSE_STRIPE_S=GB.DIR_SOUTH,
     COURSE_STRIPE_W=GB.DIR_WEST;
   
-  private void create4Stripes(){
-    if(rnd.nextDouble()>STRIPECREATIONPROBABILITY)return;
+  private void create4Stripes(int frameindex){
+    if(rnd.nextDouble()>STRIPECREATIONPROBABILITY&&stripes.size()>1)return;
+//    if(frameindex%16!=0)return;
     int 
       thickness=getThicknessForNewStripe(),
       speed=getSpeedForNewStripe();

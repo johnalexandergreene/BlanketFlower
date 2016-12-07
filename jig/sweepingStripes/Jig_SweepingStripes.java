@@ -13,13 +13,6 @@ import org.fleen.blanketFlower.geom_Boxy.BVertex;
 import org.fleen.blanketFlower.geom_Boxy.GB;
 import org.fleen.blanketFlower.jig.Jig;
 
-/*
- * a haze of static
- * given the target
- * clear existing dots
- *   a dot is a 1-square shape
- * create new dots
- */
 public class Jig_SweepingStripes implements Jig{
 
   /*

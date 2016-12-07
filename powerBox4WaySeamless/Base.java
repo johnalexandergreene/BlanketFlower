@@ -8,10 +8,10 @@ package org.fleen.blanketFlower.powerBox4WaySeamless;
 public class Base extends Rectangle{
 
   int getX(){
-    return (PBox.SQUARESPAN-PBox.BASEWIDTH)/2;}
+    return 0;}
 
   int getY(){
-    return (PBox.SQUARESPAN-PBox.BASEHEIGHT)/2;}
+    return 0;}
 
   int getWidth(){
     return PBox.BASEWIDTH;}

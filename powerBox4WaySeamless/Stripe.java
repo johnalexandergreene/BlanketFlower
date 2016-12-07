@@ -43,7 +43,8 @@ public class Stripe extends Rectangle{
    * specify everything except speed
    * speed=1 is assumed
    */
-  Stripe(int type,int thickness,int color,int progress){
+  Stripe(PBox pbox,int type,int thickness,int color,int progress){
+    this.pbox=pbox;
     this.type=type;
     this.thickness=thickness;
     speed=PBox.SPEED_SLOW;
@@ -54,12 +55,21 @@ public class Stripe extends Rectangle{
    * for the system of chaos stripes
    * specify everything
    */
-  Stripe(int type,int thickness,int speed,int color,int progress){
+  Stripe(PBox pbox,int type,int thickness,int speed,int color,int progress){
+    this.pbox=pbox;
     this.type=type;
     this.thickness=thickness;
     this.speed=speed;
     this.color=color;
     this.progress=progress;}
+  
+  /*
+   * ################################
+   * PBOX
+   * ################################
+   */
+  
+  PBox pbox;
   
   /*
    * ################################
@@ -79,23 +89,23 @@ public class Stripe extends Rectangle{
   //get the x value of the sw corner point coordinates within the control square
   int getX(){
     if(type==PBox.STRIPETYPE_NORTHWARD){
-      return 0;
+      return pbox.rsquare.getX();
     }else if(type==PBox.STRIPETYPE_EASTWARD){
-      return PBox.SQUARESPAN-progress;
+      return pbox.rsquare.getX()+progress;
     }else if(type==PBox.STRIPETYPE_SOUTHWARD){
-      return 0;
+      return pbox.rsquare.getX();
     }else{//type==PBox.STRIPETYPE_WESTWARD
-      return progress;}}
+      return pbox.rsquare.getX()+pbox.rsquare.getWidth()-progress;}}
 
   int getY(){
     if(type==PBox.STRIPETYPE_NORTHWARD){
-      return progress;
+      return pbox.rsquare.getY()+progress;
     }else if(type==PBox.STRIPETYPE_EASTWARD){
-      return 0;
+      return pbox.rsquare.getY();
     }else if(type==PBox.STRIPETYPE_SOUTHWARD){
-      return PBox.SQUARESPAN-progress;
+      return pbox.rsquare.getY()+pbox.rsquare.getHeight()-progress;
     }else{//type==PBox.STRIPETYPE_WESTWARD
-      return 0;}}
+      return pbox.rsquare.getY();}}
 
   int getWidth(){
     if(type==PBox.STRIPETYPE_NORTHWARD){

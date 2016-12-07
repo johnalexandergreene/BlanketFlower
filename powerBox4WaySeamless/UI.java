@@ -10,7 +10,7 @@ public class UI extends JFrame{
 
   public UI(PBox pbox,int w,int h){
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setBounds(50,50,w,h);
+    setBounds(0,0,w,h);
     imagepanel=new ImagePanel(pbox);
     setContentPane(imagepanel);
     setVisible(true);}

@@ -33,7 +33,7 @@ public class ImagePanel extends JPanel{
    * ################################
    */
   
-  private static final int PADDINGSPAN=30;
+  private static final int PADDINGSPAN=10;
   
   public void paint(Graphics g){
     AffineTransform pad=new AffineTransform();

@@ -8,11 +8,11 @@ class ReferenceSquare{
   
   //sw corner point coordinate X
   int getX(){
-    return 0;}
+    return PBox.SQUAREX;}
   
   //sw corner point coordinate Y
   int getY(){
-    return 0;}
+    return PBox.SQUAREY;}
   
   int getWidth(){
     return PBox.SQUARESPAN;}

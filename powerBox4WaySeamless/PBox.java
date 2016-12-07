@@ -79,11 +79,13 @@ import org.fleen.blanketFlower.renderer.Renderer_Blender_PaletteMother;
 public class PBox{
   
   public static final int 
-    //square
-    SQUARESPAN=960,
-    //base
+    //base. the sw corner is (0,0)
     BASEWIDTH=320,
     BASEHEIGHT=180,
+    //square. span and sw corner coors
+    SQUARESPAN=BASEWIDTH*3,
+    SQUAREX=-BASEWIDTH,
+    SQUAREY=-(PBox.SQUARESPAN-PBox.BASEHEIGHT)/2,
     //thickness
     MAXSTRIPETHICKNESS=BASEWIDTH,
     //speed
@@ -97,6 +99,7 @@ public class PBox{
     STRIPETYPE_SOUTHWARD=2,
     STRIPETYPE_WESTWARD=3;
   
+  ReferenceSquare rsquare=new ReferenceSquare();
   Base base=new Base();
  
   public PBox(){
@@ -104,7 +107,7 @@ public class PBox{
     initUI();
     createContinuousStripes();
 //    createChaosStripes();
-    for(int i=0;i<SQUARESPAN;i++){
+    for(int i=0;i<SQUARESPAN*4;i++){//TODO should just be SQUARESPAN in production
       System.out.println(i+":"+SQUARESPAN);
       renderToUI();
       //export();
@@ -128,6 +131,7 @@ public class PBox{
    * place next stripe flush with that, and so on, until we run off the edge of the square
    */
   private void createContinuousStripes(){
+    stripes.add(new Stripe(this,PBox.STRIPETYPE_NORTHWARD,8,1,0));
     
   }
   
@@ -145,7 +149,7 @@ public class PBox{
    */
   
   static final String TITLE="blanketflower";
-  static final int UIWIDTH=1400,UIHEIGHT=800;
+  static final int UIWIDTH=1050,UIHEIGHT=1010;
   public UI ui;
   
   private void initUI(){
@@ -165,13 +169,20 @@ public class PBox{
    * ################################
    */
   
+  private static final int UICELLSPAN=4;
   BufferedImage image;
-  Renderer_Blender_PaletteMother renderer=new Renderer_Blender_PaletteMother();
+  Renderer_Test renderer;
   
   private void renderToUI(){
-//    image=renderer.render(composition,CELLSPAN);
+    Renderer_Test renderer=getRenderer();
+    image=renderer.render(UICELLSPAN);//TODO
     if(ui!=null)
       ui.imagepanel.repaint();}
+  
+  private Renderer_Test getRenderer(){
+    if(renderer==null)
+      renderer=new Renderer_Test(this);
+    return renderer;}
   
   /*
    * ################################

@@ -114,7 +114,7 @@ public class PBox{
     initUI();
     createContinuousStripes();
     createChaosStripes();
-    for(int i=0;i<REFERENCESQUARESPAN*44;i++){//TODO should just be SQUARESPAN in production
+    for(int i=0;i<REFERENCESQUARESPAN;i++){
       System.out.println(i+"/"+REFERENCESQUARESPAN);
       renderToUI();
       export(i);
@@ -138,14 +138,42 @@ public class PBox{
    * ################################
    */
   
+  private static final int CHAOSSTRIPECOUNT=10;
+  
   private void createChaosStripes(){
-    
-  }
+    for(int i=0;i<CHAOSSTRIPECOUNT;i++)
+      createChaosStripe();}
+  
+  private void createChaosStripe(){
+    int 
+      thickness=getRandomThicknessForChaosStripe(),
+      speed=getRandomSpeedForChaosStripe(),
+      initprogress=getRandomInitProgressForChaosStripe(speed),
+      color=getRandomColorForChaosStripe();
+    stripes.add(new Stripe(this,PBox.STRIPETYPE_NORTHWARD,thickness,color,initprogress));
+    stripes.add(new Stripe(this,PBox.STRIPETYPE_EASTWARD,thickness,color,initprogress));
+    stripes.add(new Stripe(this,PBox.STRIPETYPE_SOUTHWARD,thickness,color,initprogress));
+    stripes.add(new Stripe(this,PBox.STRIPETYPE_WESTWARD,thickness,color,initprogress));}
+  
+  private int getRandomColorForChaosStripe(){
+    return rnd.nextInt(COLORCOUNT);}
+  
+  private int getRandomSpeedForChaosStripe(){
+    int i=rnd.nextInt(3);
+    switch(i){
+    case 0:return STRIPESPEED_SLOW;
+    case 1:return STRIPESPEED_MED;
+    case 2:return STRIPESPEED_FAST;}
+    throw new IllegalArgumentException("fuh");}
+  
+  private int getRandomThicknessForChaosStripe(){
+    int i=rnd.nextInt(STRIPETHICKNESS.length);
+    return STRIPETHICKNESS[i];}
   
   /*
    * a random multiple of speed
    */
-  private int getRandomLocation(int speed){
+  private int getRandomInitProgressForChaosStripe(int speed){
     int a=PBox.REFERENCESQUARESPAN/speed;//TODO test
     return rnd.nextInt(a)*speed;}
   
@@ -312,13 +340,16 @@ public class PBox{
    * ################################
    */
   
+  static final int EXPORTCELLSPAN=4;//720p
+  //TODO we will export to 3 dirs at the same time : 720p,1080p,4k
+  
   static final String EXPORTDIR="/home/john/Desktop/bfexport";
   
   RasterExporter rasterexporter=new RasterExporter(new File(EXPORTDIR));
   
   void export(int index){
     System.out.println("export");
-    BufferedImage exportimage=renderer.render(UICELLSPAN);
+    BufferedImage exportimage=renderer.render(EXPORTCELLSPAN);
     rasterexporter.export(exportimage,index);}
   
   /*

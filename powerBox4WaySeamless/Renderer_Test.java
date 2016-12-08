@@ -86,7 +86,7 @@ public class Renderer_Test{
       pbox.base.getWidth(),
       pbox.base.getHeight());
     //render stripes
-    g.setPaint(new Color(255,0,255,128));
+    g.setPaint(new Color(128,128,128,128));
     for(Stripe stripe:pbox.stripes)
       g.fillRect(stripe.getX(),stripe.getY(),stripe.getWidth(),stripe.getHeight());
     

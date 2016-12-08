@@ -47,7 +47,7 @@ public class Stripe extends Rectangle{
     this.pbox=pbox;
     this.type=type;
     this.thickness=thickness;
-    speed=PBox.SPEED_SLOW;
+    speed=PBox.STRIPESPEED_SLOW;
     this.color=color;
     this.progress=progress;}
   
@@ -81,29 +81,31 @@ public class Stripe extends Rectangle{
   
   int 
     type,
-    thickness,//in terms of speed. that is to say, real thickness == thickness*speed
+    thickness,
     speed,
     color,
     progress;
 
   //get the x value of the sw corner point coordinates within the control square
+  //the "index point", the point that traverses the reference box from edge to edge, is in the middle of the stripe thickness. 
+  //  Implicitly anyway. We never actually refer to it. See test renderer for an illustration of this. It's simpler than it sounds.
   int getX(){
     if(type==PBox.STRIPETYPE_NORTHWARD){
       return pbox.rsquare.getX();
     }else if(type==PBox.STRIPETYPE_EASTWARD){
-      return pbox.rsquare.getX()+progress;
+      return pbox.rsquare.getX()+progress-thickness/2;
     }else if(type==PBox.STRIPETYPE_SOUTHWARD){
       return pbox.rsquare.getX();
     }else{//type==PBox.STRIPETYPE_WESTWARD
-      return pbox.rsquare.getX()+pbox.rsquare.getWidth()-progress;}}
+      return pbox.rsquare.getX()+pbox.rsquare.getWidth()-progress-thickness/2;}}
 
   int getY(){
     if(type==PBox.STRIPETYPE_NORTHWARD){
-      return pbox.rsquare.getY()+progress;
+      return pbox.rsquare.getY()+progress-thickness/2;
     }else if(type==PBox.STRIPETYPE_EASTWARD){
       return pbox.rsquare.getY();
     }else if(type==PBox.STRIPETYPE_SOUTHWARD){
-      return pbox.rsquare.getY()+pbox.rsquare.getHeight()-progress;
+      return pbox.rsquare.getY()+pbox.rsquare.getHeight()-progress-thickness/2;
     }else{//type==PBox.STRIPETYPE_WESTWARD
       return pbox.rsquare.getY();}}
 
@@ -111,19 +113,19 @@ public class Stripe extends Rectangle{
     if(type==PBox.STRIPETYPE_NORTHWARD){
       return PBox.SQUARESPAN;
     }else if(type==PBox.STRIPETYPE_EASTWARD){
-      return thickness*speed;
+      return thickness;
     }else if(type==PBox.STRIPETYPE_SOUTHWARD){
       return PBox.SQUARESPAN;
     }else{//type==PBox.STRIPETYPE_WESTWARD
-      return thickness*speed;}}
+      return thickness;}}
 
   int getHeight(){
     if(type==PBox.STRIPETYPE_NORTHWARD){
-      return thickness*speed;
+      return thickness;
     }else if(type==PBox.STRIPETYPE_EASTWARD){
       return PBox.SQUARESPAN;
     }else if(type==PBox.STRIPETYPE_SOUTHWARD){
-      return thickness*speed;
+      return thickness;
     }else{//type==PBox.STRIPETYPE_WESTWARD
       return PBox.SQUARESPAN;}}
   

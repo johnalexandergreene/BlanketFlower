@@ -82,22 +82,30 @@ public class PBox{
     //base. the sw corner is (0,0)
     BASEWIDTH=320,
     BASEHEIGHT=180,
-    //square. span and sw corner coors
-    SQUARESPAN=BASEWIDTH*3,
-    SQUAREX=-BASEWIDTH,
-    SQUAREY=-(PBox.SQUARESPAN-PBox.BASEHEIGHT)/2,
-    //thickness
-    MAXSTRIPETHICKNESS=BASEWIDTH,
-    //speed
-    SPEED_SLOW=1,
-    SPEED_MED=2,
-    SPEED_FAST=4,
-    SPEED_SUPERFAST=8,
+    //stripe thickness
+    STRIPETHICKNESS_0=1,
+    STRIPETHICKNESS_1=2,
+    STRIPETHICKNESS_2=4,
+    STRIPETHICKNESS_3=8,
+    STRIPETHICKNESS_4=16,
+    STRIPETHICKNESS_5=32,
+    STRIPETHICKNESS_6=64,
+    STRIPETHICKNESS_7=128,
+    STRIPETHICKNESS_8=256,
+    //stripe speed
+    STRIPESPEED_SLOW=1,
+    STRIPESPEED_MED=2,
+    STRIPESPEED_FAST=4,
+    STRIPESPEED_SUPERFAST=8,
     //stripe type
     STRIPETYPE_NORTHWARD=0,
     STRIPETYPE_EASTWARD=1,
     STRIPETYPE_SOUTHWARD=2,
-    STRIPETYPE_WESTWARD=3;
+    STRIPETYPE_WESTWARD=3,
+    //square. span and sw corner coors
+    SQUARESPAN=BASEWIDTH+STRIPETHICKNESS_8,
+    SQUAREX=-STRIPETHICKNESS_8/2,
+    SQUAREY=-(PBox.SQUARESPAN-PBox.BASEHEIGHT)/2;
   
   ReferenceSquare rsquare=new ReferenceSquare();
   Base base=new Base();
@@ -107,7 +115,7 @@ public class PBox{
     initUI();
     createContinuousStripes();
 //    createChaosStripes();
-    for(int i=0;i<SQUARESPAN*4;i++){//TODO should just be SQUARESPAN in production
+    for(int i=0;i<SQUARESPAN*44;i++){//TODO should just be SQUARESPAN in production
       System.out.println(i+":"+SQUARESPAN);
       renderToUI();
       //export();
@@ -131,7 +139,10 @@ public class PBox{
    * place next stripe flush with that, and so on, until we run off the edge of the square
    */
   private void createContinuousStripes(){
-    stripes.add(new Stripe(this,PBox.STRIPETYPE_NORTHWARD,8,1,0));
+    stripes.add(new Stripe(this,PBox.STRIPETYPE_NORTHWARD,STRIPETHICKNESS_4,1,0));
+    stripes.add(new Stripe(this,PBox.STRIPETYPE_EASTWARD,STRIPETHICKNESS_4,1,0));
+    stripes.add(new Stripe(this,PBox.STRIPETYPE_SOUTHWARD,STRIPETHICKNESS_4,1,0));
+    stripes.add(new Stripe(this,PBox.STRIPETYPE_WESTWARD,STRIPETHICKNESS_4,1,0));
     
   }
   

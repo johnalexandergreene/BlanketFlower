@@ -111,11 +111,11 @@ public class Stripe extends Rectangle{
 
   int getWidth(){
     if(type==PBox.STRIPETYPE_NORTHWARD){
-      return PBox.SQUARESPAN;
+      return PBox.REFERENCESQUARESPAN;
     }else if(type==PBox.STRIPETYPE_EASTWARD){
       return thickness;
     }else if(type==PBox.STRIPETYPE_SOUTHWARD){
-      return PBox.SQUARESPAN;
+      return PBox.REFERENCESQUARESPAN;
     }else{//type==PBox.STRIPETYPE_WESTWARD
       return thickness;}}
 
@@ -123,17 +123,17 @@ public class Stripe extends Rectangle{
     if(type==PBox.STRIPETYPE_NORTHWARD){
       return thickness;
     }else if(type==PBox.STRIPETYPE_EASTWARD){
-      return PBox.SQUARESPAN;
+      return PBox.REFERENCESQUARESPAN;
     }else if(type==PBox.STRIPETYPE_SOUTHWARD){
       return thickness;
     }else{//type==PBox.STRIPETYPE_WESTWARD
-      return PBox.SQUARESPAN;}}
+      return PBox.REFERENCESQUARESPAN;}}
   
   void move(){
     progress+=speed;
-    if(progress==PBox.SQUARESPAN)
+    if(progress==PBox.REFERENCESQUARESPAN)
       progress=0;
     //DEBUG
-    if(progress>PBox.SQUARESPAN)throw new IllegalArgumentException("fuck");}
+    if(progress>PBox.REFERENCESQUARESPAN)throw new IllegalArgumentException("fuck");}
 
 }

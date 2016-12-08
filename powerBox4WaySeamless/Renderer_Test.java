@@ -14,12 +14,10 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import org.fleen.blanketFlower.bComposition.BComposition;
 import org.fleen.blanketFlower.geom_Boxy.BCell;
 import org.fleen.blanketFlower.geom_Boxy.BCellGroup;
-import org.fleen.blanketFlower.geom_Boxy.BShape;
 
-public class Renderer_Test{
+public class Renderer_Test implements Renderer{
 
   /*
    * ################################
@@ -30,7 +28,7 @@ public class Renderer_Test{
   public Renderer_Test(PBox pbox,Color[] colors){
     this.pbox=pbox;
     if(colors==null||colors.length<2)
-      this.colors=createPalette(COLORCOUNT);
+      this.colors=createPalette(PBox.COLORCOUNT);
     else
       this.colors=colors;}
   
@@ -149,7 +147,6 @@ public class Renderer_Test{
    * ################################
    */
   
-  private static final int COLORCOUNT=16;
   Color[] colors;
   
   //PALETTE MOTHER

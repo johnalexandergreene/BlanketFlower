@@ -3,11 +3,11 @@ package org.fleen.blanketFlower.powerBox4WaySeamless;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.fleen.blanketFlower.renderer.Renderer_Blender_PaletteMother;
 
 /* 
  * just stripes. rectangles.
@@ -81,17 +81,12 @@ public class PBox{
   public static final int 
     //base. the sw corner is (0,0)
     BASEWIDTH=320,
-    BASEHEIGHT=180,
-    //stripe thickness
-    STRIPETHICKNESS_0=1,
-    STRIPETHICKNESS_1=2,
-    STRIPETHICKNESS_2=4,
-    STRIPETHICKNESS_3=8,
-    STRIPETHICKNESS_4=16,
-    STRIPETHICKNESS_5=32,
-    STRIPETHICKNESS_6=64,
-    STRIPETHICKNESS_7=128,
-    STRIPETHICKNESS_8=256,
+    BASEHEIGHT=180;
+  
+  //stripe thickness
+  public static final int[] STRIPETHICKNESS={1,2,4,8,16,32,64,128,256};
+    
+  public static final int
     //stripe speed
     STRIPESPEED_SLOW=1,
     STRIPESPEED_MED=2,
@@ -103,9 +98,13 @@ public class PBox{
     STRIPETYPE_SOUTHWARD=2,
     STRIPETYPE_WESTWARD=3,
     //square. span and sw corner coors
-    SQUARESPAN=BASEWIDTH+STRIPETHICKNESS_8,
-    SQUAREX=-STRIPETHICKNESS_8/2,
-    SQUAREY=-(PBox.SQUARESPAN-PBox.BASEHEIGHT)/2;
+    REFERENCESQUARESPAN=BASEWIDTH+STRIPETHICKNESS[8],
+    REFERENCESQUAREX=-STRIPETHICKNESS[8]/2,
+    REFERENCESQUAREY=-(REFERENCESQUARESPAN-BASEHEIGHT)/2,
+    //RENDERING
+    COLORCOUNT=16;
+  
+  
   
   ReferenceSquare rsquare=new ReferenceSquare();
   Base base=new Base();
@@ -114,11 +113,11 @@ public class PBox{
     System.out.println("START");
     initUI();
     createContinuousStripes();
-//    createChaosStripes();
-    for(int i=0;i<SQUARESPAN*44;i++){//TODO should just be SQUARESPAN in production
-      System.out.println(i+":"+SQUARESPAN);
+    createChaosStripes();
+    for(int i=0;i<REFERENCESQUARESPAN*44;i++){//TODO should just be SQUARESPAN in production
+      System.out.println(i+"/"+REFERENCESQUARESPAN);
       renderToUI();
-      //export();
+      export(i);
       moveStripes();}
     System.out.println("END");
     
@@ -131,6 +130,38 @@ public class PBox{
     for(Stripe stripe:stripes)
       stripe.move();}
   
+  Random rnd=new Random();
+  
+  /*
+   * ################################
+   * CREATE CHAOS STRIPES
+   * ################################
+   */
+  
+  private void createChaosStripes(){
+    
+  }
+  
+  /*
+   * a random multiple of speed
+   */
+  private int getRandomLocation(int speed){
+    int a=PBox.REFERENCESQUARESPAN/speed;//TODO test
+    return rnd.nextInt(a)*speed;}
+  
+  /*
+   * ################################
+   * CREATE CONTINUOUS STRIPES
+   * 1) create a random course of stripe thicknesses that sums to slightly more than REFERENCESQUARESPAN
+   *   the last size should be a value where using value/2 guies us less than REFERENCESQUARESPAN and
+   *   using value gives us greater than REFERENCESQUARESPAN
+   *   that is to say, the edge of the reference box would lay in the latter half of the stripe's thickness
+   * 2) calculate a random color for each of those stripe thicknesses
+   * 3) the rest is trivial 
+   *  
+   * ################################
+   */
+  
   /*
    * 4 continuous courses of stripes
    *   speed 1
@@ -139,19 +170,98 @@ public class PBox{
    * place next stripe flush with that, and so on, until we run off the edge of the square
    */
   private void createContinuousStripes(){
-    stripes.add(new Stripe(this,PBox.STRIPETYPE_NORTHWARD,STRIPETHICKNESS_4,1,0));
-    stripes.add(new Stripe(this,PBox.STRIPETYPE_EASTWARD,STRIPETHICKNESS_4,1,0));
-    stripes.add(new Stripe(this,PBox.STRIPETYPE_SOUTHWARD,STRIPETHICKNESS_4,1,0));
-    stripes.add(new Stripe(this,PBox.STRIPETYPE_WESTWARD,STRIPETHICKNESS_4,1,0));
-    
-  }
+    List<Integer> thicknesses=getRandomThicknessesForContinuousStripes();
+    int stripecount=thicknesses.size();
+    List<Integer> 
+      colors=getRandomColorsForContinuousStripes(stripecount),
+      initprogresses=getInitProgressesForContinuousStripes(thicknesses);
+    //do northward
+    for(int i=0;i<stripecount;i++)
+      stripes.add(new Stripe(this,PBox.STRIPETYPE_NORTHWARD,STRIPETHICKNESS[thicknesses.get(i)],colors.get(i),initprogresses.get(i)));
+    //do eastward
+    for(int i=0;i<stripecount;i++)
+      stripes.add(new Stripe(this,PBox.STRIPETYPE_EASTWARD,STRIPETHICKNESS[thicknesses.get(i)],colors.get(i),initprogresses.get(i)));
+    //do southward
+    for(int i=0;i<stripecount;i++)
+      stripes.add(new Stripe(this,PBox.STRIPETYPE_SOUTHWARD,STRIPETHICKNESS[thicknesses.get(i)],colors.get(i),initprogresses.get(i)));
+    //do westward
+    for(int i=0;i<stripecount;i++)
+      stripes.add(new Stripe(this,PBox.STRIPETYPE_WESTWARD,STRIPETHICKNESS[thicknesses.get(i)],colors.get(i),initprogresses.get(i)));}
   
   /*
-   * a random multiple of speed
+   * ++++++++++++++++++++++++++++++++
+   * GET INIT PROGRESSES FOR CONTINUOUS STRIPES
+   * ++++++++++++++++++++++++++++++++
    */
-  private int getRandomLocation(int speed,Random rnd){
-    int a=PBox.SQUARESPAN/speed;//TODO test
-    return rnd.nextInt(a)*speed;}
+  
+  private List<Integer> getInitProgressesForContinuousStripes(List<Integer> thicknesses){
+    List<Integer> initprogresses=new ArrayList<Integer>();
+    int stripecount=thicknesses.size(),pprior=0,tprior=0,t,p;
+    for(int i=0;i<stripecount;i++){
+      if(i==0){
+        pprior=0;
+        tprior=STRIPETHICKNESS[thicknesses.get(0)];
+        initprogresses.add(0);
+      }else{
+        t=STRIPETHICKNESS[thicknesses.get(i)];
+        p=pprior+tprior/2+t/2;
+        initprogresses.add(p);
+        pprior=p;
+        tprior=t;}}
+    return initprogresses;}
+  
+  /*
+   * ++++++++++++++++++++++++++++++++
+   * GET COLORS FOR CONTINUOUS STRIPES
+   * ++++++++++++++++++++++++++++++++
+   */
+  
+  private List<Integer> getRandomColorsForContinuousStripes(int stripecount){
+    List<Integer> colors=new ArrayList<Integer>(stripecount);
+    for(int i=0;i<stripecount;i++)
+      colors.add(rnd.nextInt(COLORCOUNT));
+    return colors;}
+  
+  /*
+   * ++++++++++++++++++++++++++++++++
+   * GET THICKNESSES FOR CONTINUOUS STRIPES
+   * I have yet to see it take more than 7 tries. Usually gets it in 1.
+   * ++++++++++++++++++++++++++++++++
+   */
+  
+  private static final int
+    MINCONTINUOUSSTRIPETHICKNESS=5,
+    MAXTRIES=100;
+  
+  /*
+   * get a list of integers for which the sum is greater than REFERENCESQUARESPAN
+   * and (lastinteger/2)>(sum-REFERENCESQUARESPAN)
+   * try it till we get it. it should work in a couple tries  
+   * 
+   */
+  private Thicknesses getRandomThicknessesForContinuousStripes(){
+    Thicknesses thicknesses=null;
+    int tries=0,lastthicknessvalue;
+    while(tries<MAXTRIES){
+      tries++;
+      thicknesses=new Thicknesses();
+      lastthicknessvalue=STRIPETHICKNESS[thicknesses.get(thicknesses.size()-1)];
+      if(thicknesses.sum-REFERENCESQUARESPAN<lastthicknessvalue/2){
+        System.out.println("got it in "+tries+" tries");
+        return thicknesses;}}
+    throw new IllegalArgumentException("couldn't get thicknesses");}
+  
+  @SuppressWarnings("serial")
+  private class Thicknesses extends ArrayList<Integer>{
+    
+    int sum=0;
+    
+    Thicknesses(){
+      int newthickness=0;
+      while(sum<REFERENCESQUARESPAN){
+        newthickness=rnd.nextInt(STRIPETHICKNESS.length-MINCONTINUOUSSTRIPETHICKNESS)+MINCONTINUOUSSTRIPETHICKNESS;
+        add(newthickness);
+        sum+=STRIPETHICKNESS[newthickness];}}}
   
   /*
    * ################################
@@ -160,7 +270,7 @@ public class PBox{
    */
   
   static final String TITLE="blanketflower";
-  static final int UIWIDTH=1050,UIHEIGHT=1010;
+  static final int UIWIDTH=1500,UIHEIGHT=1010;
   public UI ui;
   
   private void initUI(){
@@ -180,20 +290,36 @@ public class PBox{
    * ################################
    */
   
-  private static final int UICELLSPAN=4;
+  private static final int UICELLSPAN=2;
   BufferedImage image;
-  Renderer_Test renderer;
+  Renderer renderer;
   
   private void renderToUI(){
-    Renderer_Test renderer=getRenderer();
+    Renderer renderer=getRenderer();
     image=renderer.render(UICELLSPAN);//TODO
     if(ui!=null)
       ui.imagepanel.repaint();}
   
-  private Renderer_Test getRenderer(){
+  private Renderer getRenderer(){
     if(renderer==null)
-      renderer=new Renderer_Test(this);
+      renderer=new Renderer_Production(this);
+//      renderer=new Renderer_Test(this);
     return renderer;}
+  
+  /*
+   * ################################
+   * EXPORT
+   * ################################
+   */
+  
+  static final String EXPORTDIR="/home/john/Desktop/bfexport";
+  
+  RasterExporter rasterexporter=new RasterExporter(new File(EXPORTDIR));
+  
+  void export(int index){
+    System.out.println("export");
+    BufferedImage exportimage=renderer.render(UICELLSPAN);
+    rasterexporter.export(exportimage,index);}
   
   /*
    * ################################

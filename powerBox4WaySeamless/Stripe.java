@@ -39,19 +39,6 @@ public class Stripe extends Rectangle{
    */
   
   /*
-   * for the system of continuous stripes
-   * specify everything except speed
-   * speed=1 is assumed
-   */
-  Stripe(PBox pbox,int type,int thickness,int color,int progress){
-    this.pbox=pbox;
-    this.type=type;
-    this.thickness=thickness;
-    speed=PBox.STRIPESPEED[0];
-    this.color=color;
-    this.progress=progress;}
-  
-  /*
    * for the system of chaos stripes
    * specify everything
    */

@@ -40,13 +40,18 @@ import java.util.Random;
  *   128x72?
  *   
  *   160x90?
- *   256x144
  *   320x180?
  *   
  *   given 320x180
  *   at 720p the cells are 4px
  *   at 1080p : 6
  *   at 4k : 12
+ *   
+ *   given 160x90
+ *   720p:8px
+ *   1080p:12px
+ *   4k:24px
+ *   
  * 
  * ---
  * 
@@ -82,21 +87,18 @@ public class PBox{
   
   public static final int 
     //base. the sw corner is (0,0)
-//    BASEWIDTH=320,
-//    BASEHEIGHT=180;
+    BASEWIDTH=320,
+    BASEHEIGHT=180;
   
 //  BASEWIDTH=160,
 //  BASEHEIGHT=90;
-  
-  BASEWIDTH=256,
-  BASEHEIGHT=144;
   
   
   public static final int[]
     //stripe speed
     STRIPESPEED={1,2,4},
     //chaos stripe course thicknesses
-    CHAOSSTRIPETHICKNESS={16,32,64},
+    CHAOSSTRIPETHICKNESS={16,32,48},
     //continuous stripe course thicknesses
     CONTINUOUSSTRIPETHICKNESS={128,192,256};
   
@@ -112,6 +114,9 @@ public class PBox{
     REFERENCESQUAREX=-CONTINUOUSSTRIPETHICKNESS[CONTINUOUSSTRIPETHICKNESS.length-1]/2,
     REFERENCESQUAREY=-(REFERENCESQUARESPAN-BASEHEIGHT)/2,
     //RENDERING
+    //we have 16 colors but our stripes only use the first few colors, to reduce noise
+    //higher colors are achieved via stripe overlap blending summation 
+    STRIPECOLORRANGE=3,
     COLORCOUNT=16;
   
   
@@ -122,8 +127,10 @@ public class PBox{
   public PBox(){
     System.out.println("START");
     initUI();
-    createContinuousStripes();
-    createChaosStripes();
+    createContinuousStripes_Speed0();
+    createContinuousStripes_Speed1();
+    createContinuousStripes_Speed2();
+//    createChaosStripes();
     for(int i=0;i<REFERENCESQUARESPAN;i++){
       System.out.println(i+"/"+REFERENCESQUARESPAN);
       renderToUI();
@@ -141,47 +148,6 @@ public class PBox{
       stripe.move();}
   
   Random rnd=new Random();
-  
-  /*
-   * ################################
-   * CREATE CHAOS STRIPES
-   * ################################
-   */
-  
-  private static final int CHAOSSTRIPECOUNT=10;
-  
-  private void createChaosStripes(){
-    for(int i=0;i<CHAOSSTRIPECOUNT;i++)
-      createChaosStripe();}
-  
-  private void createChaosStripe(){
-    int 
-      thickness=getRandomThicknessForChaosStripe(),
-      speed=getRandomSpeedForChaosStripe(),
-      initprogress=getRandomInitProgressForChaosStripe(speed),
-      color=getRandomColorForChaosStripe();
-    stripes.add(new Stripe(this,PBox.STRIPETYPE_NORTHWARD,thickness,speed,color,initprogress));
-    stripes.add(new Stripe(this,PBox.STRIPETYPE_EASTWARD,thickness,speed,color,initprogress));
-    stripes.add(new Stripe(this,PBox.STRIPETYPE_SOUTHWARD,thickness,speed,color,initprogress));
-    stripes.add(new Stripe(this,PBox.STRIPETYPE_WESTWARD,thickness,speed,color,initprogress));}
-  
-  private int getRandomColorForChaosStripe(){
-    return rnd.nextInt(COLORCOUNT);}
-  
-  private int getRandomSpeedForChaosStripe(){
-    int s=STRIPESPEED[rnd.nextInt(STRIPESPEED.length)];
-    return s;}
-  
-  private int getRandomThicknessForChaosStripe(){
-    int i=rnd.nextInt(CHAOSSTRIPETHICKNESS.length);
-    return CHAOSSTRIPETHICKNESS[i];}
-  
-  /*
-   * a random multiple of speed
-   */
-  private int getRandomInitProgressForChaosStripe(int speed){
-    int a=PBox.REFERENCESQUARESPAN/speed;//TODO test
-    return rnd.nextInt(a)*speed;}
   
   /*
    * ################################
@@ -203,7 +169,27 @@ public class PBox{
    * place random thickness first stripe flush with respective edge
    * place next stripe flush with that, and so on, until we run off the edge of the square
    */
-  private void createContinuousStripes(){
+  private void createContinuousStripes_Speed1(){
+    List<Integer> thicknesses=getRandomThicknessesForContinuousStripes();
+    int stripecount=thicknesses.size();
+    List<Integer> 
+      colors=getRandomColorsForContinuousStripes(stripecount),
+      initprogresses=getInitProgressesForContinuousStripes(thicknesses);
+    //do northward
+//    (PBox pbox,int type,int thickness,int speed,int color,int progress)
+    for(int i=0;i<stripecount;i++)
+      stripes.add(new Stripe(this,STRIPETYPE_NORTHWARD,CONTINUOUSSTRIPETHICKNESS[thicknesses.get(i)],STRIPESPEED[1],colors.get(i),initprogresses.get(i)));
+    //do eastward
+    for(int i=0;i<stripecount;i++)
+      stripes.add(new Stripe(this,STRIPETYPE_EASTWARD,CONTINUOUSSTRIPETHICKNESS[thicknesses.get(i)],STRIPESPEED[1],colors.get(i),initprogresses.get(i)));
+    //do southward
+    for(int i=0;i<stripecount;i++)
+      stripes.add(new Stripe(this,STRIPETYPE_SOUTHWARD,CONTINUOUSSTRIPETHICKNESS[thicknesses.get(i)],STRIPESPEED[1],colors.get(i),initprogresses.get(i)));
+    //do westward
+    for(int i=0;i<stripecount;i++)
+      stripes.add(new Stripe(this,STRIPETYPE_WESTWARD,CONTINUOUSSTRIPETHICKNESS[thicknesses.get(i)],STRIPESPEED[1],colors.get(i),initprogresses.get(i)));}
+  
+  private void createContinuousStripes_Speed0(){
     List<Integer> thicknesses=getRandomThicknessesForContinuousStripes();
     int stripecount=thicknesses.size();
     List<Integer> 
@@ -211,16 +197,35 @@ public class PBox{
       initprogresses=getInitProgressesForContinuousStripes(thicknesses);
     //do northward
     for(int i=0;i<stripecount;i++)
-      stripes.add(new Stripe(this,PBox.STRIPETYPE_NORTHWARD,CONTINUOUSSTRIPETHICKNESS[thicknesses.get(i)],colors.get(i),initprogresses.get(i)));
+      stripes.add(new Stripe(this,PBox.STRIPETYPE_NORTHWARD,CONTINUOUSSTRIPETHICKNESS[thicknesses.get(i)],STRIPESPEED[0],colors.get(i),initprogresses.get(i)));
     //do eastward
     for(int i=0;i<stripecount;i++)
-      stripes.add(new Stripe(this,PBox.STRIPETYPE_EASTWARD,CONTINUOUSSTRIPETHICKNESS[thicknesses.get(i)],colors.get(i),initprogresses.get(i)));
+      stripes.add(new Stripe(this,PBox.STRIPETYPE_EASTWARD,CONTINUOUSSTRIPETHICKNESS[thicknesses.get(i)],STRIPESPEED[0],colors.get(i),initprogresses.get(i)));
     //do southward
     for(int i=0;i<stripecount;i++)
-      stripes.add(new Stripe(this,PBox.STRIPETYPE_SOUTHWARD,CONTINUOUSSTRIPETHICKNESS[thicknesses.get(i)],colors.get(i),initprogresses.get(i)));
+      stripes.add(new Stripe(this,PBox.STRIPETYPE_SOUTHWARD,CONTINUOUSSTRIPETHICKNESS[thicknesses.get(i)],STRIPESPEED[0],colors.get(i),initprogresses.get(i)));
     //do westward
     for(int i=0;i<stripecount;i++)
-      stripes.add(new Stripe(this,PBox.STRIPETYPE_WESTWARD,CONTINUOUSSTRIPETHICKNESS[thicknesses.get(i)],colors.get(i),initprogresses.get(i)));}
+      stripes.add(new Stripe(this,PBox.STRIPETYPE_WESTWARD,CONTINUOUSSTRIPETHICKNESS[thicknesses.get(i)],STRIPESPEED[0],colors.get(i),initprogresses.get(i)));}
+  
+  private void createContinuousStripes_Speed2(){
+    List<Integer> thicknesses=getRandomThicknessesForContinuousStripes();
+    int stripecount=thicknesses.size();
+    List<Integer> 
+      colors=getRandomColorsForContinuousStripes(stripecount),
+      initprogresses=getInitProgressesForContinuousStripes(thicknesses);
+    //do northward
+    for(int i=0;i<stripecount;i++)
+      stripes.add(new Stripe(this,PBox.STRIPETYPE_NORTHWARD,CONTINUOUSSTRIPETHICKNESS[thicknesses.get(i)],STRIPESPEED[2],colors.get(i),initprogresses.get(i)));
+    //do eastward
+    for(int i=0;i<stripecount;i++)
+      stripes.add(new Stripe(this,PBox.STRIPETYPE_EASTWARD,CONTINUOUSSTRIPETHICKNESS[thicknesses.get(i)],STRIPESPEED[2],colors.get(i),initprogresses.get(i)));
+    //do southward
+    for(int i=0;i<stripecount;i++)
+      stripes.add(new Stripe(this,PBox.STRIPETYPE_SOUTHWARD,CONTINUOUSSTRIPETHICKNESS[thicknesses.get(i)],STRIPESPEED[2],colors.get(i),initprogresses.get(i)));
+    //do westward
+    for(int i=0;i<stripecount;i++)
+      stripes.add(new Stripe(this,PBox.STRIPETYPE_WESTWARD,CONTINUOUSSTRIPETHICKNESS[thicknesses.get(i)],STRIPESPEED[2],colors.get(i),initprogresses.get(i)));}
   
   /*
    * ++++++++++++++++++++++++++++++++
@@ -253,7 +258,7 @@ public class PBox{
   private List<Integer> getRandomColorsForContinuousStripes(int stripecount){
     List<Integer> colors=new ArrayList<Integer>(stripecount);
     for(int i=0;i<stripecount;i++)
-      colors.add(rnd.nextInt(COLORCOUNT));
+      colors.add(rnd.nextInt(STRIPECOLORRANGE)+1);
     return colors;}
   
   /*
@@ -346,7 +351,7 @@ public class PBox{
    * ################################
    */
   
-  static final int EXPORTCELLSPAN=6;//720p
+  static final int EXPORTCELLSPAN=4;//720p
   //TODO we will export to 3 dirs at the same time : 720p,1080p,4k
   
   static final String EXPORTDIR="/home/john/Desktop/bfexport";
@@ -366,6 +371,10 @@ public class PBox{
   
   public static final void main(String[] a){
     new PBox();
+//    Random rnd=new Random();
+//    for(int i=0;i<100;i++){
+//      double g=rnd.nextGaussian();
+//      System.out.println("g = "+g);}
   }
 
 }

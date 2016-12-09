@@ -112,7 +112,7 @@ public class Jig_BoxRhythmicSweepingStripes implements Jig{
     initOffsetsForNewStripe(stripe);
     stripes.add(stripe);}
   
-  private static final int 
+  private static final int //thus we have 3 stripe thicknesses : 16,32,48,64
     STRIPETHICKNESS_INCREMENT=16,
     MAXSTRIPETHICKNESS=4;
   

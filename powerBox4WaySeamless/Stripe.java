@@ -47,7 +47,7 @@ public class Stripe extends Rectangle{
     this.pbox=pbox;
     this.type=type;
     this.thickness=thickness;
-    speed=PBox.STRIPESPEED_SLOW;
+    speed=PBox.STRIPESPEED[0];
     this.color=color;
     this.progress=progress;}
   

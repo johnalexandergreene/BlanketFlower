@@ -1,6 +1,7 @@
-package org.fleen.blanketFlower.powerBox4WaySeamless;
+package org.fleen.blanketFlower.app.powerbox_Seamless_Chaos.stripeSystem;
 
-import java.util.Random;
+import org.fleen.blanketFlower.app.powerbox_Seamless_Chaos.Powerbox_Seamless_Chaos;
+
 
 public class Stripe extends Rectangle{
   
@@ -42,7 +43,7 @@ public class Stripe extends Rectangle{
    * for the system of chaos stripes
    * specify everything
    */
-  Stripe(PBox pbox,int type,int thickness,int speed,int color,int progress){
+  public Stripe(Powerbox_Seamless_Chaos pbox,int type,int thickness,int speed,int color,int progress){
     this.pbox=pbox;
     this.type=type;
     this.thickness=thickness;
@@ -56,7 +57,7 @@ public class Stripe extends Rectangle{
    * ################################
    */
   
-  PBox pbox;
+  Powerbox_Seamless_Chaos pbox;
   
   /*
    * ################################
@@ -64,9 +65,7 @@ public class Stripe extends Rectangle{
    * ################################
    */
   
-  
-  
-  int 
+  public int 
     type,
     thickness,
     speed,
@@ -76,51 +75,51 @@ public class Stripe extends Rectangle{
   //get the x value of the sw corner point coordinates within the control square
   //the "index point", the point that traverses the reference box from edge to edge, is in the middle of the stripe thickness. 
   //  Implicitly anyway. We never actually refer to it. See test renderer for an illustration of this. It's simpler than it sounds.
-  int getX(){
-    if(type==PBox.STRIPETYPE_NORTHWARD){
+  public int getX(){
+    if(type==Powerbox_Seamless_Chaos.STRIPETYPE_NORTHWARD){
       return pbox.rsquare.getX();
-    }else if(type==PBox.STRIPETYPE_EASTWARD){
+    }else if(type==Powerbox_Seamless_Chaos.STRIPETYPE_EASTWARD){
       return pbox.rsquare.getX()+progress-thickness/2;
-    }else if(type==PBox.STRIPETYPE_SOUTHWARD){
+    }else if(type==Powerbox_Seamless_Chaos.STRIPETYPE_SOUTHWARD){
       return pbox.rsquare.getX();
     }else{//type==PBox.STRIPETYPE_WESTWARD
       return pbox.rsquare.getX()+pbox.rsquare.getWidth()-progress-thickness/2;}}
 
-  int getY(){
-    if(type==PBox.STRIPETYPE_NORTHWARD){
+  public int getY(){
+    if(type==Powerbox_Seamless_Chaos.STRIPETYPE_NORTHWARD){
       return pbox.rsquare.getY()+progress-thickness/2;
-    }else if(type==PBox.STRIPETYPE_EASTWARD){
+    }else if(type==Powerbox_Seamless_Chaos.STRIPETYPE_EASTWARD){
       return pbox.rsquare.getY();
-    }else if(type==PBox.STRIPETYPE_SOUTHWARD){
+    }else if(type==Powerbox_Seamless_Chaos.STRIPETYPE_SOUTHWARD){
       return pbox.rsquare.getY()+pbox.rsquare.getHeight()-progress-thickness/2;
     }else{//type==PBox.STRIPETYPE_WESTWARD
       return pbox.rsquare.getY();}}
 
-  int getWidth(){
-    if(type==PBox.STRIPETYPE_NORTHWARD){
-      return PBox.REFERENCESQUARESPAN;
-    }else if(type==PBox.STRIPETYPE_EASTWARD){
+  public int getWidth(){
+    if(type==Powerbox_Seamless_Chaos.STRIPETYPE_NORTHWARD){
+      return Powerbox_Seamless_Chaos.REFERENCESQUARESPAN;
+    }else if(type==Powerbox_Seamless_Chaos.STRIPETYPE_EASTWARD){
       return thickness;
-    }else if(type==PBox.STRIPETYPE_SOUTHWARD){
-      return PBox.REFERENCESQUARESPAN;
+    }else if(type==Powerbox_Seamless_Chaos.STRIPETYPE_SOUTHWARD){
+      return Powerbox_Seamless_Chaos.REFERENCESQUARESPAN;
     }else{//type==PBox.STRIPETYPE_WESTWARD
       return thickness;}}
 
-  int getHeight(){
-    if(type==PBox.STRIPETYPE_NORTHWARD){
+  public int getHeight(){
+    if(type==Powerbox_Seamless_Chaos.STRIPETYPE_NORTHWARD){
       return thickness;
-    }else if(type==PBox.STRIPETYPE_EASTWARD){
-      return PBox.REFERENCESQUARESPAN;
-    }else if(type==PBox.STRIPETYPE_SOUTHWARD){
+    }else if(type==Powerbox_Seamless_Chaos.STRIPETYPE_EASTWARD){
+      return Powerbox_Seamless_Chaos.REFERENCESQUARESPAN;
+    }else if(type==Powerbox_Seamless_Chaos.STRIPETYPE_SOUTHWARD){
       return thickness;
     }else{//type==PBox.STRIPETYPE_WESTWARD
-      return PBox.REFERENCESQUARESPAN;}}
+      return Powerbox_Seamless_Chaos.REFERENCESQUARESPAN;}}
   
-  void move(){
+  public void move(){
     progress+=speed;
-    if(progress==PBox.REFERENCESQUARESPAN)
+    if(progress==Powerbox_Seamless_Chaos.REFERENCESQUARESPAN)
       progress=0;
     //DEBUG
-    if(progress>PBox.REFERENCESQUARESPAN)throw new IllegalArgumentException("fuck");}
+    if(progress>Powerbox_Seamless_Chaos.REFERENCESQUARESPAN)throw new IllegalArgumentException("fuck");}
 
 }

@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.powerBox4WaySeamless;
+package org.fleen.blanketFlower.app.powerbox_Seamless_Chaos;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -16,7 +16,7 @@ public class ImagePanel extends JPanel{
    * ################################
    */
   
-  ImagePanel(PBox pbox){
+  ImagePanel(Powerbox_Seamless_Chaos pbox){
     this.pbox=pbox;}
   
   /*
@@ -25,7 +25,7 @@ public class ImagePanel extends JPanel{
    * ################################
    */
   
-  PBox pbox;
+  Powerbox_Seamless_Chaos pbox;
   
   /*
    * ################################

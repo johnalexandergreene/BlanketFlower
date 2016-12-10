@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.powerBox4WaySeamless;
+package org.fleen.blanketFlower.app.powerbox_Seamless_Chaos.renderer;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -14,10 +14,12 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import org.fleen.blanketFlower.app.powerbox_Seamless_Chaos.Powerbox_Seamless_Chaos;
+import org.fleen.blanketFlower.app.powerbox_Seamless_Chaos.stripeSystem.Stripe;
 import org.fleen.blanketFlower.geom_Boxy.BCell;
 import org.fleen.blanketFlower.geom_Boxy.BCellGroup;
 
-public class Renderer_Production implements Renderer{
+public class Renderer_Test implements Renderer{
 
   /*
    * ################################
@@ -25,14 +27,14 @@ public class Renderer_Production implements Renderer{
    * ################################
    */
   
-  public Renderer_Production(PBox pbox,Color[] colors){
+  public Renderer_Test(Powerbox_Seamless_Chaos pbox,Color[] colors){
     this.pbox=pbox;
     if(colors==null||colors.length<2)
-      this.colors=createPalette(PBox.COLORCOUNT);
+      this.colors=createPalette(Powerbox_Seamless_Chaos.COLORCOUNT);
     else
       this.colors=colors;}
   
-  public Renderer_Production(PBox pbox){
+  public Renderer_Test(Powerbox_Seamless_Chaos pbox){
     this(pbox,null);}
   
   /*
@@ -41,7 +43,7 @@ public class Renderer_Production implements Renderer{
    * ################################
    */
   
-  PBox pbox;
+  Powerbox_Seamless_Chaos pbox;
   
   /*
    * ################################
@@ -49,12 +51,12 @@ public class Renderer_Production implements Renderer{
    * ################################
    */
   
-  public BufferedImage render(int cellspan){
+  public BufferedImage render(int cellspan){//ignore cellspan for now
     int 
-      imagewidth=pbox.base.getWidth()*cellspan,
-      imageheight=pbox.base.getHeight()*cellspan;
+      imagewidth=pbox.rsquare.getWidth(),
+      imageheight=pbox.rsquare.getHeight();
     //init image
-    BufferedImage image=new BufferedImage(imagewidth,imageheight,BufferedImage.TYPE_INT_RGB);
+    BufferedImage image=new BufferedImage(imagewidth,imageheight,BufferedImage.TYPE_INT_ARGB);
     Graphics2D g=image.createGraphics();
     g.setPaint(Color.white);
     g.fillRect(0,0,imagewidth,imageheight);
@@ -62,10 +64,33 @@ public class Renderer_Production implements Renderer{
     AffineTransform t=new AffineTransform();
     //flip for cartesian
     t.translate(0,imageheight);
-    t.scale(cellspan,-cellspan);
+    t.scale(1,-1);
+    //center on the reference square
+    t.translate(-pbox.rsquare.getX(),-pbox.rsquare.getY());
     //
     g.setTransform(t);
     //---RENDER
+    //render reference square
+    g.setStroke(createStroke());
+    g.setPaint(Color.red);
+    g.drawRect(
+      pbox.rsquare.getX(),
+      pbox.rsquare.getY(),
+      pbox.rsquare.getWidth(),
+      pbox.rsquare.getHeight());
+    //render base
+    g.setPaint(Color.green);
+    g.drawRect(
+      pbox.base.getX(),
+      pbox.base.getY(),
+      pbox.base.getWidth(),
+      pbox.base.getHeight());
+    //render stripes
+    g.setPaint(new Color(128,128,128,128));
+    for(Stripe stripe:pbox.stripes)
+      g.fillRect(stripe.getX(),stripe.getY(),stripe.getWidth(),stripe.getHeight());
+    
+    
     //render cells
     BCellGroup basecells=pbox.base.getCells();
     Map<BCell,ColorIndex> cellcolorindices=getCellColorIndices(basecells);

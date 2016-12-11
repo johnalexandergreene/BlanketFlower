@@ -1,10 +1,12 @@
-package org.fleen.blanketFlower.app.powerbox_Seamless_Chaos;
+package org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos.ui;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
 import javax.swing.JPanel;
+
+import org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos.Powerbox_4way_Symmetric_Seamless_Chaos;
 
 public class ImagePanel extends JPanel{
 
@@ -16,7 +18,7 @@ public class ImagePanel extends JPanel{
    * ################################
    */
   
-  ImagePanel(Powerbox_Seamless_Chaos pbox){
+  ImagePanel(Powerbox_4way_Symmetric_Seamless_Chaos pbox){
     this.pbox=pbox;}
   
   /*
@@ -25,7 +27,7 @@ public class ImagePanel extends JPanel{
    * ################################
    */
   
-  Powerbox_Seamless_Chaos pbox;
+  Powerbox_4way_Symmetric_Seamless_Chaos pbox;
   
   /*
    * ################################

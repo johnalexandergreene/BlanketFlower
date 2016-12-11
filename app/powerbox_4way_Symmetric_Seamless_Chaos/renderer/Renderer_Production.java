@@ -1,21 +1,17 @@
-package org.fleen.blanketFlower.app.powerbox_Seamless_Chaos.renderer;
+package org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos.renderer;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Random;
-import java.util.Set;
 
-import org.fleen.blanketFlower.app.powerbox_Seamless_Chaos.Powerbox_Seamless_Chaos;
-import org.fleen.blanketFlower.app.powerbox_Seamless_Chaos.stripeSystem.Stripe;
+import org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos.Powerbox_4way_Symmetric_Seamless_Chaos;
+import org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos.stripeSystem.Base;
+import org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos.stripeSystem.Stripe;
 import org.fleen.blanketFlower.geom_Boxy.BCell;
 import org.fleen.blanketFlower.geom_Boxy.BCellGroup;
 
@@ -27,15 +23,8 @@ public class Renderer_Production implements Renderer{
    * ################################
    */
   
-  public Renderer_Production(Powerbox_Seamless_Chaos pbox,Color[] colors){
-    this.pbox=pbox;
-    if(colors==null||colors.length<2)
-      this.colors=createPalette(Powerbox_Seamless_Chaos.COLORCOUNT);
-    else
-      this.colors=colors;}
-  
-  public Renderer_Production(Powerbox_Seamless_Chaos pbox){
-    this(pbox,null);}
+  public Renderer_Production(Powerbox_4way_Symmetric_Seamless_Chaos pbox){
+    this.pbox=pbox;}
   
   /*
    * ################################
@@ -43,7 +32,7 @@ public class Renderer_Production implements Renderer{
    * ################################
    */
   
-  Powerbox_Seamless_Chaos pbox;
+  Powerbox_4way_Symmetric_Seamless_Chaos pbox;
   
   /*
    * ################################
@@ -52,9 +41,10 @@ public class Renderer_Production implements Renderer{
    */
   
   public BufferedImage render(int cellspan){
+    Base base=pbox.stripesystem.getBase();
     int 
-      imagewidth=pbox.base.getWidth()*cellspan,
-      imageheight=pbox.base.getHeight()*cellspan;
+      imagewidth=base.getWidth()*cellspan,
+      imageheight=base.getHeight()*cellspan;
     //init image
     BufferedImage image=new BufferedImage(imagewidth,imageheight,BufferedImage.TYPE_INT_RGB);
     Graphics2D g=image.createGraphics();
@@ -69,17 +59,18 @@ public class Renderer_Production implements Renderer{
     g.setTransform(t);
     //---RENDER
     //render cells
-    BCellGroup basecells=pbox.base.getCells();
+    BCellGroup basecells=base.getCells();
     Map<BCell,ColorIndex> cellcolorindices=getCellColorIndices(basecells);
     int cellcolorindex;
     Color cellcolor;
     BCell cell;
     Iterator<BCell> icells=cellcolorindices.keySet().iterator();
     Path2D cellpath;
+    Color[] palette=pbox.stripesystem.getPalette();
     while(icells.hasNext()){
       cell=icells.next();
       cellcolorindex=cellcolorindices.get(cell).value;
-      cellcolor=colors[cellcolorindex%colors.length];
+      cellcolor=palette[cellcolorindex%palette.length];
       cellpath=cell.getPath2D();
       g.setPaint(cellcolor);
       g.fill(cellpath);
@@ -104,7 +95,7 @@ public class Renderer_Production implements Renderer{
     Map<BCell,ColorIndex> colorindices=new HashMap<BCell,ColorIndex>();
     BCellGroup cells;
     ColorIndex colorindex;
-    for(Stripe stripe:pbox.stripes){
+    for(Stripe stripe:pbox.stripesystem.stripes){
       cells=stripe.getCells();
       for(BCell cell:cells){
         if(!basecells.contains(cell))continue;
@@ -119,35 +110,4 @@ public class Renderer_Production implements Renderer{
   class ColorIndex{
     int value=0;
   }
-  
-  /*
-   * ################################
-   * COLORS
-   * ################################
-   */
-  
-  Color[] colors;
-  
-  //PALETTE MOTHER
-  Color[] createPalette(int colorcount){
-    Set<Color> a=new HashSet<Color>();
-    Color c;
-    Random rnd=new Random();
-    for(int i=0;i<colorcount;i++){
-      c=new Color(64+rnd.nextInt(12)*16,64+rnd.nextInt(12)*16,64+rnd.nextInt(12)*16);
-      a.add(c);}
-    return a.toArray(new Color[a.size()]);}
-  
-  /*
-   * ################################
-   * STROKE
-   * ################################
-   */
-  
-  private float strokewidth=3f;
-  
-  private Stroke createStroke(){
-    Stroke stroke=new BasicStroke(strokewidth,BasicStroke.CAP_SQUARE,BasicStroke.JOIN_ROUND,0,null,0);
-    return stroke;}
-
 }

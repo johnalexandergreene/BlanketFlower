@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.app.powerbox_Seamless_Chaos.renderer;
+package org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos.renderer;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -14,8 +14,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import org.fleen.blanketFlower.app.powerbox_Seamless_Chaos.Powerbox_Seamless_Chaos;
-import org.fleen.blanketFlower.app.powerbox_Seamless_Chaos.stripeSystem.Stripe;
+import org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos.Powerbox_4way_Symmetric_Seamless_Chaos;
+import org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos.stripeSystem.Stripe;
 import org.fleen.blanketFlower.geom_Boxy.BCell;
 import org.fleen.blanketFlower.geom_Boxy.BCellGroup;
 
@@ -27,14 +27,14 @@ public class Renderer_Test implements Renderer{
    * ################################
    */
   
-  public Renderer_Test(Powerbox_Seamless_Chaos pbox,Color[] colors){
+  public Renderer_Test(Powerbox_4way_Symmetric_Seamless_Chaos pbox,Color[] colors){
     this.pbox=pbox;
     if(colors==null||colors.length<2)
-      this.colors=createPalette(Powerbox_Seamless_Chaos.COLORCOUNT);
+      this.colors=createPalette(Powerbox_4way_Symmetric_Seamless_Chaos.COLORCOUNT);
     else
       this.colors=colors;}
   
-  public Renderer_Test(Powerbox_Seamless_Chaos pbox){
+  public Renderer_Test(Powerbox_4way_Symmetric_Seamless_Chaos pbox){
     this(pbox,null);}
   
   /*
@@ -43,7 +43,7 @@ public class Renderer_Test implements Renderer{
    * ################################
    */
   
-  Powerbox_Seamless_Chaos pbox;
+  Powerbox_4way_Symmetric_Seamless_Chaos pbox;
   
   /*
    * ################################

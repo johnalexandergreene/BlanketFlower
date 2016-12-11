@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.app.powerbox_Seamless_Chaos.renderer;
+package org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos.renderer;
 
 import java.awt.image.BufferedImage;
 

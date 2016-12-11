@@ -1,6 +1,5 @@
-package org.fleen.blanketFlower.app.powerbox_Seamless_Chaos.stripeSystem;
+package org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos.stripeSystem;
 
-import org.fleen.blanketFlower.app.powerbox_Seamless_Chaos.Powerbox_Seamless_Chaos;
 
 
 public class Stripe extends Rectangle{
@@ -43,8 +42,8 @@ public class Stripe extends Rectangle{
    * for the system of chaos stripes
    * specify everything
    */
-  public Stripe(Powerbox_Seamless_Chaos pbox,int type,int thickness,int speed,int color,int progress){
-    this.pbox=pbox;
+  public Stripe(StripeSystem stripesystem,int type,int thickness,int speed,int color,int progress){
+    this.stripesystem=stripesystem;
     this.type=type;
     this.thickness=thickness;
     this.speed=speed;
@@ -57,7 +56,7 @@ public class Stripe extends Rectangle{
    * ################################
    */
   
-  Powerbox_Seamless_Chaos pbox;
+  StripeSystem stripesystem;
   
   /*
    * ################################
@@ -76,50 +75,55 @@ public class Stripe extends Rectangle{
   //the "index point", the point that traverses the reference box from edge to edge, is in the middle of the stripe thickness. 
   //  Implicitly anyway. We never actually refer to it. See test renderer for an illustration of this. It's simpler than it sounds.
   public int getX(){
-    if(type==Powerbox_Seamless_Chaos.STRIPETYPE_NORTHWARD){
-      return pbox.rsquare.getX();
-    }else if(type==Powerbox_Seamless_Chaos.STRIPETYPE_EASTWARD){
-      return pbox.rsquare.getX()+progress-thickness/2;
-    }else if(type==Powerbox_Seamless_Chaos.STRIPETYPE_SOUTHWARD){
-      return pbox.rsquare.getX();
+    ReferenceSquare rsquare=stripesystem.getReferenceSquare();
+    if(type==StripeSystem.STRIPETYPE_NORTHWARD){
+      return rsquare.getX();
+    }else if(type==StripeSystem.STRIPETYPE_EASTWARD){
+      return rsquare.getX()+progress-thickness/2;
+    }else if(type==StripeSystem.STRIPETYPE_SOUTHWARD){
+      return rsquare.getX();
     }else{//type==PBox.STRIPETYPE_WESTWARD
-      return pbox.rsquare.getX()+pbox.rsquare.getWidth()-progress-thickness/2;}}
+      return rsquare.getX()+rsquare.getWidth()-progress-thickness/2;}}
 
   public int getY(){
-    if(type==Powerbox_Seamless_Chaos.STRIPETYPE_NORTHWARD){
-      return pbox.rsquare.getY()+progress-thickness/2;
-    }else if(type==Powerbox_Seamless_Chaos.STRIPETYPE_EASTWARD){
-      return pbox.rsquare.getY();
-    }else if(type==Powerbox_Seamless_Chaos.STRIPETYPE_SOUTHWARD){
-      return pbox.rsquare.getY()+pbox.rsquare.getHeight()-progress-thickness/2;
+    ReferenceSquare rsquare=stripesystem.getReferenceSquare();
+    if(type==StripeSystem.STRIPETYPE_NORTHWARD){
+      return rsquare.getY()+progress-thickness/2;
+    }else if(type==StripeSystem.STRIPETYPE_EASTWARD){
+      return rsquare.getY();
+    }else if(type==StripeSystem.STRIPETYPE_SOUTHWARD){
+      return rsquare.getY()+rsquare.getHeight()-progress-thickness/2;
     }else{//type==PBox.STRIPETYPE_WESTWARD
-      return pbox.rsquare.getY();}}
+      return rsquare.getY();}}
 
   public int getWidth(){
-    if(type==Powerbox_Seamless_Chaos.STRIPETYPE_NORTHWARD){
-      return Powerbox_Seamless_Chaos.REFERENCESQUARESPAN;
-    }else if(type==Powerbox_Seamless_Chaos.STRIPETYPE_EASTWARD){
+    ReferenceSquare rsquare=stripesystem.getReferenceSquare();
+    if(type==StripeSystem.STRIPETYPE_NORTHWARD){
+      return rsquare.span;
+    }else if(type==StripeSystem.STRIPETYPE_EASTWARD){
       return thickness;
-    }else if(type==Powerbox_Seamless_Chaos.STRIPETYPE_SOUTHWARD){
-      return Powerbox_Seamless_Chaos.REFERENCESQUARESPAN;
+    }else if(type==StripeSystem.STRIPETYPE_SOUTHWARD){
+      return rsquare.span;
     }else{//type==PBox.STRIPETYPE_WESTWARD
       return thickness;}}
 
   public int getHeight(){
-    if(type==Powerbox_Seamless_Chaos.STRIPETYPE_NORTHWARD){
+    ReferenceSquare rsquare=stripesystem.getReferenceSquare();
+    if(type==StripeSystem.STRIPETYPE_NORTHWARD){
       return thickness;
-    }else if(type==Powerbox_Seamless_Chaos.STRIPETYPE_EASTWARD){
-      return Powerbox_Seamless_Chaos.REFERENCESQUARESPAN;
-    }else if(type==Powerbox_Seamless_Chaos.STRIPETYPE_SOUTHWARD){
+    }else if(type==StripeSystem.STRIPETYPE_EASTWARD){
+      return rsquare.span;
+    }else if(type==StripeSystem.STRIPETYPE_SOUTHWARD){
       return thickness;
     }else{//type==PBox.STRIPETYPE_WESTWARD
-      return Powerbox_Seamless_Chaos.REFERENCESQUARESPAN;}}
+      return rsquare.span;}}
   
   public void move(){
+    ReferenceSquare rsquare=stripesystem.getReferenceSquare();
     progress+=speed;
-    if(progress==Powerbox_Seamless_Chaos.REFERENCESQUARESPAN)
+    if(progress==rsquare.span)
       progress=0;
     //DEBUG
-    if(progress>Powerbox_Seamless_Chaos.REFERENCESQUARESPAN)throw new IllegalArgumentException("fuck");}
+    if(progress>rsquare.span)throw new IllegalArgumentException("fuck");}
 
 }

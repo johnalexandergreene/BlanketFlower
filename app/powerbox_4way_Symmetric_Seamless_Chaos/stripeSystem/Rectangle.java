@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.app.powerbox_Seamless_Chaos.stripeSystem;
+package org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos.stripeSystem;
 
 import org.fleen.blanketFlower.geom_Boxy.BCell;
 import org.fleen.blanketFlower.geom_Boxy.BCellGroup;

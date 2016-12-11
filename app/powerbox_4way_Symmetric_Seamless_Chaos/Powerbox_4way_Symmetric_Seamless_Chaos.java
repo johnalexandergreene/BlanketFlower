@@ -120,15 +120,7 @@ public class Powerbox_4way_Symmetric_Seamless_Chaos{
    */
   
   Color[] getPalette(){
-    //thoughtprovoking
-    Color[] c={
-      new Color(236,208,120),
-      new Color(217,91,67),
-      new Color(192,41,66),
-      new Color(84,36,55),
-      new Color(83,119,122)
-    };
-    return c;
+    return Palettes.PALETTES[10];
   }
   
   

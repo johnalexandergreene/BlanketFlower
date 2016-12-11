@@ -2,10 +2,8 @@ package org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos.strip
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 /* 
  * just stripes. rectangles.
@@ -85,12 +83,6 @@ public class StripeSystem{
    * CONSTRUCTORS
    * ################################        
    */
-  
-  public StripeSystem(int resolution,int complexity,int excitement,int palettesize){
-    this.resolution=resolution;
-    this.complexity=complexity;
-    this.excitement=excitement;
-    initPalette(palettesize);}
   
   public StripeSystem(int resolution,int complexity,int excitement,Color[] palette){
     this.resolution=resolution;
@@ -252,16 +244,6 @@ public class StripeSystem{
   private void initPalette(Color[] palette){
     this.palette=palette;}
   
-  //PALETTE MOTHER
-  void initPalette(int palettesize){
-    Set<Color> a=new HashSet<Color>();
-    Color c;
-    Random rnd=new Random();
-    for(int i=0;i<palettesize;i++){
-      c=new Color(64+rnd.nextInt(12)*16,64+rnd.nextInt(12)*16,64+rnd.nextInt(12)*16);
-      a.add(c);}
-    palette=a.toArray(new Color[a.size()]);}
-  
   /*
    * ++++++++++++++++++++++++++++++++
    * INIT STRIPE COLOR RANGE
@@ -323,6 +305,10 @@ public class StripeSystem{
 
   private Random rnd=new Random();
   
+  /*
+   * given our complexity param : 0,1 or 2
+   * we have 1,2 or 3 continuous stripe systems at up to 3 different speeds
+   */
   private void createStripes(){
     stripes=new ArrayList<Stripe>();
     if(complexity==0){

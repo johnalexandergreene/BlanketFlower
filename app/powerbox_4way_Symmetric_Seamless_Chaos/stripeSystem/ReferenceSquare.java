@@ -25,7 +25,7 @@ public class ReferenceSquare extends Rectangle{
    * ################################
    */
   
-  int x,y,span;
+  public int x,y,span;
   
   
   //sw corner point coordinate X

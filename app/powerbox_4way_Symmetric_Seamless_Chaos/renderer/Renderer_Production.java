@@ -3,7 +3,6 @@ package org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos.rende
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Path2D;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -36,22 +35,11 @@ public class Renderer_Production implements Renderer{
   
   /*
    * ################################
-   * CELLSPAN
-   * ################################
-   */
-  
-  int cellspan=1;
-  
-  public void setCellSpan(int cellspan){
-    this.cellspan=cellspan;}
-  
-  /*
-   * ################################
    * RENDER
    * ################################
    */
   
-  public BufferedImage render(){
+  public BufferedImage render(int cellspan){
     Base base=pbox.stripesystem.getBase();
     int 
       imagewidth=base.getWidth()*cellspan,
@@ -76,17 +64,12 @@ public class Renderer_Production implements Renderer{
     Color cellcolor;
     BCell cell;
     Iterator<BCell> icells=cellcolorindices.keySet().iterator();
-    Path2D cellpath;
     Color[] palette=pbox.getPalette();
     while(icells.hasNext()){
       cell=icells.next();
       cellcolorindex=cellcolorindices.get(cell).value;
       cellcolor=palette[cellcolorindex%palette.length];
-      cellpath=cell.getPath2D();
-      g.setPaint(cellcolor);
-      g.fill(cellpath);
-//      renderCell(image,cellcolor,cell,cellspan);
-      }
+      renderCell(image,cellcolor,cell,cellspan);}
   return image;}
   
   private void renderCell(BufferedImage image,Color color,BCell cell,int cellspan){
@@ -119,7 +102,6 @@ public class Renderer_Production implements Renderer{
   
   //because Integer is immutable
   class ColorIndex{
-    int value=0;
-  }
+    int value=0;}
 
 }

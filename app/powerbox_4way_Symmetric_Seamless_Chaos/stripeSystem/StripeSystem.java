@@ -1,6 +1,5 @@
 package org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos.stripeSystem;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -268,7 +267,7 @@ public class StripeSystem{
     if(stripes==null){
       createStripes();
       movecount=0;
-      movelimit=getReferenceSquare().span;}
+      movelimit=getMaxFrameIndex();}
     moveStripes();
     movecount++;
     return movecount==movelimit;}
@@ -276,6 +275,12 @@ public class StripeSystem{
   private void moveStripes(){
     for(Stripe stripe:stripes)
       stripe.move();}
+  
+  /*
+   * moving 1 pixel at a time we traverse the reference square
+   */
+  public int getMaxFrameIndex(){
+    return getReferenceSquare().span;}
  
   /*
    * ################################

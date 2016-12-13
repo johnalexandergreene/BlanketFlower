@@ -16,23 +16,6 @@ public class RasterExporter{
   
   /*
    * ################################
-   * CONSTRUCTOR
-   * ################################
-   */
-  
-  RasterExporter(File exportdir){
-    this.exportdir=exportdir;}
-  
-  /*
-   * ################################
-   * EXPORT DIR
-   * ################################
-   */
-  
-  File exportdir;
-  
-  /*
-   * ################################
    * EXPORT
    * ################################
    */
@@ -42,7 +25,7 @@ public class RasterExporter{
   private static final double INCHES_IN_A_METER=39.3700787;
   private static final int DPI=300;
   
-  File export(BufferedImage image,int index){
+  File export(BufferedImage image,int index,File exportdir){
     File file=getExportFile(exportdir,index);
     write(image,file);
     return file;}

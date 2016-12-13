@@ -85,7 +85,9 @@ public class Powerbox_4way_Symmetric_Seamless_Chaos{
   
   static final String TITLE="Powerbox 4way Seamless Symmetric Chaos";
   static final int UIWIDTH=1500,UIHEIGHT=1010;
+  private static final int UICELLSPAN=3;
   public UI ui;
+  public BufferedImage uiimage;
   
   private void initUI(){
     EventQueue.invokeLater(new Runnable(){
@@ -98,20 +100,19 @@ public class Powerbox_4way_Symmetric_Seamless_Chaos{
          }catch(Exception e){
            e.printStackTrace();}}});}
   
+  private void renderToUI(){
+    Renderer renderer=getRenderer();
+    uiimage=renderer.render(UICELLSPAN);
+    if(ui!=null)
+      ui.imagepanel.repaint();}
+  
   /*
    * ################################
    * RENDERER
    * ################################
    */
   
-  public BufferedImage image;
   Renderer renderer;
-  
-  private void renderToUI(){
-    Renderer renderer=getRenderer();
-    image=renderer.render();
-    if(ui!=null)
-      ui.imagepanel.repaint();}
   
   private Renderer getRenderer(){
     if(renderer==null)
@@ -121,21 +122,57 @@ public class Powerbox_4way_Symmetric_Seamless_Chaos{
   /*
    * ################################
    * EXPORT
+   * we do not handle dir creation here
+   * we have 3 export modes : 720p, 1080p and 4k 
    * ################################
    */
   
-  static final int EXPORTCELLSPAN=4;//720p
-  //TODO we will export to 3 dirs at the same time : 720p,1080p,4k
+  private RasterExporter rasterexporter=new RasterExporter();
   
-  static final String EXPORTDIR="/home/john/Desktop/bfexport";
+  //EXPORT MODES
+  private static final int 
+    EXPORTMODE_720P=0,
+    EXPORTMODE_1080P=1,
+    EXPORTMODE_4k=2;
   
-  RasterExporter rasterexporter=new RasterExporter(new File(EXPORTDIR));
+  //CELL SPAN BY REZ AND EXPORT MODE
+  private static final int 
+    CELLSPAN_HI_720P=4,
+    CELLSPAN_HI_1080P=6,
+    CELLSPAN_HI_4K=12,
+    CELLSPAN_LO_720P=8,
+    CELLSPAN_LO_1080P=12,
+    CELLSPAN_LO_4K=24;
+    
+  void export(int exportmode,File exportdir,int frameindex){
+    System.out.println("export "+getExportModeString(exportmode));
+    int exportcellspan=getExportCellSpan(exportmode);
+    BufferedImage exportimage=renderer.render(exportcellspan);
+    rasterexporter.export(exportimage,frameindex,exportdir);}
   
-  void export(int index){
-    System.out.println("export");
-    renderer.setCellSpan(EXPORTCELLSPAN);
-    BufferedImage exportimage=renderer.render();
-    rasterexporter.export(exportimage,index);}
+  private String getExportModeString(int exportmode){
+    switch(exportmode){
+    case EXPORTMODE_720P:return "720P";
+    case EXPORTMODE_1080P:return "1080P";
+    case EXPORTMODE_4k:return "4K";
+    default:throw new IllegalArgumentException("invalid export mode specified");}}
+  
+  private int getExportCellSpan(int exportmode){
+    int rez=stripesystem.resolution;
+    if(rez==StripeSystem.REZ_HI){
+      switch(exportmode){
+      case EXPORTMODE_720P:return CELLSPAN_HI_720P;
+      case EXPORTMODE_1080P:return CELLSPAN_HI_1080P;
+      case EXPORTMODE_4k:return CELLSPAN_HI_4K;
+      default:throw new IllegalArgumentException("invalid export mode specified");}
+    }else if(rez==StripeSystem.REZ_LO){
+      switch(exportmode){
+      case EXPORTMODE_720P:return CELLSPAN_LO_720P;
+      case EXPORTMODE_1080P:return CELLSPAN_LO_1080P;
+      case EXPORTMODE_4k:return CELLSPAN_LO_4K;
+      default:throw new IllegalArgumentException("invalid export mode specified");}
+    }else{
+      throw new IllegalArgumentException("invalid rez");}}
   
   /*
    * ################################
@@ -143,48 +180,46 @@ public class Powerbox_4way_Symmetric_Seamless_Chaos{
    * ################################
    */
   
-  private static final int UICELLSPAN=2;
-  
   public void test(){
     System.out.println("START");
     initUI();
     stripesystem=new StripeSystem(
       StripeSystem.REZ_HI,2,3,getPaletteSize());
-    getRenderer().setCellSpan(UICELLSPAN);
     boolean finished=false;
     int frameindex=0,maxframeindex=stripesystem.getReferenceSquare().span;
     while(!finished){
       finished=stripesystem.move();
       renderToUI();
       frameindex++;
-      System.out.println(frameindex+"/"+maxframeindex);}
+      System.out.println("FRAMEINDEX : "+frameindex+"/"+maxframeindex);}
     System.out.println("END");}
   
   /*
    * ################################
    * GENERATE COMPOSITION
+   * create a dir. name=exportpath/compositionname
+   * export png images to that dir
    * ################################
    */
   
-  public void generateComposition(StripeSystem stripesystem,Color[] palette,String exportpath,int exportmode){
-    System.out.println("GENERATE COMPOSITION : START");
+  public void generateComposition(StripeSystem stripesystem,Color[] palette,int exportmode,String exportpath,String compositionname){
+    System.out.println("GENERATE COMPOSITION ["+compositionname+"] START");
+    //
     initUI();
+    //create export dir
+    File exportdir=new File(exportpath+"/"+compositionname);
+    if(!exportdir.mkdir())throw new IllegalArgumentException("EXPORT DIR CREATION FAILED IN generateComposition");
+    //
     this.stripesystem=stripesystem;
     boolean finished=false;
-    int frameindex=0,maxframeindex=stripesystem.getReferenceSquare().span;
+    int frameindex=0,maxframeindex=stripesystem.getMaxFrameIndex();
     while(!finished){
       finished=stripesystem.move();
       renderToUI();
-      export(frameindex);
-      //export720p//TODO -- create directories as necessary too
-      //export1080p
-      //export4k
+      export(exportmode,exportdir,frameindex);
       frameindex++;
-      System.out.println(frameindex+"/"+maxframeindex);
-    }
-    System.out.println("GENERATE COMPOSITION : END");
-    
-  }
+      System.out.println("FRAMEINDEX : "+frameindex+"/"+maxframeindex);}
+    System.out.println("GENERATE COMPOSITION ["+compositionname+"] END");}
   
   /*
    * ################################
@@ -214,7 +249,18 @@ public class Powerbox_4way_Symmetric_Seamless_Chaos{
    * ################################
    */
   
+  static final String EXPORTPATH="/home/john/Desktop/bfexport";
+  static final String SAMPLECOMPOSITIONNAME="Powerbox_4way_Symmetric_Seamless_Chaos_V123C456";
+  
   public static final void main(String[] a){
-    new Powerbox_4way_Symmetric_Seamless_Chaos().test();}
+    
+    
+    Powerbox_4way_Symmetric_Seamless_Chaos pb=new Powerbox_4way_Symmetric_Seamless_Chaos();
+//    pb.test();
+    Color[] palette=pb.getRandomNicePalette();
+    StripeSystem stripesystem=new StripeSystem(StripeSystem.REZ_HI,2,3,palette.length);
+    pb.generateComposition(stripesystem,palette,EXPORTMODE_720P,EXPORTPATH,SAMPLECOMPOSITIONNAME);
+    
+  }
 
 }

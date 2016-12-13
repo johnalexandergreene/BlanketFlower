@@ -42,8 +42,8 @@ public class ImagePanel extends JPanel{
     pad.translate(PADDINGSPAN,PADDINGSPAN);
     //
     super.paint(g);
-    if(pbox==null||pbox.image==null)return;
+    if(pbox==null||pbox.uiimage==null)return;
     Graphics2D g2=(Graphics2D)g;
-    g2.drawImage(pbox.image,pad,null);}
+    g2.drawImage(pbox.uiimage,pad,null);}
 
 }

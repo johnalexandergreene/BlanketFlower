@@ -84,11 +84,11 @@ public class StripeSystem{
    * ################################        
    */
   
-  public StripeSystem(int resolution,int complexity,int excitement,Color[] palette){
+  public StripeSystem(int resolution,int complexity,int excitement,int colorcount){
     this.resolution=resolution;
     this.complexity=complexity;
     this.excitement=excitement;
-    initPalette(palette);}
+    this.colorcount=colorcount;}
   
   /*
    * ################################
@@ -233,16 +233,7 @@ public class StripeSystem{
    * ################################        
    */
   
-  private Color[] palette;
-  
-  public int getPaletteSize(){
-    return palette.length;}
-  
-  public Color[] getPalette(){
-    return palette;}
-   
-  private void initPalette(Color[] palette){
-    this.palette=palette;}
+  public int colorcount;
   
   /*
    * ++++++++++++++++++++++++++++++++
@@ -255,10 +246,9 @@ public class StripeSystem{
   private static final int INITSTRIPECOLORRANGEDEFAULT=3;
   
   private int getStripeInitColorRange(){
-    int s=getPaletteSize();
-    if(s>INITSTRIPECOLORRANGEDEFAULT)return INITSTRIPECOLORRANGEDEFAULT;
-    if(s>2)return s-1;
-    return s;}
+    if(colorcount>INITSTRIPECOLORRANGEDEFAULT)return INITSTRIPECOLORRANGEDEFAULT;
+    if(colorcount>2)return colorcount-1;
+    return colorcount;}
   
   /*
    * ################################

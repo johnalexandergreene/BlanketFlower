@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 
 public interface Renderer{
   
-  BufferedImage render(int cellspan);
+  BufferedImage render();
+  
+  void setCellSpan(int cellspan);
 
 }

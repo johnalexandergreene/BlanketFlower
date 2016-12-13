@@ -36,11 +36,22 @@ public class Renderer_Production implements Renderer{
   
   /*
    * ################################
+   * CELLSPAN
+   * ################################
+   */
+  
+  int cellspan=1;
+  
+  public void setCellSpan(int cellspan){
+    this.cellspan=cellspan;}
+  
+  /*
+   * ################################
    * RENDER
    * ################################
    */
   
-  public BufferedImage render(int cellspan){
+  public BufferedImage render(){
     Base base=pbox.stripesystem.getBase();
     int 
       imagewidth=base.getWidth()*cellspan,
@@ -66,7 +77,7 @@ public class Renderer_Production implements Renderer{
     BCell cell;
     Iterator<BCell> icells=cellcolorindices.keySet().iterator();
     Path2D cellpath;
-    Color[] palette=pbox.stripesystem.getPalette();
+    Color[] palette=pbox.getPalette();
     while(icells.hasNext()){
       cell=icells.next();
       cellcolorindex=cellcolorindices.get(cell).value;
@@ -110,4 +121,5 @@ public class Renderer_Production implements Renderer{
   class ColorIndex{
     int value=0;
   }
+
 }

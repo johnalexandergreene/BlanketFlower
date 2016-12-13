@@ -2,7 +2,7 @@ package org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos;
 
 import java.awt.Color;
 
-public class Palettes{
+public class NicePalettes{
   
   public static final Color[][] PALETTES={
     

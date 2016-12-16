@@ -6,7 +6,7 @@ public class NicePalettes{
   
   public static final Color[][] PALETTES={
     
-    //0 thought provoking
+    //thought provoking
     {
       new Color(236,208,120),
       new Color(217,91,67),
@@ -14,7 +14,7 @@ public class NicePalettes{
       new Color(84,36,55),
       new Color(83,119,122)},
     
-    //1 (???)
+    //(???)
     {
       new Color(254,67,101),
       new Color(252,157,154),
@@ -22,7 +22,7 @@ public class NicePalettes{
       new Color(200,200,169),
       new Color(131,175,155)},
     
-    //2 melon ball surprise
+    //melon ball surprise
     {
       new Color(209,242,165),
       new Color(239,250,180),
@@ -30,7 +30,7 @@ public class NicePalettes{
       new Color(255,159,128),
       new Color(245,105,145)},
       
-    //3 clairedelune
+    //clairedelune
     {
       new Color(65,62,74),
       new Color(115,98,110),
@@ -38,7 +38,7 @@ public class NicePalettes{
       new Color(240,180,158),
       new Color(247,228,190)},
       
-    //4 headache
+    //headache
     {
       new Color(101,86,67),
       new Color(128,188,163),
@@ -46,7 +46,7 @@ public class NicePalettes{
       new Color(230,172,39),
       new Color(191,77,40)},
       
-    //5 mystery machine
+    //mystery machine
     {
       new Color(85,66,54),
       new Color(247,120,37),
@@ -54,7 +54,7 @@ public class NicePalettes{
       new Color(241,239,165),
       new Color(96,185,154)},
       
-    //6 gamebookers
+    //gamebookers
     {
       new Color(255,153,0),
       new Color(66,66,66),
@@ -62,7 +62,7 @@ public class NicePalettes{
       new Color(188,188,188),
       new Color(50,153,187)},
       
-    //7 strawberry mousse
+    //strawberry mousse
     {
       new Color(167,156,142),
       new Color(248,236,201),
@@ -70,7 +70,7 @@ public class NicePalettes{
       new Color(235,159,159),
       new Color(107,83,68)},
       
-    //8 forever lost
+    //forever lost
     {
       new Color(93,65,87),
       new Color(131,134,137),
@@ -78,21 +78,80 @@ public class NicePalettes{
       new Color(202,215,178),
       new Color(235,227,170)},
       
-    //9 gentle waves
-    {
-      new Color(211,226,182),
-      new Color(195,219,180),
-      new Color(170,204,177),
-      new Color(135,189,177),
-      new Color(104,179,175)},
-      
-    //10 vintage modern
+    //vintage modern
     {
       new Color(140,35,24),
       new Color(94,140,106),
       new Color(136,166,94),
       new Color(191,179,90),
       new Color(242,196,90)},
+      
+    //?"?
+    //goodness=9
+    {
+      new Color(73,10,61),
+      new Color(189,21,80),
+      new Color(233,127,2),
+      new Color(248,202,0),
+      new Color(138,155,15)},
+      
+    //dance to forget
+    {
+      new Color(255,78,80),
+      new Color(252,145,58),
+      new Color(249,212,35),
+      new Color(237,229,116),
+      new Color(225,245,196)},
+      
+    //fresh cut day
+    {
+      new Color(0,168,198),
+      new Color(64,192,203),
+      new Color(249,242,231),
+      new Color(174,226,57),
+      new Color(143,190,0)},
+      
+    //maddening caravan
+    {
+      new Color(250,208,137),
+      new Color(255,156,91),
+      new Color(245,99,74),
+      new Color(237,48,60),
+      new Color(59,129,131)},
+      
+    //storming psychedelia
+    {
+      new Color(188,189,172),
+      new Color(207,190,39),
+      new Color(242,116,53),
+      new Color(240,36,117),
+      new Color(59,45,56)},
+      
+    //very
+    {
+      new Color(187,187,136),
+      new Color(204,198,141),
+      new Color(238,221,153),
+      new Color(238,194,144),
+      new Color(238,170,136)},
+      
+    //inside the moment
+    {
+      new Color(255,237,144),
+      new Color(168,212,111),
+      new Color(53,150,104),
+      new Color(60,50,81),
+      new Color(52,17,57)},
+      
+    //influenza
+    //goodness=9.5
+    {
+      new Color(48,0,48),
+      new Color(72,0,72),
+      new Color(96,24,72),
+      new Color(192,72,72),
+      new Color(240,114,65)},
+      
     
     
   };

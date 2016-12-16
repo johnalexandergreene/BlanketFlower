@@ -83,8 +83,9 @@ public class StripeSystem{
    * ################################        
    */
   
-  public StripeSystem(int resolution,int complexity,int excitement,int colorcount){
+  public StripeSystem(int resolution,int periodicity,int complexity,int excitement,int colorcount){
     this.resolution=resolution;
+    this.periodicity=periodicity;
     this.complexity=complexity;
     this.excitement=excitement;
     this.colorcount=colorcount;}
@@ -97,6 +98,9 @@ public class StripeSystem{
    * We have 2 resolutions, high and low
    * ################################        
    */
+  
+  //for values >0 we dupe stripes periodically, thus creating this big regulerer plaids
+  int periodicity=0;
   
   /*
    * stripe speeds
@@ -329,7 +333,6 @@ public class StripeSystem{
       initprogresses=getInitProgressesForContinuousStripes(thicknesses);
     int[] stripethicknessarray=getStripeThicknessArray();
     //do northward
-//    (PBox pbox,int type,int thickness,int speed,int color,int progress)
     for(int i=0;i<stripecount;i++)
       stripes.add(new Stripe(this,STRIPETYPE_NORTHWARD,stripethicknessarray[thicknesses.get(i)],speed,colors.get(i),initprogresses.get(i)));
     //do eastward

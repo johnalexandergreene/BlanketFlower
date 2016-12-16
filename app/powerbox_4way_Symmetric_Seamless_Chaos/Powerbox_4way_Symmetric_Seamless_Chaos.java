@@ -47,6 +47,13 @@ public class Powerbox_4way_Symmetric_Seamless_Chaos{
   public void setPalette(Color[] palette){
     this.palette=palette;}
   
+  public Color[] getRandomishPalette(double niceprobability){
+    Random rnd=new Random();
+    if(rnd.nextDouble()<niceprobability){
+      return getRandomNicePalette();
+    }else{
+      return createPMPalette();}}
+  
   /*
    * ++++++++++++++++++++++++++++++++++++++++
    * get random palette from NicePalettes
@@ -84,7 +91,7 @@ public class Powerbox_4way_Symmetric_Seamless_Chaos{
    */
   
   static final String TITLE="Powerbox 4way Seamless Symmetric Chaos";
-  static final int UIWIDTH=1500,UIHEIGHT=1010;
+  static final int UIWIDTH=1100,UIHEIGHT=700;
   private static final int UICELLSPAN=3;
   public UI ui;
   public BufferedImage uiimage;
@@ -184,7 +191,7 @@ public class Powerbox_4way_Symmetric_Seamless_Chaos{
     System.out.println("START");
     initUI();
     stripesystem=new StripeSystem(
-      StripeSystem.REZ_HI,2,3,getPaletteSize());
+      StripeSystem.REZ_HI,0,2,3,getPaletteSize());
     boolean finished=false;
     int frameindex=0,maxframeindex=stripesystem.getReferenceSquare().span;
     while(!finished){
@@ -204,6 +211,8 @@ public class Powerbox_4way_Symmetric_Seamless_Chaos{
   
   public void generateComposition(StripeSystem stripesystem,Color[] palette,int exportmode,String exportpath,String compositionname){
     System.out.println("GENERATE COMPOSITION ["+compositionname+"] START");
+    long t=System.currentTimeMillis();
+    System.out.println(paletteToString(palette));
     //
     initUI();
     //create export dir
@@ -218,8 +227,16 @@ public class Powerbox_4way_Symmetric_Seamless_Chaos{
       renderToUI();
       export(exportmode,exportdir,frameindex);
       frameindex++;
-      System.out.println("FRAMEINDEX : "+frameindex+"/"+maxframeindex);}
-    System.out.println("GENERATE COMPOSITION ["+compositionname+"] END");}
+      System.out.println("frameindex : "+frameindex+"/"+maxframeindex);}
+    System.out.println("GENERATE COMPOSITION ["+compositionname+"] END");
+    System.out.println("elapsed : "+(System.currentTimeMillis()-t));}
+  
+  private String paletteToString(Color[] palette){
+    String a="PALETTE : {";
+    for(int i=0;i<palette.length;i++)
+      a+="{"+palette[i].getRed()+","+palette[i].getGreen()+","+palette[i].getBlue()+"}";
+    a+="}";
+    return a;}
   
   /*
    * ################################
@@ -245,21 +262,39 @@ public class Powerbox_4way_Symmetric_Seamless_Chaos{
   
   /*
    * ################################
+   * FFMPEG AUTOMATION
+   * ################################
+   * 
+   *  ffmpeg -r 10 -f image2 -s 1280x720 -i %05d.png -vcodec libx264 -crf 15 -pix_fmt yuv420p -b 50M test000.mp4
+
+      ffmpeg -y -i test000.mp4 -r 30 -s 1280x720 -c:v libx264 -strict -2 -movflags faststart -b 50M test001.mp4
+
+      ffmpeg -i test001.mp4 -acodec copy -vcodec copy -f mov test002.mov
+   * 
+   * 
+   */
+  
+  /*
+   * ################################
    * MAIN
    * ################################
    */
   
-  static final String EXPORTPATH="/home/john/Desktop/bfexport";
-  static final String SAMPLECOMPOSITIONNAME="Powerbox_4way_Symmetric_Seamless_Chaos_V123C456";
+  static final String EXPORTPATH="/home/john/bfexport";
+  static final String SAMPLECOMPOSITIONNAME="Powerbox_4way_Symmetric_Seamless_Chaos_V001C000";
+  static final double NICEPROBABILITYDEFAULT=0.86;
   
   public static final void main(String[] a){
-    
     
     Powerbox_4way_Symmetric_Seamless_Chaos pb=new Powerbox_4way_Symmetric_Seamless_Chaos();
 //    pb.test();
     Color[] palette=pb.getRandomNicePalette();
-    StripeSystem stripesystem=new StripeSystem(StripeSystem.REZ_HI,2,3,palette.length);
-    pb.generateComposition(stripesystem,palette,EXPORTMODE_720P,EXPORTPATH,SAMPLECOMPOSITIONNAME);
+    
+//    palette=NicePalettes.PALETTES[NicePalettes.PALETTES.length-4];//that psychedelic whatever
+    
+    pb.setPalette(palette);
+    StripeSystem stripesystem=new StripeSystem(StripeSystem.REZ_HI,0,2,3,palette.length);
+    pb.generateComposition(stripesystem,palette,EXPORTMODE_1080P,EXPORTPATH,SAMPLECOMPOSITIONNAME);
     
   }
 

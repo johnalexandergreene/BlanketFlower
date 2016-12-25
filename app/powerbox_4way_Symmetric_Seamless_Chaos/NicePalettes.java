@@ -103,14 +103,6 @@ public class NicePalettes{
       new Color(237,229,116),
       new Color(225,245,196)},
       
-    //fresh cut day
-    {
-      new Color(0,168,198),
-      new Color(64,192,203),
-      new Color(249,242,231),
-      new Color(174,226,57),
-      new Color(143,190,0)},
-      
     //maddening caravan
     {
       new Color(250,208,137),

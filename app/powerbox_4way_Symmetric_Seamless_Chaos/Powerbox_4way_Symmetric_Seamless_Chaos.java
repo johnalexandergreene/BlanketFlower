@@ -137,16 +137,19 @@ public class Powerbox_4way_Symmetric_Seamless_Chaos{
   private RasterExporter rasterexporter=new RasterExporter();
   
   //EXPORT MODES
-  private static final int 
+  private static final int
+    EXPORTMODE_LITTLEGIF=-1,
     EXPORTMODE_720P=0,
     EXPORTMODE_1080P=1,
-    EXPORTMODE_4k=2;
+    EXPORTMODE_4K=2;
   
   //CELL SPAN BY REZ AND EXPORT MODE
-  private static final int 
+  private static final int
+    CELLSPAN_HI_LITTLEGIF=2,
     CELLSPAN_HI_720P=4,
     CELLSPAN_HI_1080P=6,
     CELLSPAN_HI_4K=12,
+    CELLSPAN_LO_LITTLEGIF=4,
     CELLSPAN_LO_720P=8,
     CELLSPAN_LO_1080P=12,
     CELLSPAN_LO_4K=24;
@@ -159,24 +162,27 @@ public class Powerbox_4way_Symmetric_Seamless_Chaos{
   
   private String getExportModeString(int exportmode){
     switch(exportmode){
+    case EXPORTMODE_LITTLEGIF:return "LITTLEGIFP";
     case EXPORTMODE_720P:return "720P";
     case EXPORTMODE_1080P:return "1080P";
-    case EXPORTMODE_4k:return "4K";
+    case EXPORTMODE_4K:return "4K";
     default:throw new IllegalArgumentException("invalid export mode specified");}}
   
   private int getExportCellSpan(int exportmode){
     int rez=stripesystem.resolution;
     if(rez==StripeSystem.REZ_HI){
       switch(exportmode){
+      case EXPORTMODE_LITTLEGIF:return CELLSPAN_HI_LITTLEGIF;
       case EXPORTMODE_720P:return CELLSPAN_HI_720P;
       case EXPORTMODE_1080P:return CELLSPAN_HI_1080P;
-      case EXPORTMODE_4k:return CELLSPAN_HI_4K;
+      case EXPORTMODE_4K:return CELLSPAN_HI_4K;
       default:throw new IllegalArgumentException("invalid export mode specified");}
     }else if(rez==StripeSystem.REZ_LO){
       switch(exportmode){
+      case EXPORTMODE_LITTLEGIF:return CELLSPAN_LO_LITTLEGIF;
       case EXPORTMODE_720P:return CELLSPAN_LO_720P;
       case EXPORTMODE_1080P:return CELLSPAN_LO_1080P;
-      case EXPORTMODE_4k:return CELLSPAN_LO_4K;
+      case EXPORTMODE_4K:return CELLSPAN_LO_4K;
       default:throw new IllegalArgumentException("invalid export mode specified");}
     }else{
       throw new IllegalArgumentException("invalid rez");}}
@@ -281,7 +287,7 @@ public class Powerbox_4way_Symmetric_Seamless_Chaos{
    */
   
   static final String EXPORTPATH="/home/john/bfexport";
-  static final String SAMPLECOMPOSITIONNAME="Powerbox_4way_Symmetric_Seamless_Chaos_V001C000";
+  static final String SAMPLECOMPOSITIONNAME="Powerbox_4way_Symmetric_Seamless_Chaos_V002C000";
   static final double NICEPROBABILITYDEFAULT=0.86;
   
   public static final void main(String[] a){
@@ -290,11 +296,11 @@ public class Powerbox_4way_Symmetric_Seamless_Chaos{
 //    pb.test();
     Color[] palette=pb.getRandomNicePalette();
     
-//    palette=NicePalettes.PALETTES[NicePalettes.PALETTES.length-4];//that psychedelic whatever
+//    palette=NicePalettes.PALETTES[5];/////////////
     
     pb.setPalette(palette);
     StripeSystem stripesystem=new StripeSystem(StripeSystem.REZ_HI,0,2,3,palette.length);
-    pb.generateComposition(stripesystem,palette,EXPORTMODE_1080P,EXPORTPATH,SAMPLECOMPOSITIONNAME);
+    pb.generateComposition(stripesystem,palette,EXPORTMODE_LITTLEGIF,EXPORTPATH,SAMPLECOMPOSITIONNAME);
     
   }
 

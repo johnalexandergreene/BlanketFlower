@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.util.audio;
+package org.fleen.blanketFlower.test.wavgen;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -8,7 +8,7 @@ import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 
-public class GenWavTest {
+public class GenWavTest_ORIG {
   
     public static void main(String[] args) throws  IOException {
 
@@ -30,10 +30,14 @@ public class GenWavTest {
     final byte[] byteBuffer = new byte[buffer.length * 2];
     int bufferIndex = 0;
     for (int i = 0; i < byteBuffer.length; i++) {
-    final int x = (int) (buffer[bufferIndex++] * 32767.0);
-    byteBuffer[i] = (byte) x;
-    i++;
-    byteBuffer[i] = (byte) (x >>> 8);
+      final int x = (int) (buffer[bufferIndex++] * 32767.0);
+      
+      
+      
+      
+      byteBuffer[i] = (byte) x;
+      i++;
+      byteBuffer[i] = (byte) (x >>> 8);
     }
     File out = new File("/home/john/Desktop/generated_wav/test000.wav");
     boolean bigEndian = false;

@@ -223,7 +223,13 @@ public class Powerbox_4way_Symmetric_Seamless_Chaos{
     initUI();
     //create export dir
     File exportdir=new File(exportpath+"/"+compositionname);
-    if(!exportdir.mkdir())throw new IllegalArgumentException("EXPORT DIR CREATION FAILED IN generateComposition");
+    
+    System.out.println("export file = "+exportdir.getAbsolutePath());
+    
+//    if(!exportdir.mkdir())throw new IllegalArgumentException("EXPORT DIR CREATION FAILED IN generateComposition");
+    
+    exportdir.mkdir();
+    
     //
     this.stripesystem=stripesystem;
     boolean finished=false;

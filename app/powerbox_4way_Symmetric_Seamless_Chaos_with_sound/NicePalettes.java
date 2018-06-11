@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos;
+package org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos_with_sound;
 
 import java.awt.Color;
 

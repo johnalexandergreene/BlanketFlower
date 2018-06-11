@@ -1,4 +1,4 @@
-package org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos;
+package org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos_with_sound;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -8,12 +8,12 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos.renderer.Renderer;
-import org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos.renderer.Renderer_Production;
-import org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos.stripeSystem.StripeSystem;
-import org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos.ui.UI;
+import org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos_with_sound.renderer.Renderer;
+import org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos_with_sound.renderer.Renderer_Production;
+import org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos_with_sound.stripeSystem.StripeSystem;
+import org.fleen.blanketFlower.app.powerbox_4way_Symmetric_Seamless_Chaos_with_sound.ui.UI;
 
-public class Powerbox_4way_Symmetric_Seamless_Chaos{
+public class Powerbox_4way_Symmetric_Seamless_Chaos_with_sound{
   
   /*
    * ################################
@@ -100,7 +100,7 @@ public class Powerbox_4way_Symmetric_Seamless_Chaos{
     EventQueue.invokeLater(new Runnable(){
       public void run(){
         try{
-          ui=new UI(Powerbox_4way_Symmetric_Seamless_Chaos.this,UIWIDTH,UIHEIGHT);
+          ui=new UI(Powerbox_4way_Symmetric_Seamless_Chaos_with_sound.this,UIWIDTH,UIHEIGHT);
           ui.setVisible(true);
           ui.setTitle(TITLE);
           ui.getContentPane().setBackground(Color.black);
@@ -234,10 +234,16 @@ public class Powerbox_4way_Symmetric_Seamless_Chaos{
     this.stripesystem=stripesystem;
     boolean finished=false;
     int frameindex=0,maxframeindex=stripesystem.getMaxFrameIndex();
+    
+    initSoundArray();
+    
     while(!finished){
       finished=stripesystem.move();
       renderToUI();
       export(exportmode,exportdir,frameindex);
+      
+      incrementSoundArray();
+      
       frameindex++;
       System.out.println("frameindex : "+frameindex+"/"+maxframeindex);}
     System.out.println("GENERATE COMPOSITION ["+compositionname+"] END");
@@ -249,6 +255,39 @@ public class Powerbox_4way_Symmetric_Seamless_Chaos{
       a+="{"+palette[i].getRed()+","+palette[i].getGreen()+","+palette[i].getBlue()+"}";
     a+="}";
     return a;}
+  
+  /*
+   * ################################
+   * SOUND
+   * ################################
+   */
+  
+  static final int 
+    SAMPLERATE=44100,
+    TOTALDURATION=14;
+  
+  float[] soundarray;
+  
+  /*
+   * total frames=448 TODO change this so frames per incrementalsound work out as integers
+   * 32 frames a second
+   * 14 seconds
+   * seconds per frame=14/448=0.03125
+   * array size=14*
+   */
+  void initSoundArray(){
+    System.out.println("@@@ init sound array");
+    int soundarraylength=SAMPLERATE*TOTALDURATION;
+    int slicelength=
+    soundarray=new float[(int)(soundarraylength)];
+  }
+  
+  void incrementSoundArray(){
+    System.out.println("@@@ increment sound array");
+    
+  }
+  
+  
   
   /*
    * ################################
@@ -311,7 +350,7 @@ public class Powerbox_4way_Symmetric_Seamless_Chaos{
   
   public static final void main(String[] a){
     
-    Powerbox_4way_Symmetric_Seamless_Chaos pb=new Powerbox_4way_Symmetric_Seamless_Chaos();
+    Powerbox_4way_Symmetric_Seamless_Chaos_with_sound pb=new Powerbox_4way_Symmetric_Seamless_Chaos_with_sound();
 //    pb.test();
 //    Color[] palette=pb.getRandomNicePalette();
     Color[] palette=NicePalettes.P_TOY_STORY_ADJUSTED2;

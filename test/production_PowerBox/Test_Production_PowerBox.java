@@ -136,11 +136,35 @@ public class Test_Production_PowerBox{
 //    new Color(255,255,0),
 //    new Color(0,255,0)};
   
+  //reddened that pale pink
+  public static final Color[] P_TOY_STORY_ADJUSTED2=new Color[]{
+    new Color(168,67,39),
+    new Color(251,206,89),
+    new Color(88,184,121),
+    new Color(154,94,154),
+    new Color(234,61,65),
+    new Color(248,237,23),
+    new Color(249,139,90),
+    new Color(0,146,232),
+    new Color(254,178,213)};
+  
+  public static final Color[] P_PORCO_ROSSO=new Color[]{
+    new Color(227,237,76),
+    new Color(184,194,105),
+    new Color(226,235,232),
+    new Color(174,202,224),
+    new Color(94,132,197),
+    new Color(248,203,161),
+    new Color(179,145,120),
+    new Color(220,178,164),
+    new Color(90,14,0),
+    new Color(189,53,31)};
+  
   
   static final int CELLSPAN=4;
   
   BufferedImage image;
-  Renderer_Blender_PaletteMother renderer=new Renderer_Blender_PaletteMother();
+  Renderer_Blender_PaletteMother renderer=new Renderer_Blender_PaletteMother(P_TOY_STORY_ADJUSTED2);
   
   private void renderComposition(){
     image=renderer.render(composition,CELLSPAN);
